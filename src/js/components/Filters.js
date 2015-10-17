@@ -51,19 +51,21 @@ var Filters = React.createClass({
   _onChange: function (attribute, value) {
     var result = update(this.state, {
       [attribute]: {
-        [value]: { $apply: function(x) { return !x; } }
+        [value]: { $apply: function(x) {
+          return !x;
+        } }
       },
       all: { $set: false }
-    })
+    });
     this.setState(result, this._notify);
   },
 
   _onChangeAll: function (attribute, values) {
     var changes = {[attribute]: {all: { $set: true }}};
     values.forEach(function (value) {
-      changes[attribute][value] = { $set: false }
+      changes[attribute][value] = { $set: false };
     });
-    var result = update(this.state, changes)
+    var result = update(this.state, changes);
     this.setState(result, this._notify);
   },
 

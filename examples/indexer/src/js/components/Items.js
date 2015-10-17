@@ -120,7 +120,6 @@ class Items extends Component {
 }
 
 Items.propTypes = {
-  //addRoute: PropTypes.string,
   category: PropTypes.string.isRequired,
   index: PropTypes.shape({
     attributes: IndexPropTypes.attributes,

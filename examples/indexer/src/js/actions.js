@@ -103,7 +103,14 @@ export function dashboardLayout(graphicSize, count, legendPlacement) {
 export function dashboardLoad(tiles) {
   return function (dispatch) {
     tiles.forEach((tile) => {
-      let watcher = IndexApi.watchAggregate(tile.params, (result) => {
+      let params = {
+        category: tile.category,
+        query: tile.query,
+        attribute: tile.attribute,
+        interval: tile.interval,
+        count: tile.count
+      }
+      let watcher = IndexApi.watchAggregate(params, (result) => {
         dispatch(indexAggregateSuccess(watcher, tile.name, result))
       })
     })

@@ -124,11 +124,11 @@ class Dashboard extends Component {
     var header = null
     if (tile.route) {
       var queryParams = {}
-      if (tile.params.query) {
-        queryParams.q = tile.params.query.fullText
+      if (tile.query) {
+        queryParams.q = tile.query.fullText
       }
       header = (
-        <Link to={tile.route} query={queryParams}>
+        <Link to={'/' + tile.category} query={queryParams}>
           {tile.name}
         </Link>
       );
@@ -136,18 +136,20 @@ class Dashboard extends Component {
       header = tile.name
     }
     if (header) {
-      header = <Header tag="h3" small={true} justify="center">{header}</Header>;
+      header = <Header tag="h2" justify="center">{header}</Header>;
     }
 
     var contents = null
     if (tile.history) {
       contents = (
-        <IndexHistory params={tile.params} type={tile.type}
+        <IndexHistory attribute={tile.attribute} type={tile.type}
           series={tile.result} smooth={true} size={graphicSize} />
       )
     } else {
       contents = (
-        <Aggregate params={tile.params} type={tile.type}
+        <Aggregate type={tile.type}
+          attribute={tile.attribute}
+          query={tile.query}
           legend={{placement: legendPlacement}}
           series={tile.result}
           size={graphicSize}
@@ -200,6 +202,23 @@ class Dashboard extends Component {
     );
   }
 
+}
+
+Dashboard.propTypes = {
+  dashboard: PropTypes.shape({
+    count: PropTypes.number,
+    graphicSize: PropTypes.oneOf(['small', 'medium', 'large']),
+    history: PropTypes.bool,
+    interval: PropTypes.string,
+    legendPlacement: PropTypes.oneOf(['right', 'bottom']),
+    tiles: PropTypes.arrayOf(PropTypes.shape({
+      attribute: PropTypes.string.isRequired,
+      category: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+      type: PropTypes.oneOf(['bar', 'arc', 'circle', 'distribution', 'area', 'line'])
+    })),
+    wide: PropTypes.bool
+  }).isRequired,
 }
 
 let select = (state) => ({ dashboard: state.dashboard, nav: state.nav })

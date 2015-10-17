@@ -2,53 +2,41 @@
 
 import update from 'react/lib/update'
 import { DASHBOARD_LAYOUT, INDEX_AGGREGATE_SUCCESS } from '../actions'
+import Query from 'grommet-index/utils/Query'
 
 const initialState = {
   graphicSize: 'medium',
   legendPlacement: 'bottom',
   tiles: [
-    /*{
+    {
       name: 'Server Profile Changes',
       history: true,
       type: 'area',
       wide: true,
-      params: {
-        category: 'server-profiles',
-        attribute: 'state',
-        interval: 'days',
-        count: 8
-      }
+      category: 'server-profiles',
+      attribute: 'state',
+      interval: 'days',
+      count: 8
     },
     {
       name: 'Active Alerts',
-      route: 'activity',
       type: 'circle',
-      params: {
-        category: 'alerts',
-        query: IndexQuery.create('state:Active'),
-        attribute: 'status'
-      }
-    },*/
+      category: 'alerts',
+      query: Query.create('state:Active'),
+      attribute: 'status'
+    },
     {
       name: 'Server Profiles',
-      route: 'server profiles',
       type: 'circle',
-      params: {
-        category: 'server-profiles',
-        attribute: 'status'
-      }
+      category: 'server-profiles',
+      attribute: 'status'
     },
-    /*
     {
       name: 'Server Hardware',
-      route: 'server hardwares',
       type: 'distribution',
-      params: {
-        category: 'server-hardware',
-        attribute: 'model'
-      }
+      category: 'server-hardware',
+      attribute: 'model'
     }
-    */
   ]
 }
 
@@ -58,7 +46,7 @@ const handlers = {
     let tiles = state.tiles.map((tile) => {
       if (tile.wide) {
         tile = update(tile, {
-          params: { count: { $set: action.count } }
+          count: { $set: action.count }
         })
       }
       return tile
@@ -87,5 +75,6 @@ const handlers = {
 export default function dashboardReducer (state = initialState, action) {
   let handler = handlers[action.type]
   if (!handler) return state
-  return { ...state, ...handler(state, action) }
+  const result = { ...state, ...handler(state, action) }
+  return result
 }

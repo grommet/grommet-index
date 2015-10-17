@@ -17,6 +17,7 @@ var STATUS_IMPORTANCE = {
 var Aggregate = React.createClass({
 
   propTypes: {
+    attribute: React.PropTypes.string.isRequired,
     legend: React.PropTypes.oneOfType([
       React.PropTypes.bool,
       React.PropTypes.shape({
@@ -24,12 +25,8 @@ var Aggregate = React.createClass({
         placement: React.PropTypes.oneOf(['right', 'bottom'])
       })
     ]),
-    params: React.PropTypes.shape({
-      category: React.PropTypes.string,
-      query: React.PropTypes.object,
-      attribute: React.PropTypes.string
-    }).isRequired,
     onClick: React.PropTypes.func,
+    query: React.PropTypes.object,
     series: React.PropTypes.arrayOf(React.PropTypes.shape({
       label: React.PropTypes.string,
       value: React.PropTypes.string.isRequired,
@@ -42,19 +39,19 @@ var Aggregate = React.createClass({
 
   _onClick: function (value) {
     var query;
-    if (this.state.params.query) {
-      query = this.state.params.query.clone();
+    if (this.props.query) {
+      query = this.props.query.clone();
     } else {
-      query = IndexQuery.create();
+      query = Query.create();
     }
-    query.replaceAttributeValues(this.state.params.attribute, [value]);
+    query.replaceAttributeValues(this.props.attribute, [value]);
     this.props.onClick(query);
   },
 
   _stateFromProps: function (props) {
     var series = (props.series || []).map(function(item, index) {
       var colorIndex = 'graph-' + (index + 1);
-      if ('status' === props.params.attribute) {
+      if ('status' === props.attribute) {
         colorIndex = item.value.toLowerCase();
       }
       return {
@@ -66,14 +63,14 @@ var Aggregate = React.createClass({
       };
     }, this);
 
-    if ('status' === props.params.attribute) {
+    if ('status' === props.attribute && series.length > 0) {
       // re-order by importance
       series.sort(function (s1, s2) {
         return (STATUS_IMPORTANCE[s2.label.toLowerCase()] -
           STATUS_IMPORTANCE[s1.label.toLowerCase()]);
       });
       // mark most severe as most important
-      // TODO: series[series.length - 1].important = true;
+      series[series.length - 1].important = true;
     }
 
     return { series: series };
