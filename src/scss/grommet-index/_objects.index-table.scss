@@ -1,0 +1,17 @@
+// (C) Copyright 2014-2015 Hewlett-Packard Development Company, L.P.
+
+.index-table {
+  table {
+    margin-bottom: 0px;
+  }
+
+  &__header {
+    &--small {
+      width: double($inuit-base-spacing-unit);
+    }
+
+    &--medium {
+      width: round($inuit-base-spacing-unit * 8);
+    }
+  }
+}
