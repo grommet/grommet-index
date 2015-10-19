@@ -37,6 +37,14 @@ var Aggregate = React.createClass({
     type: React.PropTypes.oneOf(['bar', 'arc', 'circle', 'distribution'])
   },
 
+  getInitialState: function () {
+    return this._stateFromProps(this.props);
+  },
+
+  componentWillReceiveProps: function (newProps) {
+    this.setState(this._stateFromProps(newProps));
+  },
+
   _onClick: function (value) {
     var query;
     if (this.props.query) {
@@ -74,14 +82,6 @@ var Aggregate = React.createClass({
     }
 
     return { series: series };
-  },
-
-  getInitialState: function () {
-    return this._stateFromProps(this.props);
-  },
-
-  componentWillReceiveProps: function (newProps) {
-    this.setState(this._stateFromProps(newProps));
   },
 
   render: function () {
