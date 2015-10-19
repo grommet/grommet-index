@@ -12,10 +12,6 @@ var ServerProfileForm = require('./ServerProfileForm');
 
 var ServerProfileAdd = React.createClass({
 
-  contextTypes: {
-    router: React.PropTypes.func.isRequired
-  },
-
   getInitialState: function () {
     return {
       serverProfile: {
@@ -79,7 +75,7 @@ var ServerProfileAdd = React.createClass({
         <Header fixed={true} large={true} justify="between" pad={{horizontal: 'medium'}}>
           <Title>Add Server Profile</Title>
           <Menu>
-            <Link to="server profiles"><CloseIcon /></Link>
+            <Link to="/server-profiles"><CloseIcon /></Link>
           </Menu>
         </Header>
 

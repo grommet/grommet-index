@@ -37,7 +37,8 @@ const initialState = {
       attributes: [
         statusAttribute,
         {name: 'name', label: 'Name', header: true}
-      ]
+      ],
+      addRoute: '/server-profiles/add'
     }
   }
 }

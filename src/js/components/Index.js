@@ -18,13 +18,13 @@ var VIEW_COMPONENT = {
 var Index = React.createClass({
 
   propTypes: {
+    addControl: React.PropTypes.node,
     attributes: IndexPropTypes.attributes,
     label: React.PropTypes.string,
     onMore: React.PropTypes.func,
     onQuery: React.PropTypes.func,
     onSelect: React.PropTypes.func,
     query: React.PropTypes.object,
-    //addControl: React.PropTypes.node,
     navControl: React.PropTypes.node,
     result: IndexPropTypes.result,
     selection: React.PropTypes.oneOfType([

@@ -91,8 +91,8 @@ class Items extends Component {
     }
 
     let addControl
-    if (this.props.addRoute) {
-      addControl = <Link to={this.props.addRoute}><AddIcon /></Link>
+    if (index.addRoute) {
+      addControl = <Link to={index.addRoute}><AddIcon /></Link>
     }
 
     let pane1
@@ -126,7 +126,8 @@ Items.propTypes = {
     category: PropTypes.string,
     label: PropTypes.string,
     result: IndexPropTypes.result,
-    view: PropTypes.oneOf(["table", "tiles", "list"])
+    view: PropTypes.oneOf(["table", "tiles", "list"]),
+    addRoute: PropTypes.string
   }).isRequired,
   responsive: PropTypes.oneOf(['single', 'multiple']),
   selection: PropTypes.string

@@ -75,7 +75,7 @@ export function logout() {
 }
 
 export function routeChanged(route) {
-  //console.log('!!! routeChanged', route)
+  console.log('!!! routeChanged', route)
   return { type: ROUTE_CHANGED, route: route }
 }
 

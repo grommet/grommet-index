@@ -9,6 +9,7 @@ import TBD from 'grommet/components/TBD'
 
 import Items from './components/Items'
 import Item from './components/Item'
+import ServerProfileAdd from './components/server-profiles/ServerProfileAdd'
 
 var rootPath = "/indexer/";
 if (NODE_ENV === 'development') {
@@ -22,12 +23,16 @@ const CATEGORIES = [
 ]
 
 const categoryRoutes = CATEGORIES.map((category) => {
-  return {
+  let result = {
     path: category, component: Items,
     childRoutes: [
       { path: '*', component: Item }
     ]
   }
+  if (category === 'server-profiles') {
+    result.childRoutes.unshift({ path: 'add', component: ServerProfileAdd })
+  }
+  return result;
 })
 
 module.exports = {
