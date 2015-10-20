@@ -97,7 +97,7 @@ function normalizeToken(token) {
     if (token.attribute) {
       token.text = token.attribute + ':';
       if (token.value) {
-        token.text += StringConvert.quoteIfNecessary(token.value);
+        token.text += StringConvert.quoteIfNecessary(token.value + '');
       }
     }
   }
@@ -195,7 +195,7 @@ Query.prototype = {
     var currentTokens = tokensForAttribute(this.tokens, attribute);
     var newTokens = values.map(function (value) {
       return {attribute: attribute, value: value,
-        text: (attribute + ':' + StringConvert.quoteIfNecessary(value))
+        text: (attribute + ':' + StringConvert.quoteIfNecessary(value + ''))
       };
     });
     // remove

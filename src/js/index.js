@@ -1,29 +1,20 @@
 // (C) Copyright 2014-2015 Hewlett-Packard Development Company, L.P.
-var Grommet = {
+
+var GrommetIndex = {
   // Components
-  // TODO:
-  /*
   Activity: require('./components/Activity'),
-  Alert: require('./components/Alert'),
+  Aggregate: require('./components/Aggregate'),
+  Attribute: require('./components/Attribute'),
+  Filters: require('./components/Filters'),
+  Header: require('./components/Header'),
+  History: require('./components/History'),
   Index: require('./components/Index'),
-  IndexAggregate: require('./components/IndexAggregate'),
-  IndexAttribute: require('./components/IndexAttribute'),
-  IndexFilters: require('./components/IndexFilters'),
-  IndexHeader: require('./components/IndexHeader'),
-  IndexList: require('./components/IndexList'),
-  IndexMeter: require('./components/IndexMeter'),
-  IndexTable: require('./components/IndexTable'),
-  IndexTiles: require('./components/IndexTiles'),
-  ResourceNotifications: require('./components/ResourceNotifications'),
-  Task: require('./components/Task'),
-  // Actions
-  Actions: require('./actions/IndexActions'),
-  // Stores
-  SessionStore: require('./stores/IndexStore'),
+  List: require('./components/List'),
+  Table: require('./components/Table'),
+  Tiles: require('./components/Tiles'),
   // Utils
-  IndexQuery: require('./utils/IndexQuery'),
-  */
-  RestWatch: require('./utils/RestWatch')
+  PropTypes: require('./utils/PropTypes'),
+  Query: require('./utils/Query')
 };
 
-module.exports = Grommet;
+module.exports = GrommetIndex;

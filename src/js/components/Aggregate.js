@@ -66,7 +66,7 @@ var Aggregate = React.createClass({
         label: item.label || item.value,
         value: item.count,
         colorIndex: colorIndex,
-        onClick: this._onClick.bind(this, item.count),
+        onClick: this._onClick.bind(this, item.value),
         important: false
       };
     }, this);
