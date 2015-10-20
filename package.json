@@ -23,7 +23,7 @@
     "npm": ">= 1.4"
   },
   "dependencies": {
-    "grommet": "https://github.com/HewlettPackard/grommet.git#stable",
+    "grommet": "https://github.com/grommet/grommet/tarball/stable",
     "lodash": "^3.8.0",
     "react": "^0.14.0"
   },

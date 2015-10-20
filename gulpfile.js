@@ -2,12 +2,12 @@ var gulp = require('gulp');
 var path = require('path');
 var fs = require('fs');
 var gulpTasks = require('grommet/utils/gulp/gulp-tasks');
-////var gulpTasks = require('grommet/src/utils/gulp/gulp-tasks');
 
 var opts = {
   dist: path.resolve(__dirname, 'dist'),
   copyAssets: [
     'README.md',
+    'package.json',
     'src/js/**',
     {
       asset: 'src/scss/**',
@@ -29,6 +29,10 @@ var opts = {
   mainJs: 'src/js/index.js',
   mainScss: 'src/scss/grommet-index/index.scss',
   webpack: {
+    //alias: { // TODO: remove, just for local dev
+    //  'grommet/scss': path.resolve(__dirname, '../grommet/src/scss'),
+    //  'grommet': path.resolve(__dirname, '../grommet/src/js')
+    //},
     output: {
       filename: 'grommet-index.min.js',
       libraryTarget: 'var',

@@ -2,10 +2,10 @@
 
 var React = require('react');
 var IndexPropTypes = require('../utils/PropTypes');
-var IndexTable = require('./IndexTable');
-var IndexTiles = require('./IndexTiles');
-var IndexList = require('./IndexList');
-var IndexHeader = require('./IndexHeader');
+var IndexTable = require('./Table');
+var IndexTiles = require('./Tiles');
+var IndexList = require('./List');
+var IndexHeader = require('./Header');
 
 var CLASS_ROOT = 'index';
 

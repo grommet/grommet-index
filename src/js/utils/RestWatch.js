@@ -50,6 +50,7 @@ var RestWatch = {
   },
 
   _onClose: function() {
+    console.log('!!! RestWatch _onClose');
     // lost connection, retry in a bit
     state.ws = null;
     state.wsReady = false;
