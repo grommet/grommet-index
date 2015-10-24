@@ -4,7 +4,6 @@ var React = require('react');
 var Section = require('grommet/components/Section');
 var Header = require('grommet/components/Header');
 var StatusIcon = require('grommet/components/icons/Status');
-var IntlMixin = require('grommet/mixins/GrommetIntlMixin');
 
 var Alert = React.createClass({
 
@@ -13,14 +12,12 @@ var Alert = React.createClass({
     resource: React.PropTypes.object.isRequired
   },
 
-  mixins: [IntlMixin],
-
   render: function () {
     var resource = this.props.resource;
     var status = resource.status || 'unknown';
     var createdDate;
     if (resource.created) {
-      createdDate = this.getGrommetFormattedDate(resource.created);
+      createdDate = resource.created;
     }
 
     return (

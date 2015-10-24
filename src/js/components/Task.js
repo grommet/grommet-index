@@ -2,7 +2,6 @@
 
 var React = require('react');
 var StatusIcon = require('grommet/components/icons/Status');
-var IntlMixin = require('grommet/mixins/GrommetIntlMixin');
 
 var Task = React.createClass({
 
@@ -11,18 +10,16 @@ var Task = React.createClass({
     resource: React.PropTypes.object.isRequired
   },
 
-  mixins: [IntlMixin],
-
   render: function () {
     var resource = this.props.resource;
-    var status = resource.status || this.getGrommetIntlMessage('Unknown');
+    var status = resource.status || 'Unknown';
     return (
       <div>
         <div>
           <StatusIcon value={status.toLowerCase()} large={true} />
           <h3>{resource.name}</h3>
         </div>
-        <h4>{this.getGrommetFormattedDate(resource.created)}</h4>
+        <h4>{resource.created}</h4>
         {this.props.associatedResource}
       </div>
     );

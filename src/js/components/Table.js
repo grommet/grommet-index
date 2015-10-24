@@ -3,7 +3,6 @@
 var React = require('react');
 var Table = require('grommet/components/Table');
 var StatusIcon = require('grommet/components/icons/Status');
-var IntlMixin = require('grommet/mixins/GrommetIntlMixin');
 var Attribute = require('./Attribute');
 var IndexPropTypes = require('../utils/PropTypes');
 
@@ -21,8 +20,6 @@ var IndexTable = React.createClass({
     onMore: React.PropTypes.func,
     onSelect: React.PropTypes.func
   },
-
-  mixins: [IntlMixin],
 
   getInitialState: function () {
     return {attributes: this._simplifyAttributes(this.props.attributes)};
@@ -60,14 +57,12 @@ var IndexTable = React.createClass({
         classes.push(CLASS_ROOT + "__header--" + attribute.size);
       }
 
-      var content = this.getGrommetIntlMessage(attribute.label);
+      var content = attribute.label;
       if ('status' === attribute.name) {
         classes.push(CLASS_ROOT + "__cell--icon");
         content = (
           <StatusIcon className={CLASS_ROOT + "__header-icon"} value={'label'} small={true} />
         );
-      } else {
-        content = this.getGrommetIntlMessage(content);
       }
 
       return (

@@ -3,7 +3,6 @@
 var React = require('react');
 var merge = require('lodash/object/merge');
 var Index = require('./Index');
-var IntlMixin = require('grommet/mixins/GrommetIntlMixin');
 
 var Activity = React.createClass({
 
@@ -18,8 +17,6 @@ var Activity = React.createClass({
       React.PropTypes.arrayOf(React.PropTypes.string)
     ])
   },
-
-  mixins: [IntlMixin],
 
   getInitialState: function () {
     var options;
