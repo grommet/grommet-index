@@ -1,4 +1,4 @@
-// (C) Copyright 2014-2015 Hewlett-Packard Development Company, L.P.
+// (C) Copyright 2014-2015 Hewlett Packard Enterprise Development LP
 var StringConvert = require('grommet/utils/StringConvert');
 
 // Parse the query text into formal tokens.
