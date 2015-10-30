@@ -8,7 +8,10 @@ var opts = {
   copyAssets: [
     'README.md',
     'package.json',
-    'src/js/**',
+    {
+      asset: 'src/js/**',
+      babel: true
+    },
     {
       asset: 'src/scss/**',
       dist: 'dist/scss/'
