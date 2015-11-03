@@ -57,8 +57,8 @@ var IndexTiles = React.createClass({
         var header = null;
         if (headerValues.length > 0) {
           header = (
-            <Header small={true} pad={{horizontal: 'small'}}>
-              <span>{headerValues}</span>
+            <Header tag="h4" small={true} pad={{horizontal: 'small'}}>
+              {headerValues}
             </Header>
           );
         }
@@ -96,7 +96,7 @@ var IndexTiles = React.createClass({
     }
 
     return (
-      <Tiles className={classes.join(' ')} onMore={onMore} flush={true}>
+      <Tiles className={classes.join(' ')} onMore={onMore} flush={false}>
         {tiles}
       </Tiles>
     );
