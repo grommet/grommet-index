@@ -3,7 +3,7 @@
 var React = require('react');
 var update =require('react/lib/update');
 var Menu = require('grommet/components/Menu');
-var FilterIcon = require('grommet/components/icons/Filter');
+var FilterIcon = require('grommet/components/icons/base/Filter');
 var CheckBox = require('grommet/components/CheckBox');
 var IndexPropTypes = require('../utils/PropTypes');
 var IndexQuery = require('../utils/Query');
