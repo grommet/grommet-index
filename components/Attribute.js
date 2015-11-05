@@ -44,6 +44,13 @@ var Attribute = React.createClass({
     if (attribute.hasOwnProperty('render')) {
 
       content = attribute.render(item);
+      if (typeof content === 'string') {
+        content = React.createElement(
+          'span',
+          { className: classes.join(' ') },
+          content
+        );
+      }
     } else {
 
       if (item.hasOwnProperty(attribute.name)) {

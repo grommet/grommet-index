@@ -5,8 +5,8 @@
 var React = require('react');
 var Tiles = require('grommet/components/Tiles');
 var Tile = require('grommet/components/Tile');
-var Header = require('grommet/components/Header');
 var Footer = require('grommet/components/Footer');
+var Box = require('grommet/components/Box');
 var Attribute = require('./Attribute');
 var IndexPropTypes = require('../utils/PropTypes');
 
@@ -38,6 +38,7 @@ var IndexTiles = React.createClass({
     if (this.props.result && this.props.result.items) {
       tiles = this.props.result.items.map(function (item) {
 
+        var statusValue;
         var headerValues = [];
         var values = [];
         var footerValues = [];
@@ -45,7 +46,9 @@ var IndexTiles = React.createClass({
         this.props.attributes.forEach(function (attribute) {
           var value = React.createElement(Attribute, { key: attribute.name,
             item: item, attribute: attribute });
-          if (attribute.header) {
+          if ('status' === attribute.name) {
+            statusValue = value;
+          } else if (attribute.header) {
             headerValues.push(value);
           } else if (attribute.footer) {
             footerValues.push(value);
@@ -57,8 +60,8 @@ var IndexTiles = React.createClass({
         var header = null;
         if (headerValues.length > 0) {
           header = React.createElement(
-            Header,
-            { tag: 'h4', size: 'small', pad: 'none' },
+            'h4',
+            null,
             headerValues
           );
         }
@@ -85,11 +88,17 @@ var IndexTiles = React.createClass({
           Tile,
           { key: item.uri, align: 'start',
             pad: { horizontal: "medium", vertical: "small" },
+            direction: 'row', responsive: false,
             onClick: this._onClick.bind(this, item.uri),
             selected: selected },
-          header,
-          values,
-          footer
+          statusValue,
+          React.createElement(
+            Box,
+            { direction: 'column' },
+            header,
+            values,
+            footer
+          )
         );
       }, this);
     }
