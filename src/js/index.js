@@ -2,7 +2,6 @@
 
 var GrommetIndex = {
   // Components
-  Activity: require('./components/Activity'),
   Aggregate: require('./components/Aggregate'),
   Attribute: require('./components/Attribute'),
   Filters: require('./components/Filters'),

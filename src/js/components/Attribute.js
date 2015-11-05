@@ -3,6 +3,8 @@
 var React = require('react');
 var StatusIcon = require('grommet/components/icons/Status');
 var IndexPropTypes = require('../utils/PropTypes');
+var ReactIntl = require('react-intl');
+var FormattedTime = ReactIntl.FormattedTime;
 
 var CLASS_ROOT = "index-attribute";
 
@@ -51,9 +53,15 @@ var Attribute = React.createClass({
             value={value.toLowerCase()} small={true} />
         );
       } else if (attribute.timestamp) {
+        classes.push(CLASS_ROOT + "__timestamp");
         content = (
           <span className={classes.join(' ')}>
-            {value}
+            <FormattedTime value={value}
+              day="numeric"
+              month="narrow"
+              hour="2-digit"
+              minute="2-digit"
+              second="2-digit" />
           </span>
         );
       } else {
