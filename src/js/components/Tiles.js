@@ -19,6 +19,7 @@ var IndexTiles = React.createClass({
       React.PropTypes.string, // uri
       React.PropTypes.arrayOf(React.PropTypes.string)
     ]),
+    size: React.PropTypes.oneOf(['small', 'medium', 'large']),
     onSelect: React.PropTypes.func
   },
 
@@ -57,7 +58,7 @@ var IndexTiles = React.createClass({
         var header = null;
         if (headerValues.length > 0) {
           header = (
-            <Header tag="h4" small={true} pad={{horizontal: 'small'}}>
+            <Header tag="h4" size="small" pad="none">
               {headerValues}
             </Header>
           );
@@ -78,7 +79,8 @@ var IndexTiles = React.createClass({
         }
 
         return (
-          <Tile key={item.uri}
+          <Tile key={item.uri} align="start"
+            pad={{horizontal: "medium", vertical: "small"}}
             onClick={this._onClick.bind(this, item.uri)}
             selected={selected}>
             {header}
@@ -96,7 +98,8 @@ var IndexTiles = React.createClass({
     }
 
     return (
-      <Tiles className={classes.join(' ')} onMore={onMore} flush={false}>
+      <Tiles className={classes.join(' ')} onMore={onMore} flush={true}
+        size={this.props.size}>
         {tiles}
       </Tiles>
     );

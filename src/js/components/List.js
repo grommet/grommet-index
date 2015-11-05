@@ -37,10 +37,12 @@ var IndexList = React.createClass({
       if ('status' === attribute.name) {
         schema.push({attribute: 'status', image: true});
       } else if (! havePrimary) {
-        schema.push({attribute: attribute.name, primary: true});
+        schema.push({attribute: attribute.name, primary: true,
+          '_timestamp': attribute.timestamp});
         havePrimary = true;
       } else if (! haveSecondary && attribute.secondary) {
-        schema.push({attribute: attribute.name, secondary: true});
+        schema.push({attribute: attribute.name, secondary: true,
+          '_timestamp': attribute.timestamp});
         haveSecondary = true;
       }
     });
@@ -54,7 +56,8 @@ var IndexList = React.createClass({
           if (! scheme.uid) {
             dataItem[scheme.attribute] = (
               <Attribute key={scheme.attribute}
-                item={item} attribute={{name: scheme.attribute}} />
+                item={item}
+                attribute={{name: scheme.attribute, timestamp: scheme._timestamp}} />
             );
           }
         }, this);

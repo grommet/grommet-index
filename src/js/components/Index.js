@@ -31,6 +31,7 @@ var Index = React.createClass({
       React.PropTypes.string, // uri
       React.PropTypes.arrayOf(React.PropTypes.string)
     ]),
+    size: React.PropTypes.oneOf(['small', 'medium', 'large']),
     view: React.PropTypes.oneOf(["table", "tiles", "list"])
   },
 
@@ -83,6 +84,7 @@ var Index = React.createClass({
               attributes={this.props.attributes}
               result={this.props.result}
               selection={this.props.selection}
+              size={this.props.size}
               onSelect={this.props.onSelect}
               onMore={this.props.onMore} />
           </div>
