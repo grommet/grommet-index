@@ -27,6 +27,12 @@
     "lodash": "^3.8.0"
   },
   "devDependencies": {
-    "gulp": "^3.8.11"
+    "del": "^2.0.2",
+    "gulp": "^3.8.11",
+    "gulp-git": "^1.6.0",
+    "mkdirp": "^0.5.1"
+  },
+  "scripts": {
+    "build": "gulp dist"
   }
 }
