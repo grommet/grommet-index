@@ -23,7 +23,7 @@
     "npm": ">= 1.4"
   },
   "dependencies": {
-    "grommet": "^0.4.0",
+    "grommet": "https://github.com/grommet/grommet/tarball/stable",
     "lodash": "^3.8.0"
   },
   "devDependencies": {
