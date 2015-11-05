@@ -1,7 +1,9 @@
 var gulp = require('gulp');
 var path = require('path');
-var fs = require('fs');
 var gulpTasks = require('grommet/utils/gulp/gulp-tasks');
+var git = require('gulp-git');
+var del = require('del');
+var mkdirp = require('mkdirp');
 
 var opts = {
   dist: path.resolve(__dirname, 'dist'),
