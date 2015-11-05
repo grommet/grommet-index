@@ -37,6 +37,9 @@ var Attribute = React.createClass({
     if (attribute.hasOwnProperty('render')) {
 
       content = attribute.render(item);
+      if (typeof content === 'string') {
+        content = <span className={classes.join(' ')}>{content}</span>;
+      }
 
     } else {
 
@@ -65,9 +68,7 @@ var Attribute = React.createClass({
           </span>
         );
       } else {
-        content = (
-          <span className={classes.join(' ')}>{value}</span>
-        );
+        content = <span className={classes.join(' ')}>{value}</span>;
       }
     }
 

@@ -4,17 +4,14 @@
   margin-top: 0px;
 
   .tile {
-
-    > .header {
-      //border-top: 1px solid $border-color;
-
-      svg {
-        margin-right: halve($inuit-base-spacing-unit);
-      }
+    svg {
+      margin-right: $inuit-base-spacing-unit;
+      flex: 0 0 auto;
     }
 
-    > *:not(.header) {
-      display: block;
+    @include media-query(palm) {
+      border-top: 1px solid $border-color;
+      border-right: 1px solid $border-color;
     }
   }
 }
