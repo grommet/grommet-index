@@ -1,5 +1,7 @@
 // (C) Copyright 2014-2015 Hewlett Packard Enterprise Development LP
 
+'use strict';
+
 var React = require('react');
 var Meter = require('grommet/components/Meter');
 var Distribution = require('grommet/components/Distribution');
@@ -15,16 +17,14 @@ var STATUS_IMPORTANCE = {
 };
 
 var Aggregate = React.createClass({
+  displayName: 'Aggregate',
 
   propTypes: {
     attribute: React.PropTypes.string.isRequired,
-    legend: React.PropTypes.oneOfType([
-      React.PropTypes.bool,
-      React.PropTypes.shape({
-        total: React.PropTypes.bool,
-        placement: React.PropTypes.oneOf(['right', 'bottom'])
-      })
-    ]),
+    legend: React.PropTypes.oneOfType([React.PropTypes.bool, React.PropTypes.shape({
+      total: React.PropTypes.bool,
+      placement: React.PropTypes.oneOf(['right', 'bottom'])
+    })]),
     onClick: React.PropTypes.func,
     query: React.PropTypes.object,
     series: React.PropTypes.arrayOf(React.PropTypes.shape({
@@ -37,15 +37,15 @@ var Aggregate = React.createClass({
     type: React.PropTypes.oneOf(['bar', 'arc', 'circle', 'distribution'])
   },
 
-  getInitialState: function () {
+  getInitialState: function getInitialState() {
     return this._stateFromProps(this.props);
   },
 
-  componentWillReceiveProps: function (newProps) {
+  componentWillReceiveProps: function componentWillReceiveProps(newProps) {
     this.setState(this._stateFromProps(newProps));
   },
 
-  _onClick: function (value) {
+  _onClick: function _onClick(value) {
     var query;
     if (this.props.query) {
       query = this.props.query.clone();
@@ -56,8 +56,8 @@ var Aggregate = React.createClass({
     this.props.onClick(query);
   },
 
-  _stateFromProps: function (props) {
-    var series = (props.series || []).map(function(item, index) {
+  _stateFromProps: function _stateFromProps(props) {
+    var series = (props.series || []).map(function (item, index) {
       var colorIndex = 'graph-' + (index + 1);
       if ('status' === props.attribute) {
         colorIndex = item.value.toLowerCase();
@@ -74,8 +74,7 @@ var Aggregate = React.createClass({
     if ('status' === props.attribute && series.length > 0) {
       // re-order by importance
       series.sort(function (s1, s2) {
-        return (STATUS_IMPORTANCE[s2.label.toLowerCase()] -
-          STATUS_IMPORTANCE[s1.label.toLowerCase()]);
+        return STATUS_IMPORTANCE[s2.label.toLowerCase()] - STATUS_IMPORTANCE[s1.label.toLowerCase()];
       });
       // mark most severe as most important
       series[series.length - 1].important = true;
@@ -84,23 +83,19 @@ var Aggregate = React.createClass({
     return { series: series };
   },
 
-  render: function () {
+  render: function render() {
     var component;
     if ('distribution' === this.props.type) {
-      component = (
-        <Distribution series={this.state.series || []}
-          legend={true}
-          legendTotal={true}
-          size={this.props.size} />
-      );
+      component = React.createElement(Distribution, { series: this.state.series || [],
+        legend: true,
+        legendTotal: true,
+        size: this.props.size });
     } else {
-      component = (
-        <Meter series={this.state.series || []}
-          legend={this.props.legend}
-          size={this.props.size}
-          type={this.props.type}
-          threshold={this.props.threshold} />
-      );
+      component = React.createElement(Meter, { series: this.state.series || [],
+        legend: this.props.legend,
+        size: this.props.size,
+        type: this.props.type,
+        threshold: this.props.threshold });
     }
 
     return component;

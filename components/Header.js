@@ -1,5 +1,7 @@
 // (C) Copyright 2014-2015 Hewlett Packard Enterprise Development LP
 
+'use strict';
+
 var React = require('react');
 var Header = require('grommet/components/Header');
 var Menu = require('grommet/components/Menu');
@@ -12,6 +14,7 @@ var IndexQuery = require('../utils/Query');
 var CLASS_ROOT = 'index-header';
 
 var IndexHeader = React.createClass({
+  displayName: 'IndexHeader',
 
   propTypes: {
     //addControl: React.PropTypes.node,
@@ -24,13 +27,13 @@ var IndexHeader = React.createClass({
     result: IndexPropTypes.result
   },
 
-  getDefaultProps: function () {
+  getDefaultProps: function getDefaultProps() {
     return {
       result: {}
     };
   },
 
-  _onSearchChange: function (text) {
+  _onSearchChange: function _onSearchChange(text) {
     var query = this.props.query;
     if (query) {
       query.replaceTextTokens(text);
@@ -40,7 +43,7 @@ var IndexHeader = React.createClass({
     this.props.onQuery(query);
   },
 
-  render: function () {
+  render: function render() {
     var classes = [CLASS_ROOT];
     if (this.props.className) {
       classes.push(this.props.className);
@@ -62,25 +65,21 @@ var IndexHeader = React.createClass({
     }
 
     var filters = null;
-    var numFilters = this.props.attributes
-      .filter(function (attribute) {
-        return attribute.hasOwnProperty('filter');
-      })
-      .length;
+    var numFilters = this.props.attributes.filter(function (attribute) {
+      return attribute.hasOwnProperty('filter');
+    }).length;
     if (numFilters > 0) {
-      filters = (
-        <Filters attributes={this.props.attributes}
-          query={this.props.query}
-          onQuery={this.props.onQuery} />
-      );
+      filters = React.createElement(Filters, { attributes: this.props.attributes,
+        query: this.props.query,
+        onQuery: this.props.onQuery });
     }
 
     var addControl = null;
     if (this.props.addControl) {
-      addControl = (
-        <Menu className={CLASS_ROOT + "__add-control"}>
-          {this.props.addControl}
-        </Menu>
+      addControl = React.createElement(
+        Menu,
+        { className: CLASS_ROOT + "__add-control" },
+        this.props.addControl
       );
     }
 
@@ -91,26 +90,33 @@ var IndexHeader = React.createClass({
 
     var label = this.props.label;
 
-    return (
-      <Header className={classes.join(' ')}
-        fixed={this.props.fixed} pad="medium" justify="between" large={true}>
-        {navControl}
-        <Search className={CLASS_ROOT + "__search" + " flex"}
-          inline={true}
-          placeHolder={'Search ' + label}
-          value={searchText}
-          onChange={this._onSearchChange} />
-        <Box direction="row" responsive={false}>
-          {filters}
-          {addControl}
-          <span className={CLASS_ROOT + "__count"}>
-            {this.props.result.total}
-            <span className={outOfClasses.join(' ')}>
-              out of {this.props.result.unfilteredTotal}
-            </span>
-          </span>
-        </Box>
-      </Header>
+    return React.createElement(
+      Header,
+      { className: classes.join(' '),
+        fixed: this.props.fixed, pad: 'medium', justify: 'between', large: true },
+      navControl,
+      React.createElement(Search, { className: CLASS_ROOT + "__search" + " flex",
+        inline: true,
+        placeHolder: 'Search ' + label,
+        value: searchText,
+        onChange: this._onSearchChange }),
+      React.createElement(
+        Box,
+        { direction: 'row', responsive: false },
+        filters,
+        addControl,
+        React.createElement(
+          'span',
+          { className: CLASS_ROOT + "__count" },
+          this.props.result.total,
+          React.createElement(
+            'span',
+            { className: outOfClasses.join(' ') },
+            'out of ',
+            this.props.result.unfilteredTotal
+          )
+        )
+      )
     );
   }
 

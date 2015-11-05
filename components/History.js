@@ -1,9 +1,12 @@
 // (C) Copyright 2014-2015 Hewlett Packard Enterprise Development LP
 
+'use strict';
+
 var React = require('react');
 var Chart = require('grommet/components/Chart');
 
 var IndexHistory = React.createClass({
+  displayName: 'IndexHistory',
 
   propTypes: {
     attribute: React.PropTypes.string.isRequired,
@@ -12,14 +15,8 @@ var IndexHistory = React.createClass({
       value: React.PropTypes.string.isRequired,
       intervals: React.PropTypes.arrayOf(React.PropTypes.shape({
         count: React.PropTypes.number,
-        start: React.PropTypes.oneOfType([
-          React.PropTypes.object,
-          React.PropTypes.string
-        ]),
-        stop: React.PropTypes.oneOfType([
-          React.PropTypes.object,
-          React.PropTypes.string
-        ])
+        start: React.PropTypes.oneOfType([React.PropTypes.object, React.PropTypes.string]),
+        stop: React.PropTypes.oneOfType([React.PropTypes.object, React.PropTypes.string])
       })).isRequired
     })),
     size: React.PropTypes.oneOf(['small', 'medium', 'large']),
@@ -28,15 +25,15 @@ var IndexHistory = React.createClass({
     type: React.PropTypes.oneOf(['bar', 'area', 'line'])
   },
 
-  getInitialState: function () {
+  getInitialState: function getInitialState() {
     return this._stateFromProps(this.props);
   },
 
-  componentWillReceiveProps: function (nextProps) {
+  componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
     this.setState(this._stateFromProps(nextProps));
   },
 
-  _stateFromProps: function (props) {
+  _stateFromProps: function _stateFromProps(props) {
     var xAxis = [];
     if (this.props.series) {
       var series = this.props.series.map(function (item, index) {
@@ -44,7 +41,7 @@ var IndexHistory = React.createClass({
           var date = new Date(Date.parse(interval.start));
           if (0 === index) {
             xAxis.push({
-              label: (date.getMonth() + 1) + '/' + date.getDate(),
+              label: date.getMonth() + 1 + '/' + date.getDate(),
               value: date
             });
           }
@@ -55,28 +52,26 @@ var IndexHistory = React.createClass({
         if ('status' === this.props.attribute) {
           colorIndex = interval.value.toLowerCase();
         }
-        return {label: item.value, values: values, colorIndex: colorIndex};
+        return { label: item.value, values: values, colorIndex: colorIndex };
       }, this);
     }
     return { series: series, xAxis: xAxis };
   },
 
-  componentWillReceiveProps: function (nextProps) {
+  componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
     this.setState(this._stateFromProps(nextProps));
   },
 
-  render: function () {
-    return (
-      <Chart series={this.state.series || []}
-        xAxis={this.state.xAxis || []}
-        legend={{position: 'overlay'}}
-        legendTotal={true}
-        size={this.props.size}
-        smooth={this.props.smooth}
-        points={this.props.points}
-        type={this.props.type}
-        threshold={this.props.threshold} />
-    );
+  render: function render() {
+    return React.createElement(Chart, { series: this.state.series || [],
+      xAxis: this.state.xAxis || [],
+      legend: { position: 'overlay' },
+      legendTotal: true,
+      size: this.props.size,
+      smooth: this.props.smooth,
+      points: this.props.points,
+      type: this.props.type,
+      threshold: this.props.threshold });
   }
 
 });

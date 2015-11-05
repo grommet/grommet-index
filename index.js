@@ -1,5 +1,7 @@
 // (C) Copyright 2014-2015 Hewlett Packard Enterprise Development LP
 
+'use strict';
+
 var GrommetIndex = {
   // Components
   Aggregate: require('./components/Aggregate'),

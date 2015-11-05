@@ -1,5 +1,7 @@
 // (C) Copyright 2014-2015 Hewlett Packard Enterprise Development LP
 
+'use strict';
+
 var React = require('react');
 var StatusIcon = require('grommet/components/icons/Status');
 var IndexPropTypes = require('../utils/PropTypes');
@@ -9,6 +11,7 @@ var FormattedTime = ReactIntl.FormattedTime;
 var CLASS_ROOT = "index-attribute";
 
 var Attribute = React.createClass({
+  displayName: 'Attribute',
 
   propTypes: {
     item: React.PropTypes.object.isRequired,
@@ -16,7 +19,7 @@ var Attribute = React.createClass({
     className: React.PropTypes.string
   },
 
-  render: function() {
+  render: function render() {
     var attribute = this.props.attribute;
 
     var classes = [CLASS_ROOT];
@@ -31,42 +34,44 @@ var Attribute = React.createClass({
     }
 
     var item = this.props.item;
-    var content = (<span>'?'</span>);
+    var content = React.createElement(
+      'span',
+      null,
+      '\'?\''
+    );
     var value;
 
     if (attribute.hasOwnProperty('render')) {
 
       content = attribute.render(item);
-
     } else {
 
       if (item.hasOwnProperty(attribute.name)) {
         value = item[attribute.name];
-      } else if (item.attributes &&
-        item.attributes.hasOwnProperty(attribute.name)) {
+      } else if (item.attributes && item.attributes.hasOwnProperty(attribute.name)) {
         value = item.attributes[attribute.name];
       }
 
       if ('status' === attribute.name) {
-        content = (
-          <StatusIcon className={classes.join(' ')}
-            value={value.toLowerCase()} small={true} />
-        );
+        content = React.createElement(StatusIcon, { className: classes.join(' '),
+          value: value.toLowerCase(), small: true });
       } else if (attribute.timestamp) {
         classes.push(CLASS_ROOT + "__timestamp");
-        content = (
-          <span className={classes.join(' ')}>
-            <FormattedTime value={value}
-              day="numeric"
-              month="narrow"
-              hour="2-digit"
-              minute="2-digit"
-              second="2-digit" />
-          </span>
+        content = React.createElement(
+          'span',
+          { className: classes.join(' ') },
+          React.createElement(FormattedTime, { value: value,
+            day: 'numeric',
+            month: 'narrow',
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit' })
         );
       } else {
-        content = (
-          <span className={classes.join(' ')}>{value}</span>
+        content = React.createElement(
+          'span',
+          { className: classes.join(' ') },
+          value
         );
       }
     }

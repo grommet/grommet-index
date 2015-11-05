@@ -1,5 +1,7 @@
 // (C) Copyright 2014-2015 Hewlett Packard Enterprise Development LP
 
+'use strict';
+
 var React = require('react');
 var Tiles = require('grommet/components/Tiles');
 var Tile = require('grommet/components/Tile');
@@ -11,23 +13,22 @@ var IndexPropTypes = require('../utils/PropTypes');
 var CLASS_ROOT = 'index-tiles';
 
 var IndexTiles = React.createClass({
+  displayName: 'IndexTiles',
 
   propTypes: {
     attributes: IndexPropTypes.attributes,
     result: IndexPropTypes.result,
-    selection: React.PropTypes.oneOfType([
-      React.PropTypes.string, // uri
-      React.PropTypes.arrayOf(React.PropTypes.string)
-    ]),
+    selection: React.PropTypes.oneOfType([React.PropTypes.string, // uri
+    React.PropTypes.arrayOf(React.PropTypes.string)]),
     size: React.PropTypes.oneOf(['small', 'medium', 'large']),
     onSelect: React.PropTypes.func
   },
 
-  _onClick: function (uri) {
+  _onClick: function _onClick(uri) {
     this.props.onSelect(uri);
   },
 
-  render: function () {
+  render: function render() {
     var classes = [CLASS_ROOT];
     if (this.props.className) {
       classes.push(this.props.className);
@@ -42,10 +43,8 @@ var IndexTiles = React.createClass({
         var footerValues = [];
 
         this.props.attributes.forEach(function (attribute) {
-          var value = (
-            <Attribute key={attribute.name}
-              item={item} attribute={attribute} />
-          );
+          var value = React.createElement(Attribute, { key: attribute.name,
+            item: item, attribute: attribute });
           if (attribute.header) {
             headerValues.push(value);
           } else if (attribute.footer) {
@@ -57,19 +56,23 @@ var IndexTiles = React.createClass({
 
         var header = null;
         if (headerValues.length > 0) {
-          header = (
-            <Header tag="h4" size="small" pad="none">
-              {headerValues}
-            </Header>
+          header = React.createElement(
+            Header,
+            { tag: 'h4', size: 'small', pad: 'none' },
+            headerValues
           );
         }
 
         var footer = null;
         if (footerValues.length > 0) {
-          footer = (
-            <Footer small={true}>
-              <span>{footerValues}</span>
-            </Footer>
+          footer = React.createElement(
+            Footer,
+            { small: true },
+            React.createElement(
+              'span',
+              null,
+              footerValues
+            )
           );
         }
 
@@ -78,30 +81,29 @@ var IndexTiles = React.createClass({
           selected = true;
         }
 
-        return (
-          <Tile key={item.uri} align="start"
-            pad={{horizontal: "medium", vertical: "small"}}
-            onClick={this._onClick.bind(this, item.uri)}
-            selected={selected}>
-            {header}
-            {values}
-            {footer}
-          </Tile>
+        return React.createElement(
+          Tile,
+          { key: item.uri, align: 'start',
+            pad: { horizontal: "medium", vertical: "small" },
+            onClick: this._onClick.bind(this, item.uri),
+            selected: selected },
+          header,
+          values,
+          footer
         );
       }, this);
     }
 
     var onMore = null;
-    if (this.props.result &&
-      this.props.result.count < this.props.result.total) {
+    if (this.props.result && this.props.result.count < this.props.result.total) {
       onMore = this.props.onMore;
     }
 
-    return (
-      <Tiles className={classes.join(' ')} onMore={onMore} flush={true}
-        size={this.props.size}>
-        {tiles}
-      </Tiles>
+    return React.createElement(
+      Tiles,
+      { className: classes.join(' '), onMore: onMore, flush: true,
+        size: this.props.size },
+      tiles
     );
   }
 
