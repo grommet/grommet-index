@@ -35,8 +35,8 @@ var IndexHistory = React.createClass({
 
   _stateFromProps: function _stateFromProps(props) {
     var xAxis = [];
-    if (this.props.series) {
-      var series = this.props.series.map(function (item, index) {
+    if (props.series) {
+      var series = props.series.map(function (item, index) {
         var values = item.intervals.map(function (interval) {
           var date = new Date(Date.parse(interval.start));
           if (0 === index) {
@@ -49,11 +49,11 @@ var IndexHistory = React.createClass({
         });
 
         var colorIndex = 'graph-' + (index + 1);
-        if ('status' === this.props.attribute) {
+        if ('status' === props.attribute) {
           colorIndex = interval.value.toLowerCase();
         }
         return { label: item.value, values: values, colorIndex: colorIndex };
-      }, this);
+      });
     }
     return { series: series, xAxis: xAxis };
   },
