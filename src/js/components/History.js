@@ -61,10 +61,6 @@ var IndexHistory = React.createClass({
     return { series: series, xAxis: xAxis };
   },
 
-  componentWillReceiveProps: function (nextProps) {
-    this.setState(this._stateFromProps(nextProps));
-  },
-
   render: function () {
     return (
       <Chart series={this.state.series || []}
