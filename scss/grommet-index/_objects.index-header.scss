@@ -3,6 +3,10 @@
 .index-header {
   position: relative;
 
+  &__title {
+    flex-shrink: 0;
+  }
+
   &__count {
     color: $secondary-text-color;
     @include inuit-font-size($label-font-size, inherit);
