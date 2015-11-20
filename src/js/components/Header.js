@@ -95,9 +95,9 @@ var IndexHeader = React.createClass({
       <Header className={classes.join(' ')}
         fixed={this.props.fixed} pad="medium" justify="between" large={true}>
         {navControl}
+        <span className={CLASS_ROOT + "__title"}>{label}</span>
         <Search className={CLASS_ROOT + "__search" + " flex"}
           inline={true}
-          placeHolder={'Search ' + label}
           value={searchText}
           onChange={this._onSearchChange} />
         <Box direction="row" responsive={false}>
