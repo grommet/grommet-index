@@ -9,6 +9,7 @@ var update = require('react/lib/update');
 var Menu = require('grommet/components/Menu');
 var FilterIcon = require('grommet/components/icons/base/Filter');
 var CheckBox = require('grommet/components/CheckBox');
+var StatusIcon = require('grommet/components/icons/Status');
 var IndexPropTypes = require('../utils/PropTypes');
 var IndexQuery = require('../utils/Query');
 
@@ -99,6 +100,15 @@ var Filters = React.createClass({
           activeFilterCount += 1;
         }
         var label = value || '';
+        if (attribute.name === 'status') {
+          label = React.createElement(
+            'span',
+            null,
+            React.createElement(StatusIcon, { value: value, size: 'small' }),
+            ' ',
+            value
+          );
+        }
         return React.createElement(CheckBox, { key: id, className: CLASS_ROOT + "__filter-value",
           id: id, label: label,
           checked: active,

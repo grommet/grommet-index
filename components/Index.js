@@ -61,7 +61,7 @@ var Index = React.createClass({
       error = React.createElement(
         'div',
         { className: CLASS_ROOT + "__error" },
-        this.propr.result.error
+        this.props.result.error
       );
     }
 
