@@ -59,7 +59,7 @@ var Index = React.createClass({
     if (this.props.result && this.props.result.error) {
       error = (
         <div className={CLASS_ROOT + "__error"}>
-          {this.propr.result.error}
+          {this.props.result.error}
         </div>
       );
     }
