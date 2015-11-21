@@ -15,6 +15,38 @@ var IndexQuery = require('../utils/Query');
 
 var CLASS_ROOT = "index-filters";
 
+var BadgedFilterIcon = React.createClass({
+  displayName: 'BadgedFilterIcon',
+
+  propTypes: {
+    label: React.PropTypes.string
+  },
+
+  render: function render() {
+    var badge;
+    if (this.props.label) {
+      badge = React.createElement(
+        'svg',
+        { className: 'badged-icon__badge', version: '1.1',
+          width: '20px', height: '20px', viewBox: '0 0 20 20' },
+        React.createElement('circle', { stroke: 'none', cx: '10', cy: '10', r: '10' }),
+        React.createElement(
+          'text',
+          { x: '6.5', y: '15', fontSize: 16 },
+          this.props.label
+        )
+      );
+    }
+
+    return React.createElement(
+      'span',
+      { className: 'badged-icon' },
+      React.createElement(FilterIcon, null),
+      badge
+    );
+  }
+});
+
 var Filters = React.createClass({
   displayName: 'Filters',
 
@@ -134,7 +166,7 @@ var Filters = React.createClass({
       );
     }, this);
 
-    var icon = React.createElement(FilterIcon, { notifications: activeFilterCount });
+    var icon = React.createElement(BadgedFilterIcon, { label: activeFilterCount || '' });
 
     return React.createElement(
       Menu,

@@ -19,3 +19,23 @@
     }
   }
 }
+
+.badged-icon {
+  position: relative;
+  display: inline-block;
+
+  &__badge {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+
+    circle {
+      fill: $icon-badge-background-color;
+    }
+
+    text {
+      stroke: $icon-badge-text-color;
+      fill: $icon-badge-text-color;
+    }
+  }
+}
