@@ -11,6 +11,32 @@ var IndexQuery = require('../utils/Query');
 
 var CLASS_ROOT = "index-filters";
 
+var BadgedFilterIcon = React.createClass({
+  propTypes: {
+    label: React.PropTypes.string
+  },
+
+  render: function () {
+    var badge;
+    if (this.props.label) {
+      badge = (
+        <svg className="badged-icon__badge" version="1.1"
+          width="20px" height="20px" viewBox="0 0 20 20">
+          <circle stroke="none" cx="10" cy="10" r="10"/>
+          <text x="6.5" y="15" fontSize={16}>{this.props.label}</text>
+        </svg>
+      );
+    }
+
+    return (
+      <span className="badged-icon">
+        <FilterIcon />
+        {badge}
+      </span>
+    );
+  }
+});
+
 var Filters = React.createClass({
 
   propTypes: {
@@ -135,7 +161,7 @@ var Filters = React.createClass({
           </fieldset>);
       }, this);
 
-    var icon = (<FilterIcon notifications={activeFilterCount} />);
+    var icon = (<BadgedFilterIcon label={activeFilterCount || ''} />);
 
     return (
       <Menu className={CLASS_ROOT + "__menu"} icon={icon}
