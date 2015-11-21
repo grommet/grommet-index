@@ -100,7 +100,7 @@ var IndexHeader = React.createClass({
           inline={true}
           value={searchText}
           onChange={this._onSearchChange} />
-        <Box direction="row" responsive={false}>
+        <Box className={CLASS_ROOT + "__controls"} direction="row" responsive={false}>
           {filters}
           {addControl}
           <span className={CLASS_ROOT + "__count"}>
