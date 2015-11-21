@@ -106,7 +106,7 @@ var IndexHeader = React.createClass({
         onChange: this._onSearchChange }),
       React.createElement(
         Box,
-        { direction: 'row', responsive: false },
+        { className: CLASS_ROOT + "__controls", direction: 'row', responsive: false },
         filters,
         addControl,
         React.createElement(

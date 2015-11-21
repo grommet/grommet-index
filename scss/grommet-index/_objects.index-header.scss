@@ -3,8 +3,16 @@
 .index-header {
   position: relative;
 
-  &__title {
+  &__title,
+  .title,
+  &__controls {
     flex-shrink: 0;
+  }
+
+  @include media-query(palm) {
+    &__title {
+      flex-shrink: 1;
+    }
   }
 
   &__count {
