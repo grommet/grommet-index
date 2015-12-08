@@ -13,7 +13,10 @@ var CLASS_ROOT = "index-filters";
 
 var BadgedFilterIcon = React.createClass({
   propTypes: {
-    label: React.PropTypes.string
+    label: React.PropTypes.oneOfType([
+      React.PropTypes.number,
+      React.PropTypes.string
+    ])
   },
 
   render: function () {
@@ -49,10 +52,6 @@ var Filters = React.createClass({
     return this._stateFromProps(this.props);
   },
 
-  componentWillReceiveProps: function (newProps) {
-    this.setState(this._stateFromProps(newProps));
-  },
-
   _notify: function () {
     var query;
     if (this.props.query) {
@@ -80,9 +79,9 @@ var Filters = React.createClass({
       [attribute]: {
         [value]: { $apply: function(x) {
           return !x;
-        } }
-      },
-      all: { $set: false }
+        } },
+        all: { $set: false }
+      }
     });
     this.setState(result, this._notify);
   },
