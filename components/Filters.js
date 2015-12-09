@@ -19,7 +19,7 @@ var BadgedFilterIcon = React.createClass({
   displayName: 'BadgedFilterIcon',
 
   propTypes: {
-    label: React.PropTypes.string
+    label: React.PropTypes.oneOfType([React.PropTypes.number, React.PropTypes.string])
   },
 
   render: function render() {
@@ -60,10 +60,6 @@ var Filters = React.createClass({
     return this._stateFromProps(this.props);
   },
 
-  componentWillReceiveProps: function componentWillReceiveProps(newProps) {
-    this.setState(this._stateFromProps(newProps));
-  },
-
   _notify: function _notify() {
     var query;
     if (this.props.query) {
@@ -85,11 +81,11 @@ var Filters = React.createClass({
   },
 
   _onChange: function _onChange(attribute, value) {
-    var _update;
+    var _attribute;
 
-    var result = update(this.state, (_update = {}, _defineProperty(_update, attribute, _defineProperty({}, value, { $apply: function $apply(x) {
+    var result = update(this.state, _defineProperty({}, attribute, (_attribute = {}, _defineProperty(_attribute, value, { $apply: function $apply(x) {
         return !x;
-      } })), _defineProperty(_update, 'all', { $set: false }), _update));
+      } }), _defineProperty(_attribute, 'all', { $set: false }), _attribute)));
     this.setState(result, this._notify);
   },
 
