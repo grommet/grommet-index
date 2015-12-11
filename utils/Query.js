@@ -89,7 +89,7 @@ function tokenize(text) {
 
 function extractText(fullText) {
   // prune out attribute:value elements
-  var text = fullText.replace(/\w+:[^'"\s]+|\w+:'[^']+'|\w+:"[^"]+"/g, '');
+  var text = fullText.replace(/\w+:[^'"\s]+\s?|\w+:'[^']+'\s?|\w+:"[^"]+"\s?/g, '');
   return text;
 }
 
