@@ -2,7 +2,6 @@
 
 var React = require('react');
 var Header = require('grommet/components/Header');
-var Menu = require('grommet/components/Menu');
 var Search = require('grommet/components/Search');
 var Box = require('grommet/components/Box');
 var Filters = require('./Filters');
@@ -61,7 +60,7 @@ var IndexHeader = React.createClass({
       outOfClasses.push(CLASS_ROOT + "__out-of--active");
     }
 
-    var filters = null;
+    var filters;
     var numFilters = this.props.attributes
       .filter(function (attribute) {
         return attribute.hasOwnProperty('filter');
@@ -75,34 +74,18 @@ var IndexHeader = React.createClass({
       );
     }
 
-    var addControl = null;
-    if (this.props.addControl) {
-      addControl = (
-        <Menu className={CLASS_ROOT + "__add-control"}>
-          {this.props.addControl}
-        </Menu>
-      );
-    }
-
-    var navControl = null;
-    if (this.props.navControl) {
-      navControl = this.props.navControl;
-    }
-
-    var label = this.props.label;
-
     return (
       <Header className={classes.join(' ')}
         fixed={this.props.fixed} pad="medium" justify="between" large={true}>
-        {navControl}
-        <span className={CLASS_ROOT + "__title"}>{label}</span>
+        {this.props.navControl}
+        <span className={CLASS_ROOT + "__title"}>{this.props.label}</span>
         <Search className={CLASS_ROOT + "__search" + " flex"}
           inline={true}
           value={searchText}
           onChange={this._onSearchChange} />
         <Box className={CLASS_ROOT + "__controls"} direction="row" responsive={false}>
           {filters}
-          {addControl}
+          {this.props.addControl}
           <span className={CLASS_ROOT + "__count"}>
             {this.props.result.total}
             <span className={outOfClasses.join(' ')}>
