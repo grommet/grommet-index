@@ -60,6 +60,10 @@ var Filters = React.createClass({
     return this._stateFromProps(this.props);
   },
 
+  componentWillReceiveProps: function componentWillReceiveProps(newProps) {
+    this.setState(this._stateFromProps(newProps));
+  },
+
   _notify: function _notify() {
     var query;
     if (this.props.query) {
