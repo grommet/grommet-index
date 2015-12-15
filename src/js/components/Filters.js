@@ -52,6 +52,10 @@ var Filters = React.createClass({
     return this._stateFromProps(this.props);
   },
 
+  componentWillReceiveProps: function(newProps) {
+    this.setState(this._stateFromProps(newProps));
+  },
+
   _notify: function () {
     var query;
     if (this.props.query) {
