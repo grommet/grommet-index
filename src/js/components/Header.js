@@ -76,7 +76,7 @@ var IndexHeader = React.createClass({
 
     return (
       <Header className={classes.join(' ')}
-        fixed={this.props.fixed} pad="medium" justify="between" large={true}>
+        fixed={this.props.fixed} pad="medium" justify="between" size="large">
         {this.props.navControl}
         <span className={CLASS_ROOT + "__title"}>{this.props.label}</span>
         <Search className={CLASS_ROOT + "__search" + " flex"}
