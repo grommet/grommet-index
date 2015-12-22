@@ -76,7 +76,7 @@ var IndexHeader = React.createClass({
     return React.createElement(
       Header,
       { className: classes.join(' '),
-        fixed: this.props.fixed, pad: 'medium', justify: 'between', large: true },
+        fixed: this.props.fixed, pad: 'medium', justify: 'between', size: 'large' },
       this.props.navControl,
       React.createElement(
         'span',
