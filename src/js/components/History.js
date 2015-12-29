@@ -1,42 +1,21 @@
 // (C) Copyright 2014-2015 Hewlett Packard Enterprise Development LP
 
-var React = require('react');
-var Chart = require('grommet/components/Chart');
+import React, { Component, PropTypes } from 'react';
+import Chart from 'grommet/components/Chart';
 
-var IndexHistory = React.createClass({
+export default class IndexHistory extends Component {
 
-  propTypes: {
-    attribute: React.PropTypes.string.isRequired,
-    points: React.PropTypes.bool,
-    series: React.PropTypes.arrayOf(React.PropTypes.shape({
-      value: React.PropTypes.string.isRequired,
-      intervals: React.PropTypes.arrayOf(React.PropTypes.shape({
-        count: React.PropTypes.number,
-        start: React.PropTypes.oneOfType([
-          React.PropTypes.object,
-          React.PropTypes.string
-        ]),
-        stop: React.PropTypes.oneOfType([
-          React.PropTypes.object,
-          React.PropTypes.string
-        ])
-      })).isRequired
-    })),
-    size: React.PropTypes.oneOf(['small', 'medium', 'large']),
-    smooth: React.PropTypes.bool,
-    threshold: React.PropTypes.number,
-    type: React.PropTypes.oneOf(['bar', 'area', 'line'])
-  },
+  constructor (props) {
+    super(props);
 
-  getInitialState: function () {
-    return this._stateFromProps(this.props);
-  },
+    this.state = this._stateFromProps(props);
+  }
 
-  componentWillReceiveProps: function (nextProps) {
+  componentWillReceiveProps (nextProps) {
     this.setState(this._stateFromProps(nextProps));
-  },
+  }
 
-  _stateFromProps: function (props) {
+  _stateFromProps (props) {
     var xAxis = [];
     if (props.series) {
       var series = props.series.map(function (item, index) {
@@ -59,9 +38,9 @@ var IndexHistory = React.createClass({
       });
     }
     return { series: series, xAxis: xAxis };
-  },
+  }
 
-  render: function () {
+  render () {
     return (
       <Chart series={this.state.series || []}
         xAxis={this.state.xAxis || []}
@@ -75,6 +54,27 @@ var IndexHistory = React.createClass({
     );
   }
 
-});
+}
 
-module.exports = IndexHistory;
+IndexHistory.propTypes = {
+  attribute: PropTypes.string.isRequired,
+  points: PropTypes.bool,
+  series: PropTypes.arrayOf(PropTypes.shape({
+    value: PropTypes.string.isRequired,
+    intervals: PropTypes.arrayOf(PropTypes.shape({
+      count: PropTypes.number,
+      start: PropTypes.oneOfType([
+        PropTypes.object,
+        PropTypes.string
+      ]),
+      stop: PropTypes.oneOfType([
+        PropTypes.object,
+        PropTypes.string
+      ])
+    })).isRequired
+  })),
+  size: PropTypes.oneOf(['small', 'medium', 'large']),
+  smooth: PropTypes.bool,
+  threshold: PropTypes.number,
+  type: PropTypes.oneOf(['bar', 'area', 'line'])
+};

@@ -1,29 +1,25 @@
 // (C) Copyright 2014-2015 Hewlett Packard Enterprise Development LP
 
-var React = require('react');
-var List = require('grommet/components/List');
-var Attribute = require('./Attribute');
-var IndexPropTypes = require('../utils/PropTypes');
+import React, { Component, PropTypes } from 'react';
+import List from 'grommet/components/List';
+import Attribute from './Attribute';
+import IndexPropTypes from '../utils/PropTypes';
 
-var CLASS_ROOT = 'index-list';
+const CLASS_ROOT = 'index-list';
 
-var IndexList = React.createClass({
+export default class IndexList extends Component {
 
-  propTypes: {
-    attributes: IndexPropTypes.attributes,
-    result: IndexPropTypes.result,
-    selection: React.PropTypes.oneOfType([
-      React.PropTypes.string, // uri
-      React.PropTypes.arrayOf(React.PropTypes.string)
-    ]),
-    onSelect: React.PropTypes.func
-  },
+  constructor () {
+    super();
 
-  _onSelect: function (item) {
+    this._onSelect = this._onSelect.bind(this);
+  }
+
+  _onSelect (item) {
     this.props.onSelect(item.uri);
-  },
+  }
 
-  render: function () {
+  render () {
     var classes = [CLASS_ROOT];
     if (this.props.className) {
       classes.push(this.props.className);
@@ -79,6 +75,14 @@ var IndexList = React.createClass({
     );
   }
 
-});
+}
 
-module.exports = IndexList;
+IndexList.propTypes = {
+  attributes: IndexPropTypes.attributes,
+  result: IndexPropTypes.result,
+  selection: PropTypes.oneOfType([
+    PropTypes.string, // uri
+    PropTypes.arrayOf(PropTypes.string)
+  ]),
+  onSelect: PropTypes.func
+};

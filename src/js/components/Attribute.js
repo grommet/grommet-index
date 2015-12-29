@@ -1,22 +1,15 @@
 // (C) Copyright 2014-2015 Hewlett Packard Enterprise Development LP
 
-var React = require('react');
-var StatusIcon = require('grommet/components/icons/Status');
-var IndexPropTypes = require('../utils/PropTypes');
-var ReactIntl = require('react-intl');
-var FormattedTime = ReactIntl.FormattedTime;
+import React, { Component, PropTypes } from 'react';
+import StatusIcon from 'grommet/components/icons/Status';
+import IndexPropTypes from '../utils/PropTypes';
+import { FormattedTime } from 'react-intl';
 
-var CLASS_ROOT = "index-attribute";
+const CLASS_ROOT = "index-attribute";
 
-var Attribute = React.createClass({
+export default class Attribute extends Component {
 
-  propTypes: {
-    item: React.PropTypes.object.isRequired,
-    attribute: IndexPropTypes.attribute.isRequired,
-    className: React.PropTypes.string
-  },
-
-  render: function() {
+  render () {
     var attribute = this.props.attribute;
 
     var classes = [CLASS_ROOT];
@@ -75,6 +68,10 @@ var Attribute = React.createClass({
     return content;
   }
 
-});
+}
 
-module.exports = Attribute;
+Attribute.propTypes = {
+  item: PropTypes.object.isRequired,
+  attribute: IndexPropTypes.attribute.isRequired,
+  className: PropTypes.string
+};

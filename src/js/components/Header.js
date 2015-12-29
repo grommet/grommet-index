@@ -1,35 +1,24 @@
 // (C) Copyright 2014-2015 Hewlett Packard Enterprise Development LP
 
-var React = require('react');
-var Header = require('grommet/components/Header');
-var Search = require('grommet/components/Search');
-var Box = require('grommet/components/Box');
-var Filters = require('./Filters');
-var IndexPropTypes = require('../utils/PropTypes');
-var IndexQuery = require('../utils/Query');
+import React, { Component, PropTypes } from 'react';
+import Header from 'grommet/components/Header';
+import Search from 'grommet/components/Search';
+import Box from 'grommet/components/Box';
+import Filters from './Filters';
+import IndexPropTypes from '../utils/PropTypes';
+import IndexQuery from '../utils/Query';
 
-var CLASS_ROOT = 'index-header';
+const CLASS_ROOT = 'index-header';
 
-var IndexHeader = React.createClass({
+export default class IndexHeader extends Component {
 
-  propTypes: {
-    //addControl: React.PropTypes.node,
-    attributes: IndexPropTypes.attributes.isRequired,
-    fixed: React.PropTypes.bool,
-    label: React.PropTypes.string.isRequired,
-    navControl: React.PropTypes.node,
-    onQuery: React.PropTypes.func.isRequired,
-    query: React.PropTypes.object,
-    result: IndexPropTypes.result
-  },
+  constructor () {
+    super();
 
-  getDefaultProps: function () {
-    return {
-      result: {}
-    };
-  },
+    this._onSearchChange = this._onSearchChange.bind(this);
+  }
 
-  _onSearchChange: function (text) {
+  _onSearchChange (text) {
     var query = this.props.query;
     if (query) {
       query.replaceTextTokens(text);
@@ -37,9 +26,9 @@ var IndexHeader = React.createClass({
       query = IndexQuery.create(text);
     }
     this.props.onQuery(query);
-  },
+  }
 
-  render: function () {
+  render () {
     var classes = [CLASS_ROOT];
     if (this.props.className) {
       classes.push(this.props.className);
@@ -97,6 +86,19 @@ var IndexHeader = React.createClass({
     );
   }
 
-});
+}
 
-module.exports = IndexHeader;
+IndexHeader.propTypes = {
+  //addControl: PropTypes.node,
+  attributes: IndexPropTypes.attributes.isRequired,
+  fixed: PropTypes.bool,
+  label: PropTypes.string.isRequired,
+  navControl: PropTypes.node,
+  onQuery: PropTypes.func.isRequired,
+  query: PropTypes.object,
+  result: IndexPropTypes.result
+};
+
+IndexHeader.defaultProps = {
+  result: {}
+};

@@ -29,7 +29,7 @@ describe('Grommet Activity', function() {
     var _onQuery = function(data) {
       query = data.text;
     };
-    var queryProp = IndexQuery.create('');
+    var queryProp = IndexQuery('');
     var Component = TestUtils.renderIntoDocument(
       <Activity query={queryProp} onQuery={_onQuery} />
     );
@@ -54,7 +54,7 @@ describe('Grommet Activity', function() {
 
     var TestParent = React.createFactory(React.createClass({
       getInitialState: function() {
-        return { query: IndexQuery.create('testing') };
+        return { query: IndexQuery('testing') };
       },
       render: function() {
         return <Activity query={this.state.query} />;
@@ -70,7 +70,7 @@ describe('Grommet Activity', function() {
     expect(searchNode.getDOMNode().value).toBe('testing');
 
     Component.setState({
-      query: IndexQuery.create('new query')
+      query: IndexQuery('new query')
     });
 
     setTimeout(function() {

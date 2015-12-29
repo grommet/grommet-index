@@ -1,55 +1,35 @@
 // (C) Copyright 2014-2015 Hewlett Packard Enterprise Development LP
 
-var React = require('react');
-var IndexPropTypes = require('../utils/PropTypes');
-var IndexTable = require('./Table');
-var IndexTiles = require('./Tiles');
-var IndexList = require('./List');
-var IndexHeader = require('./Header');
+import React, { Component, PropTypes } from 'react';
+import IndexPropTypes from '../utils/PropTypes';
+import IndexTable from './Table';
+import IndexTiles from './Tiles';
+import IndexList from './List';
+import IndexHeader from './Header';
 
-var CLASS_ROOT = 'index';
+const CLASS_ROOT = 'index';
 
-var VIEW_COMPONENT = {
+const VIEW_COMPONENT = {
   list: IndexList,
   tiles: IndexTiles,
   table: IndexTable
 };
 
-var Index = React.createClass({
+export default class Index extends Component {
 
-  propTypes: {
-    addControl: React.PropTypes.node,
-    attributes: IndexPropTypes.attributes,
-    label: React.PropTypes.string,
-    onMore: React.PropTypes.func,
-    onQuery: React.PropTypes.func,
-    onSelect: React.PropTypes.func,
-    query: React.PropTypes.object,
-    navControl: React.PropTypes.node,
-    result: IndexPropTypes.result,
-    selection: React.PropTypes.oneOfType([
-      React.PropTypes.string, // uri
-      React.PropTypes.arrayOf(React.PropTypes.string)
-    ]),
-    size: React.PropTypes.oneOf(['small', 'medium', 'large']),
-    view: React.PropTypes.oneOf(["table", "tiles", "list"])
-  },
+  constructor () {
+    super();
 
-  getDefaultProps: function () {
-    return ({
-      attributes: [{name: 'name', label: 'Name', index: 0}],
-      flush: true,
-      view: "tiles"
-    });
-  },
+    this._onQuery = this._onQuery.bind(this);
+  }
 
-  _onQuery: function (query) {
+  _onQuery (query) {
     if (this.props.onQuery) {
       this.props.onQuery(query);
     }
-  },
+  }
 
-  render: function () {
+  render () {
     var classes = [CLASS_ROOT];
     if (this.props.className) {
       classes.push(this.props.className);
@@ -93,6 +73,29 @@ var Index = React.createClass({
     );
   }
 
-});
+}
 
-module.exports = Index;
+Index.propTypes = {
+  addControl: PropTypes.node,
+  attributes: IndexPropTypes.attributes,
+  label: PropTypes.string,
+  onMore: PropTypes.func,
+  onQuery: PropTypes.func,
+  onSelect: PropTypes.func,
+  query: PropTypes.object,
+  navControl: PropTypes.node,
+  renderItem: PropTypes.func,
+  result: IndexPropTypes.result,
+  selection: PropTypes.oneOfType([
+    PropTypes.string, // uri
+    PropTypes.arrayOf(PropTypes.string)
+  ]),
+  size: PropTypes.oneOf(['small', 'medium', 'large']),
+  view: PropTypes.oneOf(["table", "tiles", "list"])
+};
+
+Index.defaultProps = {
+  attributes: [{name: 'name', label: 'Name', index: 0}],
+  flush: true,
+  view: "tiles"
+};

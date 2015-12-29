@@ -1,5 +1,6 @@
 // (C) Copyright 2014-2015 Hewlett Packard Enterprise Development LP
-var StringConvert = require('grommet/utils/StringConvert');
+
+import StringConvert from 'grommet/utils/StringConvert';
 
 // Parse the query text into formal tokens.
 // Tokens enable syntax highlighting and filter formalization.
@@ -225,8 +226,8 @@ Query.prototype = {
   }
 };
 
-module.exports = {
-  create: function (text) {
+export default {
+  create (text) {
     if (text && text.hasOwnProperty('fullText')) {
       text = text.fullText;
     }

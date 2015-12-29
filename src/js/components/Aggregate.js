@@ -1,11 +1,11 @@
 // (C) Copyright 2014-2015 Hewlett Packard Enterprise Development LP
 
-var React = require('react');
-var Meter = require('grommet/components/Meter');
-var Distribution = require('grommet/components/Distribution');
-var Query = require('../utils/Query');
+import React, { Component, PropTypes } from 'react';
+import Meter from 'grommet/components/Meter';
+import Distribution from 'grommet/components/Distribution';
+import IndexQuery from '../utils/Query';
 
-var STATUS_IMPORTANCE = {
+const STATUS_IMPORTANCE = {
   'error': 1,
   'critical': 1,
   'warning': 2,
@@ -14,49 +14,32 @@ var STATUS_IMPORTANCE = {
   'unknown': 5
 };
 
-var Aggregate = React.createClass({
+export default class Aggregate extends Component {
 
-  propTypes: {
-    attribute: React.PropTypes.string.isRequired,
-    legend: React.PropTypes.oneOfType([
-      React.PropTypes.bool,
-      React.PropTypes.shape({
-        total: React.PropTypes.bool,
-        placement: React.PropTypes.oneOf(['right', 'bottom'])
-      })
-    ]),
-    onClick: React.PropTypes.func,
-    query: React.PropTypes.object,
-    series: React.PropTypes.arrayOf(React.PropTypes.shape({
-      label: React.PropTypes.string,
-      value: React.PropTypes.string.isRequired,
-      count: React.PropTypes.number.isRequired
-    })),
-    size: React.PropTypes.oneOf(['small', 'medium', 'large']),
-    threshold: React.PropTypes.number,
-    type: React.PropTypes.oneOf(['bar', 'arc', 'circle', 'distribution'])
-  },
+  constructor (props) {
+    super(props);
 
-  getInitialState: function () {
-    return this._stateFromProps(this.props);
-  },
+    this._onClick = this._onClick.bind(this);
 
-  componentWillReceiveProps: function (newProps) {
-    this.setState(this._stateFromProps(newProps));
-  },
+    this.state = this._stateFromProps(props);
+  }
 
-  _onClick: function (value) {
+  componentWillReceiveProps (nextProps) {
+    this.setState(this._stateFromProps(nextProps));
+  }
+
+  _onClick (value) {
     var query;
     if (this.props.query) {
       query = this.props.query.clone();
     } else {
-      query = Query.create();
+      query = IndexQuery.create();
     }
     query.replaceAttributeValues(this.props.attribute, [value]);
     this.props.onClick(query);
-  },
+  }
 
-  _stateFromProps: function (props) {
+  _stateFromProps (props) {
     var series = (props.series || []).map(function(item, index) {
       var colorIndex = 'graph-' + (index + 1);
       if ('status' === props.attribute) {
@@ -82,9 +65,9 @@ var Aggregate = React.createClass({
     }
 
     return { series: series };
-  },
+  }
 
-  render: function () {
+  render () {
     var component;
     if ('distribution' === this.props.type) {
       component = (
@@ -106,6 +89,25 @@ var Aggregate = React.createClass({
     return component;
   }
 
-});
+}
 
-module.exports = Aggregate;
+Aggregate.propTypes = {
+  attribute: PropTypes.string.isRequired,
+  legend: PropTypes.oneOfType([
+    PropTypes.bool,
+    PropTypes.shape({
+      total: PropTypes.bool,
+      placement: PropTypes.oneOf(['right', 'bottom'])
+    })
+  ]),
+  onClick: PropTypes.func,
+  query: PropTypes.object,
+  series: PropTypes.arrayOf(PropTypes.shape({
+    label: PropTypes.string,
+    value: PropTypes.string.isRequired,
+    count: PropTypes.number.isRequired
+  })),
+  size: PropTypes.oneOf(['small', 'medium', 'large']),
+  threshold: PropTypes.number,
+  type: PropTypes.oneOf(['bar', 'arc', 'circle', 'distribution'])
+};

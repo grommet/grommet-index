@@ -1,17 +1,13 @@
 // (C) Copyright 2014-2015 Hewlett Packard Enterprise Development LP
 
-var React = require('react');
-var Notification = require('grommet/components/Notification');
+import React, { Component, PropTypes } from 'react';
+import Notification from 'grommet/components/Notification';
 
-var CLASS_ROOT = 'resource-notifications';
+const CLASS_ROOT = 'resource-notifications';
 
-var Notifications = React.createClass({
+export default class Notifications extends Component {
 
-  propTypes: {
-    notifications: React.PropTypes.arrayOf(React.PropTypes.object)
-  },
-
-  render: function () {
+  render () {
     var classes = [CLASS_ROOT];
     if (this.props.className) {
       classes.push(this.props.className);
@@ -37,6 +33,8 @@ var Notifications = React.createClass({
     );
   }
 
-});
+}
 
-module.exports = Notifications;
+Notifications.propTypes = {
+  notifications: PropTypes.arrayOf(React.PropTypes.object)
+};

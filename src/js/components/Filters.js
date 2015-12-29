@@ -1,25 +1,19 @@
 // (C) Copyright 2014-2015 Hewlett Packard Enterprise Development LP
 
-var React = require('react');
-var update =require('react/lib/update');
-var Menu = require('grommet/components/Menu');
-var FilterIcon = require('grommet/components/icons/base/Filter');
-var CheckBox = require('grommet/components/CheckBox');
-var StatusIcon = require('grommet/components/icons/Status');
-var IndexPropTypes = require('../utils/PropTypes');
-var IndexQuery = require('../utils/Query');
+import React, { Component, PropTypes } from 'react';
+import update from 'react/lib/update';
+import Menu from 'grommet/components/Menu';
+import FilterIcon from 'grommet/components/icons/base/Filter';
+import CheckBox from 'grommet/components/CheckBox';
+import StatusIcon from 'grommet/components/icons/Status';
+import IndexPropTypes from '../utils/PropTypes';
+import IndexQuery from '../utils/Query';
 
-var CLASS_ROOT = "index-filters";
+const CLASS_ROOT = "index-filters";
 
-var BadgedFilterIcon = React.createClass({
-  propTypes: {
-    label: React.PropTypes.oneOfType([
-      React.PropTypes.number,
-      React.PropTypes.string
-    ])
-  },
+class BadgedFilterIcon extends Component {
 
-  render: function () {
+  render () {
     var badge;
     if (this.props.label) {
       badge = (
@@ -38,25 +32,31 @@ var BadgedFilterIcon = React.createClass({
       </span>
     );
   }
-});
+}
 
-var Filters = React.createClass({
+BadgedFilterIcon.propTypes = {
+  label: PropTypes.oneOfType([
+    PropTypes.number,
+    PropTypes.string
+  ])
+};
 
-  propTypes: {
-    attributes: IndexPropTypes.attributes.isRequired,
-    query: React.PropTypes.object,
-    onQuery: React.PropTypes.func
-  },
+export default class Filters extends Component {
 
-  getInitialState: function () {
-    return this._stateFromProps(this.props);
-  },
+  constructor (props) {
+    super(props);
 
-  componentWillReceiveProps: function(newProps) {
-    this.setState(this._stateFromProps(newProps));
-  },
+    this._onChange = this._onChange.bind(this);
+    this._onChangeAll = this._onChangeAll.bind(this);
 
-  _notify: function () {
+    this.state = this._stateFromProps(props);
+  }
+
+  componentWillReceiveProps (nextProps) {
+    this.setState(this._stateFromProps(nextProps));
+  }
+
+  _notify () {
     var query;
     if (this.props.query) {
       query = this.props.query.clone();
@@ -76,9 +76,9 @@ var Filters = React.createClass({
         query.replaceAttributeValues(attribute.name, activeValues);
       }, this);
     this.props.onQuery(query);
-  },
+  }
 
-  _onChange: function (attribute, value) {
+  _onChange (attribute, value) {
     var result = update(this.state, {
       [attribute]: {
         [value]: { $apply: function(x) {
@@ -88,18 +88,18 @@ var Filters = React.createClass({
       }
     });
     this.setState(result, this._notify);
-  },
+  }
 
-  _onChangeAll: function (attribute, values) {
+  _onChangeAll (attribute, values) {
     var changes = {[attribute]: {all: { $set: true }}};
     values.forEach(function (value) {
       changes[attribute][value] = { $set: false };
     });
     var result = update(this.state, changes);
     this.setState(result, this._notify);
-  },
+  }
 
-  _stateFromProps: function (props) {
+  _stateFromProps (props) {
     var query = props.query || IndexQuery.create('');
     var state = {};
     props.attributes
@@ -117,9 +117,9 @@ var Filters = React.createClass({
         state[attribute.name] = values;
       });
     return state;
-  },
+  }
 
-  render: function() {
+  render () {
     var activeFilterCount = 0;
 
     var filters = this.props.attributes
@@ -175,6 +175,10 @@ var Filters = React.createClass({
     );
   }
 
-});
+}
 
-module.exports = Filters;
+Filters.propTypes = {
+  attributes: IndexPropTypes.attributes.isRequired,
+  query: PropTypes.object,
+  onQuery: PropTypes.func
+};

@@ -1,26 +1,26 @@
 // (C) Copyright 2014-2015 Hewlett Packard Enterprise Development LP
 
-var React = require('react');
+import { PropTypes } from 'react';
 
-var attribute = React.PropTypes.shape({
-  name: React.PropTypes.string,
-  header: React.PropTypes.bool,
-  hidden: React.PropTypes.bool,
-  label: React.PropTypes.string,
-  size: React.PropTypes.string,
-  timestamp: React.PropTypes.bool,
-  render: React.PropTypes.func
+var attribute = PropTypes.shape({
+  name: PropTypes.string,
+  header: PropTypes.bool,
+  hidden: PropTypes.bool,
+  label: PropTypes.string,
+  size: PropTypes.string,
+  timestamp: PropTypes.bool,
+  render: PropTypes.func
 });
 
-module.exports = {
+export default {
   attribute: attribute,
-  attributes: React.PropTypes.arrayOf(attribute),
-  result: React.PropTypes.shape({
-    total: React.PropTypes.number,
-    unfilteredTotal: React.PropTypes.number,
-    start: React.PropTypes.number,
-    count: React.PropTypes.number,
-    items: React.PropTypes.arrayOf(React.PropTypes.object),
-    error: React.PropTypes.string
+  attributes: PropTypes.arrayOf(attribute),
+  result: PropTypes.shape({
+    total: PropTypes.number,
+    unfilteredTotal: PropTypes.number,
+    start: PropTypes.number,
+    count: PropTypes.number,
+    items: PropTypes.arrayOf(PropTypes.object),
+    error: PropTypes.string
   })
 };

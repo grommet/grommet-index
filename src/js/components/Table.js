@@ -1,46 +1,39 @@
 // (C) Copyright 2014-2015 Hewlett Packard Enterprise Development LP
 
-var React = require('react');
-var Table = require('grommet/components/Table');
-var StatusIcon = require('grommet/components/icons/Status');
-var Attribute = require('./Attribute');
-var IndexPropTypes = require('../utils/PropTypes');
+import React, { Component, PropTypes } from 'react';
+import Table from 'grommet/components/Table';
+import StatusIcon from 'grommet/components/icons/Status';
+import Attribute from './Attribute';
+import IndexPropTypes from '../utils/PropTypes';
 
-var CLASS_ROOT = 'index-table';
+const CLASS_ROOT = 'index-table';
 
-var IndexTable = React.createClass({
+export default class IndexTable extends Component {
 
-  propTypes: {
-    attributes: IndexPropTypes.attributes,
-    result: IndexPropTypes.result,
-    selection: React.PropTypes.oneOfType([
-      React.PropTypes.string, // uri
-      React.PropTypes.arrayOf(React.PropTypes.string)
-    ]),
-    onMore: React.PropTypes.func,
-    onSelect: React.PropTypes.func
-  },
+  constructor (props) {
+    super(props);
 
-  getInitialState: function () {
-    return {attributes: this._simplifyAttributes(this.props.attributes)};
-  },
+    this._onClickRow = this._onClickRow.bind(this);
 
-  componentWillReceiveProps: function (newProps) {
-    this.setState({attributes: this._simplifyAttributes(newProps.attributes)});
-  },
+    this.state = {attributes: this._simplifyAttributes(props.attributes)};
+  }
 
-  _onClickRow: function (uri) {
+  componentWillReceiveProps (nextProps) {
+    this.setState({attributes: this._simplifyAttributes(nextProps.attributes)});
+  }
+
+  _onClickRow (uri) {
     this.props.onSelect(uri);
-  },
+  }
 
-  _simplifyAttributes: function (attributes) {
+  _simplifyAttributes (attributes) {
     return attributes
       .filter(function (attribute) {
         return ! attribute.hidden;
       });
-  },
+  }
 
-  render: function () {
+  render () {
     var classes = [CLASS_ROOT];
     if (this.props.className) {
       classes.push(this.props.className);
@@ -110,6 +103,15 @@ var IndexTable = React.createClass({
     );
   }
 
-});
+}
 
-module.exports = IndexTable;
+IndexTable.propTypes = {
+  attributes: IndexPropTypes.attributes,
+  result: IndexPropTypes.result,
+  selection: PropTypes.oneOfType([
+    PropTypes.string, // uri
+    PropTypes.arrayOf(PropTypes.string)
+  ]),
+  onMore: PropTypes.func,
+  onSelect: PropTypes.func
+};
