@@ -2,27 +2,32 @@
 
 'use strict';
 
-var React = require('react');
-
-var attribute = React.PropTypes.shape({
-  name: React.PropTypes.string,
-  header: React.PropTypes.bool,
-  hidden: React.PropTypes.bool,
-  label: React.PropTypes.string,
-  size: React.PropTypes.string,
-  timestamp: React.PropTypes.bool,
-  render: React.PropTypes.func
+Object.defineProperty(exports, '__esModule', {
+  value: true
 });
 
-module.exports = {
+var _react = require('react');
+
+var attribute = _react.PropTypes.shape({
+  name: _react.PropTypes.string,
+  header: _react.PropTypes.bool,
+  hidden: _react.PropTypes.bool,
+  label: _react.PropTypes.string,
+  size: _react.PropTypes.string,
+  timestamp: _react.PropTypes.bool,
+  render: _react.PropTypes.func
+});
+
+exports['default'] = {
   attribute: attribute,
-  attributes: React.PropTypes.arrayOf(attribute),
-  result: React.PropTypes.shape({
-    total: React.PropTypes.number,
-    unfilteredTotal: React.PropTypes.number,
-    start: React.PropTypes.number,
-    count: React.PropTypes.number,
-    items: React.PropTypes.arrayOf(React.PropTypes.object),
-    error: React.PropTypes.string
+  attributes: _react.PropTypes.arrayOf(attribute),
+  result: _react.PropTypes.shape({
+    total: _react.PropTypes.number,
+    unfilteredTotal: _react.PropTypes.number,
+    start: _react.PropTypes.number,
+    count: _react.PropTypes.number,
+    items: _react.PropTypes.arrayOf(_react.PropTypes.object),
+    error: _react.PropTypes.string
   })
 };
+module.exports = exports['default'];
