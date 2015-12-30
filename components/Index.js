@@ -74,7 +74,7 @@ var Index = (function (_Component) {
         classes.push(this.props.className);
       }
 
-      var error;
+      var error = undefined;
       if (this.props.result && this.props.result.error) {
         error = _react2['default'].createElement(
           'div',
@@ -106,6 +106,7 @@ var Index = (function (_Component) {
             { ref: 'items', className: CLASS_ROOT + "__items" },
             _react2['default'].createElement(ViewComponent, {
               attributes: this.props.attributes,
+              itemComponent: this.props.itemComponent,
               result: this.props.result,
               selection: this.props.selection,
               size: this.props.size,
@@ -125,13 +126,13 @@ exports['default'] = Index;
 Index.propTypes = {
   addControl: _react.PropTypes.node,
   attributes: _utilsPropTypes2['default'].attributes,
+  itemComponent: _react.PropTypes.element,
   label: _react.PropTypes.string,
   onMore: _react.PropTypes.func,
   onQuery: _react.PropTypes.func,
   onSelect: _react.PropTypes.func,
   query: _react.PropTypes.object,
   navControl: _react.PropTypes.node,
-  renderItem: _react.PropTypes.func,
   result: _utilsPropTypes2['default'].result,
   selection: _react.PropTypes.oneOfType([_react.PropTypes.string, // uri
   _react.PropTypes.arrayOf(_react.PropTypes.string)]),

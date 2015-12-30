@@ -24,6 +24,10 @@ var _grommetComponentsList = require('grommet/components/List');
 
 var _grommetComponentsList2 = _interopRequireDefault(_grommetComponentsList);
 
+var _grommetComponentsListItem = require('grommet/components/ListItem');
+
+var _grommetComponentsListItem2 = _interopRequireDefault(_grommetComponentsListItem);
+
 var _Attribute = require('./Attribute');
 
 var _Attribute2 = _interopRequireDefault(_Attribute);
@@ -34,21 +38,92 @@ var _utilsPropTypes2 = _interopRequireDefault(_utilsPropTypes);
 
 var CLASS_ROOT = 'index-list';
 
-var IndexList = (function (_Component) {
-  _inherits(IndexList, _Component);
+var IndexListItem = (function (_Component) {
+  _inherits(IndexListItem, _Component);
+
+  function IndexListItem() {
+    _classCallCheck(this, IndexListItem);
+
+    _get(Object.getPrototypeOf(IndexListItem.prototype), 'constructor', this).apply(this, arguments);
+  }
+
+  _createClass(IndexListItem, [{
+    key: 'render',
+    value: function render() {
+      var _props = this.props;
+      var item = _props.item;
+      var selected = _props.selected;
+      var onClick = _props.onClick;
+      var attributes = _props.attributes;
+
+      var status = undefined;
+      var primary = undefined;
+      var secondary = undefined;
+
+      attributes.forEach(function (attribute) {
+        if ('status' === attribute.name) {
+          status = _react2['default'].createElement(_Attribute2['default'], { key: attribute.name, item: item, attribute: attribute });
+        } else if (!primary) {
+          primary = _react2['default'].createElement(_Attribute2['default'], { key: attribute.name, className: 'flex', item: item, attribute: attribute });;
+        } else if (!secondary) {
+          secondary = _react2['default'].createElement(_Attribute2['default'], { key: attribute.name, item: item, attribute: attribute });;
+        }
+      }, this);
+
+      return _react2['default'].createElement(
+        _grommetComponentsListItem2['default'],
+        { key: item.uri, className: CLASS_ROOT + '-item',
+          direction: 'row', responsive: false, pad: { between: 'medium' },
+          onClick: onClick, selected: selected },
+        status,
+        primary,
+        secondary
+      );
+    }
+  }]);
+
+  return IndexListItem;
+})(_react.Component);
+
+IndexListItem.propTypes = {
+  attributes: _utilsPropTypes2['default'].attributes,
+  item: _react.PropTypes.object.isRequired,
+  onClick: _react.PropTypes.func,
+  selected: _react.PropTypes.bool
+};
+
+var IndexList = (function (_Component2) {
+  _inherits(IndexList, _Component2);
 
   function IndexList() {
     _classCallCheck(this, IndexList);
 
     _get(Object.getPrototypeOf(IndexList.prototype), 'constructor', this).call(this);
-
-    this._onSelect = this._onSelect.bind(this);
+    this._onClickItem = this._onClickItem.bind(this);
   }
 
   _createClass(IndexList, [{
-    key: '_onSelect',
-    value: function _onSelect(item) {
-      this.props.onSelect(item.uri);
+    key: '_onClickItem',
+    value: function _onClickItem(uri) {
+      this.props.onSelect(uri);
+    }
+  }, {
+    key: '_renderListItem',
+    value: function _renderListItem(item) {
+      var onClick = this._onClickItem.bind(this, item.uri);
+      var selected = false;
+      if (this.props.selection && item.uri === this.props.selection) {
+        selected = true;
+      }
+      var listItem = undefined;
+      if (this.props.itemComponent) {
+        listItem = _react2['default'].createElement(this.props.itemComponent, { key: item.uri, item: item, onClick: onClick,
+          selected: selected });
+      } else {
+        listItem = _react2['default'].createElement(IndexListItem, { key: item.uri, item: item, onClick: onClick,
+          selected: selected, attributes: this.props.attributes });
+      }
+      return listItem;
     }
   }, {
     key: 'render',
@@ -58,49 +133,29 @@ var IndexList = (function (_Component) {
         classes.push(this.props.className);
       }
 
-      // build List scheme from attributes
-      var schema = [{ attribute: 'uri', uid: true }];
-      var havePrimary = false;
-      var haveSecondary = false;
-      this.props.attributes.forEach(function (attribute) {
-        if ('status' === attribute.name) {
-          schema.push({ attribute: 'status', image: true });
-        } else if (!havePrimary) {
-          schema.push({ attribute: attribute.name, primary: true,
-            '_timestamp': attribute.timestamp });
-          havePrimary = true;
-        } else if (!haveSecondary && attribute.secondary) {
-          schema.push({ attribute: attribute.name, secondary: true,
-            '_timestamp': attribute.timestamp });
-          haveSecondary = true;
-        }
-      });
-
-      var data = [];
+      var listItems = undefined;
+      var selectionIndex = undefined;
       if (this.props.result && this.props.result.items) {
-        data = this.props.result.items.map(function (item) {
-          var dataItem = { uri: item.uri };
-
-          schema.forEach(function (scheme) {
-            if (!scheme.uid) {
-              dataItem[scheme.attribute] = _react2['default'].createElement(_Attribute2['default'], { key: scheme.attribute,
-                item: item,
-                attribute: { name: scheme.attribute, timestamp: scheme._timestamp } });
-            }
-          }, this);
-
-          return dataItem;
+        listItems = this.props.result.items.map(function (item, index) {
+          if (this.props.selection && item.uri === this.props.selection) {
+            selectionIndex = index;
+          }
+          return this._renderListItem(item);
         }, this);
       }
 
-      var onMore = null;
+      var onMore = undefined;
       if (this.props.result && this.props.result.count < this.props.result.total) {
         onMore = this.props.onMore;
       }
 
-      return _react2['default'].createElement(_grommetComponentsList2['default'], { className: classes.join(' '),
-        schema: schema, data: data, selected: this.props.selection,
-        onMore: onMore, onSelect: this._onSelect });
+      return _react2['default'].createElement(
+        _grommetComponentsList2['default'],
+        { className: classes.join(' '),
+          selectable: true, selected: selectionIndex,
+          onMore: onMore },
+        listItems
+      );
     }
   }]);
 
@@ -111,6 +166,7 @@ exports['default'] = IndexList;
 
 IndexList.propTypes = {
   attributes: _utilsPropTypes2['default'].attributes,
+  itemComponent: _react.PropTypes.element,
   result: _utilsPropTypes2['default'].result,
   selection: _react.PropTypes.oneOfType([_react.PropTypes.string, // uri
   _react.PropTypes.arrayOf(_react.PropTypes.string)]),

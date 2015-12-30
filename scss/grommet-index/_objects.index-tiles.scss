@@ -4,7 +4,7 @@
   margin-top: 0px;
 
   .tile {
-    svg {
+    > svg {
       margin-right: $inuit-base-spacing-unit;
       flex: 0 0 auto;
     }

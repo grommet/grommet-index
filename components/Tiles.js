@@ -46,21 +46,125 @@ var _utilsPropTypes2 = _interopRequireDefault(_utilsPropTypes);
 
 var CLASS_ROOT = 'index-tiles';
 
-var IndexTiles = (function (_Component) {
-  _inherits(IndexTiles, _Component);
+var IndexTile = (function (_Component) {
+  _inherits(IndexTile, _Component);
+
+  function IndexTile() {
+    _classCallCheck(this, IndexTile);
+
+    _get(Object.getPrototypeOf(IndexTile.prototype), 'constructor', this).apply(this, arguments);
+  }
+
+  _createClass(IndexTile, [{
+    key: 'render',
+    value: function render() {
+      var _props = this.props;
+      var item = _props.item;
+      var selected = _props.selected;
+      var onClick = _props.onClick;
+      var attributes = _props.attributes;
+
+      var statusValue = undefined;
+      var headerValues = [];
+      var values = [];
+      var footerValues = [];
+
+      attributes.forEach(function (attribute) {
+        var value = _react2['default'].createElement(_Attribute2['default'], { key: attribute.name,
+          item: item, attribute: attribute });
+        if ('status' === attribute.name) {
+          statusValue = value;
+        } else if (attribute.header) {
+          headerValues.push(value);
+        } else if (attribute.footer) {
+          footerValues.push(value);
+        } else {
+          values.push(value);
+        }
+      }, this);
+
+      var header = undefined;
+      if (headerValues.length > 0) {
+        header = _react2['default'].createElement(
+          'h4',
+          null,
+          headerValues
+        );
+      }
+
+      var footer = undefined;
+      if (footerValues.length > 0) {
+        footer = _react2['default'].createElement(
+          _grommetComponentsFooter2['default'],
+          { small: true },
+          _react2['default'].createElement(
+            'span',
+            null,
+            footerValues
+          )
+        );
+      }
+
+      return _react2['default'].createElement(
+        _grommetComponentsTile2['default'],
+        { key: item.uri, align: 'start',
+          pad: { horizontal: "medium", vertical: "small" },
+          direction: 'row', responsive: false,
+          onClick: onClick, selected: selected },
+        statusValue,
+        _react2['default'].createElement(
+          _grommetComponentsBox2['default'],
+          { key: 'contents', direction: 'column' },
+          header,
+          values,
+          footer
+        )
+      );
+    }
+  }]);
+
+  return IndexTile;
+})(_react.Component);
+
+IndexTile.propTypes = {
+  attributes: _utilsPropTypes2['default'].attributes,
+  item: _react.PropTypes.object.isRequired,
+  onClick: _react.PropTypes.func,
+  selected: _react.PropTypes.bool
+};
+
+var IndexTiles = (function (_Component2) {
+  _inherits(IndexTiles, _Component2);
 
   function IndexTiles() {
     _classCallCheck(this, IndexTiles);
 
     _get(Object.getPrototypeOf(IndexTiles.prototype), 'constructor', this).call(this);
-
-    this._onClick = this._onClick.bind(this);
+    this._onClickTile = this._onClickTile.bind(this);
   }
 
   _createClass(IndexTiles, [{
-    key: '_onClick',
-    value: function _onClick(uri) {
+    key: '_onClickTile',
+    value: function _onClickTile(uri) {
       this.props.onSelect(uri);
+    }
+  }, {
+    key: '_renderTile',
+    value: function _renderTile(item) {
+      var onClick = this._onClickTile.bind(this, item.uri);
+      var selected = false;
+      if (this.props.selection && item.uri === this.props.selection) {
+        selected = true;
+      }
+      var tile = undefined;
+      if (this.props.itemComponent) {
+        tile = _react2['default'].createElement(this.props.itemComponent, { key: item.uri, item: item, onClick: onClick,
+          selected: selected });
+      } else {
+        tile = _react2['default'].createElement(IndexTile, { key: item.uri, item: item, onClick: onClick,
+          selected: selected, attributes: this.props.attributes });
+      }
+      return tile;
     }
   }, {
     key: 'render',
@@ -70,76 +174,14 @@ var IndexTiles = (function (_Component) {
         classes.push(this.props.className);
       }
 
-      var tiles = null;
+      var tiles = undefined;
       if (this.props.result && this.props.result.items) {
         tiles = this.props.result.items.map(function (item) {
-
-          var statusValue;
-          var headerValues = [];
-          var values = [];
-          var footerValues = [];
-
-          this.props.attributes.forEach(function (attribute) {
-            var value = _react2['default'].createElement(_Attribute2['default'], { key: attribute.name,
-              item: item, attribute: attribute });
-            if ('status' === attribute.name) {
-              statusValue = value;
-            } else if (attribute.header) {
-              headerValues.push(value);
-            } else if (attribute.footer) {
-              footerValues.push(value);
-            } else {
-              values.push(value);
-            }
-          }, this);
-
-          var header = null;
-          if (headerValues.length > 0) {
-            header = _react2['default'].createElement(
-              'h4',
-              null,
-              headerValues
-            );
-          }
-
-          var footer = null;
-          if (footerValues.length > 0) {
-            footer = _react2['default'].createElement(
-              _grommetComponentsFooter2['default'],
-              { small: true },
-              _react2['default'].createElement(
-                'span',
-                null,
-                footerValues
-              )
-            );
-          }
-
-          var selected = false;
-          if (this.props.selection && item.uri === this.props.selection) {
-            selected = true;
-          }
-
-          return _react2['default'].createElement(
-            _grommetComponentsTile2['default'],
-            { key: item.uri, align: 'start',
-              pad: { horizontal: "medium", vertical: "small" },
-              direction: 'row', responsive: false,
-              onClick: this._onClick.bind(this, item.uri),
-              selected: selected },
-            statusValue,
-            _react2['default'].createElement(
-              _grommetComponentsBox2['default'],
-              { direction: 'column' },
-              header,
-              values,
-              footer
-            )
-          );
+          return this._renderTile(item);
         }, this);
       }
 
-      var onMore = null;
+      var onMore = undefined;
       if (this.props.result && this.props.result.count < this.props.result.total) {
         onMore = this.props.onMore;
       }
@@ -160,6 +202,7 @@ exports['default'] = IndexTiles;
 
 IndexTiles.propTypes = {
   attributes: _utilsPropTypes2['default'].attributes,
+  itemComponent: _react.PropTypes.element,
   result: _utilsPropTypes2['default'].result,
   selection: _react.PropTypes.oneOfType([_react.PropTypes.string, // uri
   _react.PropTypes.arrayOf(_react.PropTypes.string)]),

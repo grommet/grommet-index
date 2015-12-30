@@ -24,6 +24,10 @@ var _grommetComponentsTable = require('grommet/components/Table');
 
 var _grommetComponentsTable2 = _interopRequireDefault(_grommetComponentsTable);
 
+var _grommetComponentsTableRow = require('grommet/components/TableRow');
+
+var _grommetComponentsTableRow2 = _interopRequireDefault(_grommetComponentsTableRow);
+
 var _grommetComponentsIconsStatus = require('grommet/components/icons/Status');
 
 var _grommetComponentsIconsStatus2 = _interopRequireDefault(_grommetComponentsIconsStatus);
@@ -38,8 +42,53 @@ var _utilsPropTypes2 = _interopRequireDefault(_utilsPropTypes);
 
 var CLASS_ROOT = 'index-table';
 
-var IndexTable = (function (_Component) {
-  _inherits(IndexTable, _Component);
+var IndexTableRow = (function (_Component) {
+  _inherits(IndexTableRow, _Component);
+
+  function IndexTableRow() {
+    _classCallCheck(this, IndexTableRow);
+
+    _get(Object.getPrototypeOf(IndexTableRow.prototype), 'constructor', this).apply(this, arguments);
+  }
+
+  _createClass(IndexTableRow, [{
+    key: 'render',
+    value: function render() {
+      var _props = this.props;
+      var item = _props.item;
+      var selected = _props.selected;
+      var onClick = _props.onClick;
+      var attributes = _props.attributes;
+
+      var cells = attributes.map(function (attribute, index) {
+        return _react2['default'].createElement(
+          'td',
+          { key: attribute.name },
+          _react2['default'].createElement(_Attribute2['default'], { item: item, attribute: attribute })
+        );
+      }, this);
+
+      return _react2['default'].createElement(
+        _grommetComponentsTableRow2['default'],
+        { key: item.uri,
+          onClick: onClick, selected: selected },
+        cells
+      );
+    }
+  }]);
+
+  return IndexTableRow;
+})(_react.Component);
+
+IndexTableRow.propTypes = {
+  attributes: _utilsPropTypes2['default'].attributes,
+  item: _react.PropTypes.object.isRequired,
+  onClick: _react.PropTypes.func,
+  selected: _react.PropTypes.bool
+};
+
+var IndexTable = (function (_Component2) {
+  _inherits(IndexTable, _Component2);
 
   function IndexTable(props) {
     _classCallCheck(this, IndexTable);
@@ -67,6 +116,24 @@ var IndexTable = (function (_Component) {
       return attributes.filter(function (attribute) {
         return !attribute.hidden;
       });
+    }
+  }, {
+    key: '_renderRow',
+    value: function _renderRow(item) {
+      var onClick = this._onClickRow.bind(this, item.uri);
+      var selected = false;
+      if (this.props.selection && item.uri === this.props.selection) {
+        selected = true;
+      }
+      var row = undefined;
+      if (this.props.itemComponent) {
+        row = _react2['default'].createElement(this.props.itemComponent, { key: item.uri, item: item, onClick: onClick,
+          selected: selected });
+      } else {
+        row = _react2['default'].createElement(IndexTableRow, { key: item.uri, item: item, onClick: onClick,
+          selected: selected, attributes: this.props.attributes });
+      }
+      return row;
     }
   }, {
     key: 'render',
@@ -100,25 +167,14 @@ var IndexTable = (function (_Component) {
         );
       }, this);
 
-      var rows = null;
-      var selectionIndex = null;
+      var rows = undefined;
+      var selectionIndex = undefined;
       if (this.props.result && this.props.result.items) {
         rows = this.props.result.items.map(function (item, index) {
           if (this.props.selection && item.uri === this.props.selection) {
             selectionIndex = index;
           }
-          var cells = attributes.map(function (attribute) {
-            return _react2['default'].createElement(
-              'td',
-              { key: attribute.name },
-              _react2['default'].createElement(_Attribute2['default'], { item: item, attribute: attribute })
-            );
-          }, this);
-          return _react2['default'].createElement(
-            'tr',
-            { key: item.uri, onClick: this._onClickRow.bind(this, item.uri) },
-            cells
-          );
+          return this._renderRow(item);
         }, this);
       }
 
