@@ -2,11 +2,41 @@
 
 import React, { Component, PropTypes } from 'react';
 import Table from 'grommet/components/Table';
+import TableRow from 'grommet/components/TableRow';
 import StatusIcon from 'grommet/components/icons/Status';
 import Attribute from './Attribute';
 import IndexPropTypes from '../utils/PropTypes';
 
 const CLASS_ROOT = 'index-table';
+
+class IndexTableRow extends Component {
+
+  render () {
+    let { item, selected, onClick, attributes } = this.props;
+
+    let cells = attributes.map(function (attribute, index) {
+      return (
+        <td key={attribute.name}>
+          <Attribute item={item} attribute={attribute} />
+        </td>
+      );
+    }, this);
+
+    return (
+      <TableRow key={item.uri}
+        onClick={onClick} selected={selected}>
+        {cells}
+      </TableRow>
+    );
+  }
+}
+
+IndexTableRow.propTypes = {
+  attributes: IndexPropTypes.attributes,
+  item: PropTypes.object.isRequired,
+  onClick: PropTypes.func,
+  selected: PropTypes.bool
+};
 
 export default class IndexTable extends Component {
 
@@ -31,6 +61,27 @@ export default class IndexTable extends Component {
       .filter(function (attribute) {
         return ! attribute.hidden;
       });
+  }
+
+  _renderRow (item) {
+    let onClick = this._onClickRow.bind(this, item.uri);
+    let selected = false;
+    if (this.props.selection && item.uri === this.props.selection) {
+      selected = true;
+    }
+    let row;
+    if (this.props.itemComponent) {
+      row = (
+        <this.props.itemComponent key={item.uri} item={item} onClick={onClick}
+          selected={selected} />
+      );
+    } else {
+      row = (
+        <IndexTableRow key={item.uri} item={item} onClick={onClick}
+          selected={selected} attributes={this.props.attributes} />
+      );
+    }
+    return row;
   }
 
   render () {
@@ -63,25 +114,14 @@ export default class IndexTable extends Component {
       );
     }, this);
 
-    var rows = null;
-    var selectionIndex = null;
+    let rows;
+    let selectionIndex;
     if (this.props.result && this.props.result.items) {
       rows = this.props.result.items.map(function (item, index) {
         if (this.props.selection && item.uri === this.props.selection) {
           selectionIndex = index;
         }
-        var cells = attributes.map(function (attribute) {
-          return (
-            <td key={attribute.name}>
-              <Attribute item={item} attribute={attribute} />
-            </td>
-          );
-        }, this);
-        return (
-          <tr key={item.uri} onClick={this._onClickRow.bind(this, item.uri)}>
-            {cells}
-          </tr>
-        );
+        return this._renderRow(item);
       }, this);
     }
 

@@ -35,7 +35,7 @@ export default class Index extends Component {
       classes.push(this.props.className);
     }
 
-    var error;
+    let error;
     if (this.props.result && this.props.result.error) {
       error = (
         <div className={CLASS_ROOT + "__error"}>
@@ -44,7 +44,7 @@ export default class Index extends Component {
       );
     }
 
-    var ViewComponent = VIEW_COMPONENT[this.props.view];
+    const ViewComponent = VIEW_COMPONENT[this.props.view];
 
     return (
       <div className={classes.join(' ')}>
@@ -62,6 +62,7 @@ export default class Index extends Component {
           <div ref="items" className={CLASS_ROOT + "__items"}>
             <ViewComponent
               attributes={this.props.attributes}
+              itemComponent={this.props.itemComponent}
               result={this.props.result}
               selection={this.props.selection}
               size={this.props.size}
@@ -78,13 +79,13 @@ export default class Index extends Component {
 Index.propTypes = {
   addControl: PropTypes.node,
   attributes: IndexPropTypes.attributes,
+  itemComponent: PropTypes.element,
   label: PropTypes.string,
   onMore: PropTypes.func,
   onQuery: PropTypes.func,
   onSelect: PropTypes.func,
   query: PropTypes.object,
   navControl: PropTypes.node,
-  renderItem: PropTypes.func,
   result: IndexPropTypes.result,
   selection: PropTypes.oneOfType([
     PropTypes.string, // uri

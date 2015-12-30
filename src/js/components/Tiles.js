@@ -10,86 +10,114 @@ import IndexPropTypes from '../utils/PropTypes';
 
 const CLASS_ROOT = 'index-tiles';
 
+class IndexTile extends Component {
+
+  render () {
+    let { item, selected, onClick, attributes } = this.props;
+    let statusValue;
+    let headerValues = [];
+    let values = [];
+    let footerValues = [];
+
+    attributes.forEach(function (attribute) {
+      var value = (
+        <Attribute key={attribute.name}
+          item={item} attribute={attribute} />
+      );
+      if ('status' === attribute.name) {
+        statusValue = value;
+      } else if (attribute.header) {
+        headerValues.push(value);
+      } else if (attribute.footer) {
+        footerValues.push(value);
+      } else {
+        values.push(value);
+      }
+    }, this);
+
+    let header;
+    if (headerValues.length > 0) {
+      header = <h4>{headerValues}</h4>;
+    }
+
+    let footer;
+    if (footerValues.length > 0) {
+      footer = (
+        <Footer small={true}>
+          <span>{footerValues}</span>
+        </Footer>
+      );
+    }
+
+    return (
+      <Tile key={item.uri} align="start"
+        pad={{horizontal: "medium", vertical: "small"}}
+        direction="row" responsive={false}
+        onClick={onClick} selected={selected}>
+        {statusValue}
+        <Box key="contents" direction="column">
+          {header}
+          {values}
+          {footer}
+        </Box>
+      </Tile>
+    );
+  }
+}
+
+IndexTile.propTypes = {
+  attributes: IndexPropTypes.attributes,
+  item: PropTypes.object.isRequired,
+  onClick: PropTypes.func,
+  selected: PropTypes.bool
+};
+
 export default class IndexTiles extends Component {
 
   constructor () {
     super();
-
-    this._onClick = this._onClick.bind(this);
+    this._onClickTile = this._onClickTile.bind(this);
   }
 
-  _onClick (uri) {
+  _onClickTile (uri) {
     this.props.onSelect(uri);
   }
 
+  _renderTile (item) {
+    let onClick = this._onClickTile.bind(this, item.uri);
+    let selected = false;
+    if (this.props.selection && item.uri === this.props.selection) {
+      selected = true;
+    }
+    let tile;
+    if (this.props.itemComponent) {
+      tile = (
+        <this.props.itemComponent key={item.uri} item={item} onClick={onClick}
+          selected={selected} />
+      );
+    } else {
+      tile = (
+        <IndexTile key={item.uri} item={item} onClick={onClick}
+          selected={selected} attributes={this.props.attributes} />
+      );
+    }
+    return tile;
+  }
+
   render () {
-    var classes = [CLASS_ROOT];
+    let classes = [CLASS_ROOT];
     if (this.props.className) {
       classes.push(this.props.className);
     }
 
-    var tiles = null;
+    let tiles;
     if (this.props.result && this.props.result.items) {
       tiles = this.props.result.items.map(function (item) {
-
-        var statusValue;
-        var headerValues = [];
-        var values = [];
-        var footerValues = [];
-
-        this.props.attributes.forEach(function (attribute) {
-          var value = (
-            <Attribute key={attribute.name}
-              item={item} attribute={attribute} />
-          );
-          if ('status' === attribute.name) {
-            statusValue = value;
-          } else if (attribute.header) {
-            headerValues.push(value);
-          } else if (attribute.footer) {
-            footerValues.push(value);
-          } else {
-            values.push(value);
-          }
-        }, this);
-
-        var header = null;
-        if (headerValues.length > 0) {
-          header = <h4>{headerValues}</h4>;
-        }
-
-        var footer = null;
-        if (footerValues.length > 0) {
-          footer = (
-            <Footer small={true}>
-              <span>{footerValues}</span>
-            </Footer>
-          );
-        }
-
-        var selected = false;
-        if (this.props.selection && item.uri === this.props.selection) {
-          selected = true;
-        }
-
-        return (
-          <Tile key={item.uri} align="start"
-            pad={{horizontal: "medium", vertical: "small"}}
-            direction="row" responsive={false}
-            onClick={this._onClick.bind(this, item.uri)}
-            selected={selected}>
-            {statusValue}
-            <Box direction="column">
-              {header}
-              {values}
-              {footer}
-            </Box>
-          </Tile>
-        );
+        return this._renderTile(item);
       }, this);
     }
 
-    var onMore = null;
+    let onMore;
     if (this.props.result &&
       this.props.result.count < this.props.result.total) {
       onMore = this.props.onMore;
@@ -107,6 +135,7 @@ export default class IndexTiles extends Component {
 
 IndexTiles.propTypes = {
   attributes: IndexPropTypes.attributes,
+  itemComponent: PropTypes.element,
   result: IndexPropTypes.result,
   selection: PropTypes.oneOfType([
     PropTypes.string, // uri

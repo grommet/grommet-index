@@ -2,21 +2,79 @@
 
 import React, { Component, PropTypes } from 'react';
 import List from 'grommet/components/List';
+import ListItem from 'grommet/components/ListItem';
 import Attribute from './Attribute';
 import IndexPropTypes from '../utils/PropTypes';
 
 const CLASS_ROOT = 'index-list';
 
+class IndexListItem extends Component {
+
+  render () {
+    let { item, selected, onClick, attributes } = this.props;
+    let status;
+    let primary;
+    let secondary;
+
+    attributes.forEach(function (attribute) {
+      if ('status' === attribute.name) {
+        status = <Attribute key={attribute.name} item={item} attribute={attribute} />;
+      } else if (! primary) {
+        primary = <Attribute key={attribute.name} className="flex" item={item} attribute={attribute} />;;
+      } else if (! secondary) {
+        secondary = <Attribute key={attribute.name} item={item} attribute={attribute} />;;
+      }
+    }, this);
+
+    return (
+      <ListItem key={item.uri} className={CLASS_ROOT + '-item'}
+        direction="row" responsive={false} pad={{between: 'medium'}}
+        onClick={onClick} selected={selected}>
+        {status}
+        {primary}
+        {secondary}
+      </ListItem>
+    );
+  }
+}
+
+IndexListItem.propTypes = {
+  attributes: IndexPropTypes.attributes,
+  item: PropTypes.object.isRequired,
+  onClick: PropTypes.func,
+  selected: PropTypes.bool
+};
+
 export default class IndexList extends Component {
 
   constructor () {
     super();
-
-    this._onSelect = this._onSelect.bind(this);
+    this._onClickItem = this._onClickItem.bind(this);
   }
 
-  _onSelect (item) {
-    this.props.onSelect(item.uri);
+  _onClickItem (uri) {
+    this.props.onSelect(uri);
+  }
+
+  _renderListItem (item) {
+    let onClick = this._onClickItem.bind(this, item.uri);
+    let selected = false;
+    if (this.props.selection && item.uri === this.props.selection) {
+      selected = true;
+    }
+    let listItem;
+    if (this.props.itemComponent) {
+      listItem = (
+        <this.props.itemComponent key={item.uri} item={item} onClick={onClick}
+          selected={selected} />
+      );
+    } else {
+      listItem = (
+        <IndexListItem key={item.uri} item={item} onClick={onClick}
+          selected={selected} attributes={this.props.attributes} />
+      );
+    }
+    return listItem;
   }
 
   render () {
@@ -25,44 +83,18 @@ export default class IndexList extends Component {
       classes.push(this.props.className);
     }
 
-    // build List scheme from attributes
-    var schema = [{attribute: 'uri', uid: true}];
-    var havePrimary = false;
-    var haveSecondary = false;
-    this.props.attributes.forEach(function (attribute) {
-      if ('status' === attribute.name) {
-        schema.push({attribute: 'status', image: true});
-      } else if (! havePrimary) {
-        schema.push({attribute: attribute.name, primary: true,
-          '_timestamp': attribute.timestamp});
-        havePrimary = true;
-      } else if (! haveSecondary && attribute.secondary) {
-        schema.push({attribute: attribute.name, secondary: true,
-          '_timestamp': attribute.timestamp});
-        haveSecondary = true;
-      }
-    });
-
-    var data = [];
+    let listItems;
+    let selectionIndex;
     if (this.props.result && this.props.result.items) {
-      data = this.props.result.items.map(function (item) {
-        var dataItem = {uri: item.uri};
-
-        schema.forEach(function (scheme) {
-          if (! scheme.uid) {
-            dataItem[scheme.attribute] = (
-              <Attribute key={scheme.attribute}
-                item={item}
-                attribute={{name: scheme.attribute, timestamp: scheme._timestamp}} />
-            );
-          }
-        }, this);
-
-        return dataItem;
+      listItems = this.props.result.items.map(function (item, index) {
+        if (this.props.selection && item.uri === this.props.selection) {
+          selectionIndex = index;
+        }
+        return this._renderListItem(item);
       }, this);
     }
 
-    var onMore = null;
+    let onMore;
     if (this.props.result &&
       this.props.result.count < this.props.result.total) {
       onMore = this.props.onMore;
@@ -70,15 +102,17 @@ export default class IndexList extends Component {
 
     return (
       <List className={classes.join(' ')}
-        schema={schema} data={data} selected={this.props.selection}
-        onMore={onMore} onSelect={this._onSelect} />
+        selectable={true} selected={selectionIndex}
+        onMore={onMore} >
+        {listItems}
+      </List>
     );
   }
-
 }
 
 IndexList.propTypes = {
   attributes: IndexPropTypes.attributes,
+  itemComponent: PropTypes.element,
   result: IndexPropTypes.result,
   selection: PropTypes.oneOfType([
     PropTypes.string, // uri
