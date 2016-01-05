@@ -57,7 +57,10 @@ export default class IndexList extends Component {
   }
 
   _renderListItem (item) {
-    let onClick = this._onClickItem.bind(this, item.uri);
+    let onClick;
+    if (this.props.onSelect) {
+      onClick = this._onClickItem.bind(this, item.uri);
+    }
     let selected = false;
     if (this.props.selection && item.uri === this.props.selection) {
       selected = true;
@@ -102,7 +105,8 @@ export default class IndexList extends Component {
 
     return (
       <List className={classes.join(' ')}
-        selectable={true} selected={selectionIndex}
+        selectable={(this.props.onSelect || false)}
+        selected={selectionIndex}
         onMore={onMore} >
         {listItems}
       </List>

@@ -84,7 +84,10 @@ export default class IndexTiles extends Component {
   }
 
   _renderTile (item) {
-    let onClick = this._onClickTile.bind(this, item.uri);
+    let onClick;
+    if (this.props.onSelect) {
+      onClick = this._onClickTile.bind(this, item.uri);
+    }
     let selected = false;
     if (this.props.selection && item.uri === this.props.selection) {
       selected = true;
@@ -125,6 +128,8 @@ export default class IndexTiles extends Component {
 
     return (
       <Tiles className={classes.join(' ')} onMore={onMore} flush={true}
+        selectable={(this.props.onSelect || false)}
+        selected={selectionIndex}
         size={this.props.size}>
         {tiles}
       </Tiles>

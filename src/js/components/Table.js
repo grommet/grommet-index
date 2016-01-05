@@ -64,7 +64,10 @@ export default class IndexTable extends Component {
   }
 
   _renderRow (item) {
-    let onClick = this._onClickRow.bind(this, item.uri);
+    let onClick;
+    if (this.props.onSelect) {
+      onClick = this._onClickRow.bind(this, item.uri);
+    }
     let selected = false;
     if (this.props.selection && item.uri === this.props.selection) {
       selected = true;
@@ -125,7 +128,7 @@ export default class IndexTable extends Component {
       }, this);
     }
 
-    var onMore = null;
+    let onMore;
     if (this.props.result &&
       this.props.result.count < this.props.result.total) {
       onMore = this.props.onMore;
@@ -133,8 +136,8 @@ export default class IndexTable extends Component {
 
     return (
       <Table className={classes.join(' ')}
-        selectable={true}
-        scrollable={true}
+        selectable={(this.props.onSelect || false)}
+        scrollable={this.props.scrollable}
         selection={selectionIndex}
         onMore={onMore}>
         <thead><tr>{headerCells}</tr></thead>
@@ -152,6 +155,11 @@ IndexTable.propTypes = {
     PropTypes.string, // uri
     PropTypes.arrayOf(PropTypes.string)
   ]),
+  scrollable: PropTypes.bool,
   onMore: PropTypes.func,
   onSelect: PropTypes.func
+};
+
+IndexTable.defaultProps = {
+  scrollable: true
 };
