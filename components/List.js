@@ -110,7 +110,10 @@ var IndexList = (function (_Component2) {
   }, {
     key: '_renderListItem',
     value: function _renderListItem(item) {
-      var onClick = this._onClickItem.bind(this, item.uri);
+      var onClick = undefined;
+      if (this.props.onSelect) {
+        onClick = this._onClickItem.bind(this, item.uri);
+      }
       var selected = false;
       if (this.props.selection && item.uri === this.props.selection) {
         selected = true;
@@ -152,7 +155,8 @@ var IndexList = (function (_Component2) {
       return _react2['default'].createElement(
         _grommetComponentsList2['default'],
         { className: classes.join(' '),
-          selectable: true, selected: selectionIndex,
+          selectable: this.props.onSelect || false,
+          selected: selectionIndex,
           onMore: onMore },
         listItems
       );

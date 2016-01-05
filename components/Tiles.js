@@ -151,7 +151,10 @@ var IndexTiles = (function (_Component2) {
   }, {
     key: '_renderTile',
     value: function _renderTile(item) {
-      var onClick = this._onClickTile.bind(this, item.uri);
+      var onClick = undefined;
+      if (this.props.onSelect) {
+        onClick = this._onClickTile.bind(this, item.uri);
+      }
       var selected = false;
       if (this.props.selection && item.uri === this.props.selection) {
         selected = true;
@@ -189,6 +192,8 @@ var IndexTiles = (function (_Component2) {
       return _react2['default'].createElement(
         _grommetComponentsTiles2['default'],
         { className: classes.join(' '), onMore: onMore, flush: true,
+          selectable: this.props.onSelect || false,
+          selected: selectionIndex,
           size: this.props.size },
         tiles
       );

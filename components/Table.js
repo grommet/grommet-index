@@ -120,7 +120,10 @@ var IndexTable = (function (_Component2) {
   }, {
     key: '_renderRow',
     value: function _renderRow(item) {
-      var onClick = this._onClickRow.bind(this, item.uri);
+      var onClick = undefined;
+      if (this.props.onSelect) {
+        onClick = this._onClickRow.bind(this, item.uri);
+      }
       var selected = false;
       if (this.props.selection && item.uri === this.props.selection) {
         selected = true;
@@ -178,7 +181,7 @@ var IndexTable = (function (_Component2) {
         }, this);
       }
 
-      var onMore = null;
+      var onMore = undefined;
       if (this.props.result && this.props.result.count < this.props.result.total) {
         onMore = this.props.onMore;
       }
@@ -186,8 +189,8 @@ var IndexTable = (function (_Component2) {
       return _react2['default'].createElement(
         _grommetComponentsTable2['default'],
         { className: classes.join(' '),
-          selectable: true,
-          scrollable: true,
+          selectable: this.props.onSelect || false,
+          scrollable: this.props.scrollable,
           selection: selectionIndex,
           onMore: onMore },
         _react2['default'].createElement(
@@ -218,7 +221,12 @@ IndexTable.propTypes = {
   result: _utilsPropTypes2['default'].result,
   selection: _react.PropTypes.oneOfType([_react.PropTypes.string, // uri
   _react.PropTypes.arrayOf(_react.PropTypes.string)]),
+  scrollable: _react.PropTypes.bool,
   onMore: _react.PropTypes.func,
   onSelect: _react.PropTypes.func
+};
+
+IndexTable.defaultProps = {
+  scrollable: true
 };
 module.exports = exports['default'];
