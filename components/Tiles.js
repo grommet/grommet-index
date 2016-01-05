@@ -178,8 +178,12 @@ var IndexTiles = (function (_Component2) {
       }
 
       var tiles = undefined;
+      var selectionIndex = undefined;
       if (this.props.result && this.props.result.items) {
         tiles = this.props.result.items.map(function (item) {
+          if (this.props.selection && item.uri === this.props.selection) {
+            selectionIndex = index;
+          }
           return this._renderTile(item);
         }, this);
       }
