@@ -114,8 +114,12 @@ export default class IndexTiles extends Component {
     }
 
     let tiles;
+    let selectionIndex;
     if (this.props.result && this.props.result.items) {
       tiles = this.props.result.items.map(function (item) {
+        if (this.props.selection && item.uri === this.props.selection) {
+          selectionIndex = index;
+        }
         return this._renderTile(item);
       }, this);
     }
