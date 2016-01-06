@@ -144,7 +144,7 @@ export default class IndexTiles extends Component {
 
 IndexTiles.propTypes = {
   attributes: IndexPropTypes.attributes,
-  itemComponent: PropTypes.element,
+  itemComponent: PropTypes.object,
   result: IndexPropTypes.result,
   selection: PropTypes.oneOfType([
     PropTypes.string, // uri

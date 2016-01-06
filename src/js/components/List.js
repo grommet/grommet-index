@@ -116,7 +116,7 @@ export default class IndexList extends Component {
 
 IndexList.propTypes = {
   attributes: IndexPropTypes.attributes,
-  itemComponent: PropTypes.element,
+  itemComponent: PropTypes.object,
   result: IndexPropTypes.result,
   selection: PropTypes.oneOfType([
     PropTypes.string, // uri

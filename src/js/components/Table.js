@@ -150,6 +150,7 @@ export default class IndexTable extends Component {
 
 IndexTable.propTypes = {
   attributes: IndexPropTypes.attributes,
+  itemComponent: PropTypes.object,
   result: IndexPropTypes.result,
   selection: PropTypes.oneOfType([
     PropTypes.string, // uri

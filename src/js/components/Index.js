@@ -79,7 +79,7 @@ export default class Index extends Component {
 Index.propTypes = {
   addControl: PropTypes.node,
   attributes: IndexPropTypes.attributes,
-  itemComponent: PropTypes.element,
+  itemComponent: PropTypes.object,
   label: PropTypes.string,
   onMore: PropTypes.func,
   onQuery: PropTypes.func,
