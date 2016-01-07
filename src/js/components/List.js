@@ -105,7 +105,7 @@ export default class IndexList extends Component {
 
     return (
       <List className={classes.join(' ')}
-        selectable={(this.props.onSelect || false)}
+        selectable={this.props.onSelect ? true : false}
         selected={selectionIndex}
         onMore={onMore} >
         {listItems}

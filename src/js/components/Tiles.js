@@ -132,7 +132,7 @@ export default class IndexTiles extends Component {
 
     return (
       <Tiles className={classes.join(' ')} onMore={onMore} flush={true}
-        selectable={(this.props.onSelect || false)}
+        selectable={this.props.onSelect ? true : false}
         selected={selectionIndex}
         size={this.props.size}>
         {tiles}
