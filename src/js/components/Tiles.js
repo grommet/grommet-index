@@ -131,7 +131,8 @@ export default class IndexTiles extends Component {
     }
 
     return (
-      <Tiles className={classes.join(' ')} onMore={onMore} flush={true}
+      <Tiles className={classes.join(' ')} onMore={onMore}
+        flush={this.props.flush} fill={this.props.fill}
         selectable={this.props.onSelect ? true : false}
         selected={selectionIndex}
         size={this.props.size}>
@@ -144,6 +145,8 @@ export default class IndexTiles extends Component {
 
 IndexTiles.propTypes = {
   attributes: IndexPropTypes.attributes,
+  fill: PropTypes.bool,
+  flush: PropTypes.bool,
   itemComponent: PropTypes.object,
   result: IndexPropTypes.result,
   selection: PropTypes.oneOfType([

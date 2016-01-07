@@ -62,6 +62,8 @@ export default class Index extends Component {
           <div ref="items" className={CLASS_ROOT + "__items"}>
             <ViewComponent
               attributes={this.props.attributes}
+              fill={this.props.fill}
+              flush={this.props.flush}
               itemComponent={this.props.itemComponent}
               result={this.props.result}
               selection={this.props.selection}
@@ -79,6 +81,8 @@ export default class Index extends Component {
 Index.propTypes = {
   addControl: PropTypes.node,
   attributes: IndexPropTypes.attributes,
+  fill: PropTypes.bool, // for Tiles
+  flush: PropTypes.bool, // for Tiles
   itemComponent: PropTypes.object,
   label: PropTypes.string,
   onMore: PropTypes.func,
