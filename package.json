@@ -27,7 +27,6 @@
     "lodash": "^3.8.0"
   },
   "devDependencies": {
-    "babel-plugin-transform-object-rest-spread": "^6.3.13",
     "del": "^2.0.2",
     "gulp": "^3.8.11",
     "gulp-git": "^1.6.0",
