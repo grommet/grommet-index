@@ -1,16 +1,14 @@
-// (C) Copyright 2014-2015 Hewlett Packard Enterprise Development LP
-
 'use strict';
 
-Object.defineProperty(exports, '__esModule', {
+Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+var _StringConvert = require('grommet/utils/StringConvert');
 
-var _grommetUtilsStringConvert = require('grommet/utils/StringConvert');
+var _StringConvert2 = _interopRequireDefault(_StringConvert);
 
-var _grommetUtilsStringConvert2 = _interopRequireDefault(_grommetUtilsStringConvert);
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 // Parse the query text into formal tokens.
 // Tokens enable syntax highlighting and filter formalization.
@@ -61,7 +59,7 @@ function tokenize(text) {
         // attribute:value
         endIndex = index + matches[0].length;
         parts = matches[0].split(':');
-        value = _grommetUtilsStringConvert2['default'].unquoteIfNecessary(parts[1]);
+        value = _StringConvert2.default.unquoteIfNecessary(parts[1]);
         token = { attribute: parts[0], value: value, text: text.slice(index, endIndex) };
         index = endIndex + 1;
       } else {
@@ -94,7 +92,7 @@ function tokenize(text) {
   }
 
   return result;
-}
+} // (C) Copyright 2014-2015 Hewlett Packard Enterprise Development LP
 
 function extractText(fullText) {
   // prune out attribute:value elements
@@ -116,7 +114,7 @@ function normalizeToken(token) {
     if (token.attribute) {
       token.text = token.attribute + ':';
       if (token.value) {
-        token.text += _grommetUtilsStringConvert2['default'].quoteIfNecessary(token.value + '');
+        token.text += _StringConvert2.default.quoteIfNecessary(token.value + '');
       }
     }
   }
@@ -212,7 +210,7 @@ Query.prototype = {
     var currentTokens = tokensForAttribute(this.tokens, attribute);
     var newTokens = values.map(function (value) {
       return { attribute: attribute, value: value,
-        text: attribute + ':' + _grommetUtilsStringConvert2['default'].quoteIfNecessary(value + '')
+        text: attribute + ':' + _StringConvert2.default.quoteIfNecessary(value + '')
       };
     });
     // remove
@@ -242,7 +240,7 @@ Query.prototype = {
   }
 };
 
-exports['default'] = {
+exports.default = {
   create: function create(text) {
     if (text && text.hasOwnProperty('fullText')) {
       text = text.fullText;

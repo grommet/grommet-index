@@ -1,36 +1,34 @@
-// (C) Copyright 2014-2015 Hewlett Packard Enterprise Development LP
-
 'use strict';
 
-Object.defineProperty(exports, '__esModule', {
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+Object.defineProperty(exports, "__esModule", {
   value: true
 });
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
-var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; desc = parent = undefined; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _grommetComponentsMeter = require('grommet/components/Meter');
+var _Meter = require('grommet/components/Meter');
 
-var _grommetComponentsMeter2 = _interopRequireDefault(_grommetComponentsMeter);
+var _Meter2 = _interopRequireDefault(_Meter);
 
-var _grommetComponentsDistribution = require('grommet/components/Distribution');
+var _Distribution = require('grommet/components/Distribution');
 
-var _grommetComponentsDistribution2 = _interopRequireDefault(_grommetComponentsDistribution);
+var _Distribution2 = _interopRequireDefault(_Distribution);
 
-var _utilsQuery = require('../utils/Query');
+var _Query = require('../utils/Query');
 
-var _utilsQuery2 = _interopRequireDefault(_utilsQuery);
+var _Query2 = _interopRequireDefault(_Query);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } // (C) Copyright 2014-2015 Hewlett Packard Enterprise Development LP
 
 var STATUS_IMPORTANCE = {
   'error': 1,
@@ -41,17 +39,18 @@ var STATUS_IMPORTANCE = {
   'unknown': 5
 };
 
-var Aggregate = (function (_Component) {
+var Aggregate = function (_Component) {
   _inherits(Aggregate, _Component);
 
   function Aggregate(props) {
     _classCallCheck(this, Aggregate);
 
-    _get(Object.getPrototypeOf(Aggregate.prototype), 'constructor', this).call(this, props);
+    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Aggregate).call(this, props));
 
-    this._onClick = this._onClick.bind(this);
+    _this._onClick = _this._onClick.bind(_this);
 
-    this.state = this._stateFromProps(props);
+    _this.state = _this._stateFromProps(props);
+    return _this;
   }
 
   _createClass(Aggregate, [{
@@ -66,7 +65,7 @@ var Aggregate = (function (_Component) {
       if (this.props.query) {
         query = this.props.query.clone();
       } else {
-        query = _utilsQuery2['default'].create();
+        query = _Query2.default.create();
       }
       query.replaceAttributeValues(this.props.attribute, [value]);
       this.props.onClick(query);
@@ -104,12 +103,12 @@ var Aggregate = (function (_Component) {
     value: function render() {
       var component;
       if ('distribution' === this.props.type) {
-        component = _react2['default'].createElement(_grommetComponentsDistribution2['default'], { series: this.state.series || [],
+        component = _react2.default.createElement(_Distribution2.default, { series: this.state.series || [],
           legend: true,
           legendTotal: true,
           size: this.props.size });
       } else {
-        component = _react2['default'].createElement(_grommetComponentsMeter2['default'], { series: this.state.series || [],
+        component = _react2.default.createElement(_Meter2.default, { series: this.state.series || [],
           legend: this.props.legend,
           size: this.props.size,
           type: this.props.type,
@@ -121,9 +120,9 @@ var Aggregate = (function (_Component) {
   }]);
 
   return Aggregate;
-})(_react.Component);
+}(_react.Component);
 
-exports['default'] = Aggregate;
+exports.default = Aggregate;
 
 Aggregate.propTypes = {
   attribute: _react.PropTypes.string.isRequired,

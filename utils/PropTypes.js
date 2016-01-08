@@ -1,8 +1,6 @@
-// (C) Copyright 2014-2015 Hewlett Packard Enterprise Development LP
-
 'use strict';
 
-Object.defineProperty(exports, '__esModule', {
+Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
@@ -16,9 +14,9 @@ var attribute = _react.PropTypes.shape({
   size: _react.PropTypes.string,
   timestamp: _react.PropTypes.bool,
   render: _react.PropTypes.func
-});
+}); // (C) Copyright 2014-2015 Hewlett Packard Enterprise Development LP
 
-exports['default'] = {
+exports.default = {
   attribute: attribute,
   attributes: _react.PropTypes.arrayOf(attribute),
   result: _react.PropTypes.shape({

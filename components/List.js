@@ -1,50 +1,48 @@
-// (C) Copyright 2014-2015 Hewlett Packard Enterprise Development LP
-
 'use strict';
 
-Object.defineProperty(exports, '__esModule', {
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+Object.defineProperty(exports, "__esModule", {
   value: true
 });
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
-var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; desc = parent = undefined; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _grommetComponentsList = require('grommet/components/List');
+var _List = require('grommet/components/List');
 
-var _grommetComponentsList2 = _interopRequireDefault(_grommetComponentsList);
+var _List2 = _interopRequireDefault(_List);
 
-var _grommetComponentsListItem = require('grommet/components/ListItem');
+var _ListItem = require('grommet/components/ListItem');
 
-var _grommetComponentsListItem2 = _interopRequireDefault(_grommetComponentsListItem);
+var _ListItem2 = _interopRequireDefault(_ListItem);
 
 var _Attribute = require('./Attribute');
 
 var _Attribute2 = _interopRequireDefault(_Attribute);
 
-var _utilsPropTypes = require('../utils/PropTypes');
+var _PropTypes = require('../utils/PropTypes');
 
-var _utilsPropTypes2 = _interopRequireDefault(_utilsPropTypes);
+var _PropTypes2 = _interopRequireDefault(_PropTypes);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } // (C) Copyright 2014-2015 Hewlett Packard Enterprise Development LP
 
 var CLASS_ROOT = 'index-list';
 
-var IndexListItem = (function (_Component) {
+var IndexListItem = function (_Component) {
   _inherits(IndexListItem, _Component);
 
   function IndexListItem() {
     _classCallCheck(this, IndexListItem);
 
-    _get(Object.getPrototypeOf(IndexListItem.prototype), 'constructor', this).apply(this, arguments);
+    return _possibleConstructorReturn(this, Object.getPrototypeOf(IndexListItem).apply(this, arguments));
   }
 
   _createClass(IndexListItem, [{
@@ -62,16 +60,16 @@ var IndexListItem = (function (_Component) {
 
       attributes.forEach(function (attribute) {
         if ('status' === attribute.name) {
-          status = _react2['default'].createElement(_Attribute2['default'], { key: attribute.name, item: item, attribute: attribute });
+          status = _react2.default.createElement(_Attribute2.default, { key: attribute.name, item: item, attribute: attribute });
         } else if (!primary) {
-          primary = _react2['default'].createElement(_Attribute2['default'], { key: attribute.name, className: 'flex', item: item, attribute: attribute });;
+          primary = _react2.default.createElement(_Attribute2.default, { key: attribute.name, className: 'flex', item: item, attribute: attribute });;
         } else if (!secondary) {
-          secondary = _react2['default'].createElement(_Attribute2['default'], { key: attribute.name, item: item, attribute: attribute });;
+          secondary = _react2.default.createElement(_Attribute2.default, { key: attribute.name, item: item, attribute: attribute });;
         }
       }, this);
 
-      return _react2['default'].createElement(
-        _grommetComponentsListItem2['default'],
+      return _react2.default.createElement(
+        _ListItem2.default,
         { key: item.uri, className: CLASS_ROOT + '-item',
           direction: 'row', responsive: false, pad: { between: 'medium' },
           onClick: onClick, selected: selected },
@@ -83,23 +81,25 @@ var IndexListItem = (function (_Component) {
   }]);
 
   return IndexListItem;
-})(_react.Component);
+}(_react.Component);
 
 IndexListItem.propTypes = {
-  attributes: _utilsPropTypes2['default'].attributes,
+  attributes: _PropTypes2.default.attributes,
   item: _react.PropTypes.object.isRequired,
   onClick: _react.PropTypes.func,
   selected: _react.PropTypes.bool
 };
 
-var IndexList = (function (_Component2) {
+var IndexList = function (_Component2) {
   _inherits(IndexList, _Component2);
 
   function IndexList() {
     _classCallCheck(this, IndexList);
 
-    _get(Object.getPrototypeOf(IndexList.prototype), 'constructor', this).call(this);
-    this._onClickItem = this._onClickItem.bind(this);
+    var _this2 = _possibleConstructorReturn(this, Object.getPrototypeOf(IndexList).call(this));
+
+    _this2._onClickItem = _this2._onClickItem.bind(_this2);
+    return _this2;
   }
 
   _createClass(IndexList, [{
@@ -120,10 +120,10 @@ var IndexList = (function (_Component2) {
       }
       var listItem = undefined;
       if (this.props.itemComponent) {
-        listItem = _react2['default'].createElement(this.props.itemComponent, { key: item.uri, item: item, onClick: onClick,
+        listItem = _react2.default.createElement(this.props.itemComponent, { key: item.uri, item: item, onClick: onClick,
           selected: selected });
       } else {
-        listItem = _react2['default'].createElement(IndexListItem, { key: item.uri, item: item, onClick: onClick,
+        listItem = _react2.default.createElement(IndexListItem, { key: item.uri, item: item, onClick: onClick,
           selected: selected, attributes: this.props.attributes });
       }
       return listItem;
@@ -152,10 +152,10 @@ var IndexList = (function (_Component2) {
         onMore = this.props.onMore;
       }
 
-      return _react2['default'].createElement(
-        _grommetComponentsList2['default'],
+      return _react2.default.createElement(
+        _List2.default,
         { className: classes.join(' '),
-          selectable: this.props.onSelect || false,
+          selectable: this.props.onSelect ? true : false,
           selected: selectionIndex,
           onMore: onMore },
         listItems
@@ -164,14 +164,14 @@ var IndexList = (function (_Component2) {
   }]);
 
   return IndexList;
-})(_react.Component);
+}(_react.Component);
 
-exports['default'] = IndexList;
+exports.default = IndexList;
 
 IndexList.propTypes = {
-  attributes: _utilsPropTypes2['default'].attributes,
-  itemComponent: _react.PropTypes.element,
-  result: _utilsPropTypes2['default'].result,
+  attributes: _PropTypes2.default.attributes,
+  itemComponent: _react.PropTypes.object,
+  result: _PropTypes2.default.result,
   selection: _react.PropTypes.oneOfType([_react.PropTypes.string, // uri
   _react.PropTypes.arrayOf(_react.PropTypes.string)]),
   onSelect: _react.PropTypes.func

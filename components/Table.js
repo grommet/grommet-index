@@ -1,54 +1,52 @@
-// (C) Copyright 2014-2015 Hewlett Packard Enterprise Development LP
-
 'use strict';
 
-Object.defineProperty(exports, '__esModule', {
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+Object.defineProperty(exports, "__esModule", {
   value: true
 });
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
-var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; desc = parent = undefined; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _grommetComponentsTable = require('grommet/components/Table');
+var _Table = require('grommet/components/Table');
 
-var _grommetComponentsTable2 = _interopRequireDefault(_grommetComponentsTable);
+var _Table2 = _interopRequireDefault(_Table);
 
-var _grommetComponentsTableRow = require('grommet/components/TableRow');
+var _TableRow = require('grommet/components/TableRow');
 
-var _grommetComponentsTableRow2 = _interopRequireDefault(_grommetComponentsTableRow);
+var _TableRow2 = _interopRequireDefault(_TableRow);
 
-var _grommetComponentsIconsStatus = require('grommet/components/icons/Status');
+var _Status = require('grommet/components/icons/Status');
 
-var _grommetComponentsIconsStatus2 = _interopRequireDefault(_grommetComponentsIconsStatus);
+var _Status2 = _interopRequireDefault(_Status);
 
 var _Attribute = require('./Attribute');
 
 var _Attribute2 = _interopRequireDefault(_Attribute);
 
-var _utilsPropTypes = require('../utils/PropTypes');
+var _PropTypes = require('../utils/PropTypes');
 
-var _utilsPropTypes2 = _interopRequireDefault(_utilsPropTypes);
+var _PropTypes2 = _interopRequireDefault(_PropTypes);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } // (C) Copyright 2014-2015 Hewlett Packard Enterprise Development LP
 
 var CLASS_ROOT = 'index-table';
 
-var IndexTableRow = (function (_Component) {
+var IndexTableRow = function (_Component) {
   _inherits(IndexTableRow, _Component);
 
   function IndexTableRow() {
     _classCallCheck(this, IndexTableRow);
 
-    _get(Object.getPrototypeOf(IndexTableRow.prototype), 'constructor', this).apply(this, arguments);
+    return _possibleConstructorReturn(this, Object.getPrototypeOf(IndexTableRow).apply(this, arguments));
   }
 
   _createClass(IndexTableRow, [{
@@ -61,15 +59,15 @@ var IndexTableRow = (function (_Component) {
       var attributes = _props.attributes;
 
       var cells = attributes.map(function (attribute, index) {
-        return _react2['default'].createElement(
+        return _react2.default.createElement(
           'td',
           { key: attribute.name },
-          _react2['default'].createElement(_Attribute2['default'], { item: item, attribute: attribute })
+          _react2.default.createElement(_Attribute2.default, { item: item, attribute: attribute })
         );
       }, this);
 
-      return _react2['default'].createElement(
-        _grommetComponentsTableRow2['default'],
+      return _react2.default.createElement(
+        _TableRow2.default,
         { key: item.uri,
           onClick: onClick, selected: selected },
         cells
@@ -78,26 +76,27 @@ var IndexTableRow = (function (_Component) {
   }]);
 
   return IndexTableRow;
-})(_react.Component);
+}(_react.Component);
 
 IndexTableRow.propTypes = {
-  attributes: _utilsPropTypes2['default'].attributes,
+  attributes: _PropTypes2.default.attributes,
   item: _react.PropTypes.object.isRequired,
   onClick: _react.PropTypes.func,
   selected: _react.PropTypes.bool
 };
 
-var IndexTable = (function (_Component2) {
+var IndexTable = function (_Component2) {
   _inherits(IndexTable, _Component2);
 
   function IndexTable(props) {
     _classCallCheck(this, IndexTable);
 
-    _get(Object.getPrototypeOf(IndexTable.prototype), 'constructor', this).call(this, props);
+    var _this2 = _possibleConstructorReturn(this, Object.getPrototypeOf(IndexTable).call(this, props));
 
-    this._onClickRow = this._onClickRow.bind(this);
+    _this2._onClickRow = _this2._onClickRow.bind(_this2);
 
-    this.state = { attributes: this._simplifyAttributes(props.attributes) };
+    _this2.state = { attributes: _this2._simplifyAttributes(props.attributes) };
+    return _this2;
   }
 
   _createClass(IndexTable, [{
@@ -130,10 +129,10 @@ var IndexTable = (function (_Component2) {
       }
       var row = undefined;
       if (this.props.itemComponent) {
-        row = _react2['default'].createElement(this.props.itemComponent, { key: item.uri, item: item, onClick: onClick,
+        row = _react2.default.createElement(this.props.itemComponent, { key: item.uri, item: item, onClick: onClick,
           selected: selected });
       } else {
-        row = _react2['default'].createElement(IndexTableRow, { key: item.uri, item: item, onClick: onClick,
+        row = _react2.default.createElement(IndexTableRow, { key: item.uri, item: item, onClick: onClick,
           selected: selected, attributes: this.props.attributes });
       }
       return row;
@@ -160,10 +159,10 @@ var IndexTable = (function (_Component2) {
         var content = attribute.label;
         if ('status' === attribute.name) {
           classes.push(CLASS_ROOT + "__cell--icon");
-          content = _react2['default'].createElement(_grommetComponentsIconsStatus2['default'], { className: CLASS_ROOT + "__header-icon", value: 'label', small: true });
+          content = _react2.default.createElement(_Status2.default, { className: CLASS_ROOT + "__header-icon", value: 'label', small: true });
         }
 
-        return _react2['default'].createElement(
+        return _react2.default.createElement(
           'th',
           { key: attribute.name, className: classes.join(' ') },
           content
@@ -186,23 +185,23 @@ var IndexTable = (function (_Component2) {
         onMore = this.props.onMore;
       }
 
-      return _react2['default'].createElement(
-        _grommetComponentsTable2['default'],
+      return _react2.default.createElement(
+        _Table2.default,
         { className: classes.join(' '),
-          selectable: this.props.onSelect || false,
+          selectable: this.props.onSelect ? true : false,
           scrollable: this.props.scrollable,
           selection: selectionIndex,
           onMore: onMore },
-        _react2['default'].createElement(
+        _react2.default.createElement(
           'thead',
           null,
-          _react2['default'].createElement(
+          _react2.default.createElement(
             'tr',
             null,
             headerCells
           )
         ),
-        _react2['default'].createElement(
+        _react2.default.createElement(
           'tbody',
           null,
           rows
@@ -212,13 +211,14 @@ var IndexTable = (function (_Component2) {
   }]);
 
   return IndexTable;
-})(_react.Component);
+}(_react.Component);
 
-exports['default'] = IndexTable;
+exports.default = IndexTable;
 
 IndexTable.propTypes = {
-  attributes: _utilsPropTypes2['default'].attributes,
-  result: _utilsPropTypes2['default'].result,
+  attributes: _PropTypes2.default.attributes,
+  itemComponent: _react.PropTypes.object,
+  result: _PropTypes2.default.result,
   selection: _react.PropTypes.oneOfType([_react.PropTypes.string, // uri
   _react.PropTypes.arrayOf(_react.PropTypes.string)]),
   scrollable: _react.PropTypes.bool,

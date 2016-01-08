@@ -1,58 +1,56 @@
-// (C) Copyright 2014-2015 Hewlett Packard Enterprise Development LP
-
 'use strict';
 
-Object.defineProperty(exports, '__esModule', {
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+Object.defineProperty(exports, "__esModule", {
   value: true
 });
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
-var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; desc = parent = undefined; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _grommetComponentsTiles = require('grommet/components/Tiles');
+var _Tiles = require('grommet/components/Tiles');
 
-var _grommetComponentsTiles2 = _interopRequireDefault(_grommetComponentsTiles);
+var _Tiles2 = _interopRequireDefault(_Tiles);
 
-var _grommetComponentsTile = require('grommet/components/Tile');
+var _Tile = require('grommet/components/Tile');
 
-var _grommetComponentsTile2 = _interopRequireDefault(_grommetComponentsTile);
+var _Tile2 = _interopRequireDefault(_Tile);
 
-var _grommetComponentsFooter = require('grommet/components/Footer');
+var _Footer = require('grommet/components/Footer');
 
-var _grommetComponentsFooter2 = _interopRequireDefault(_grommetComponentsFooter);
+var _Footer2 = _interopRequireDefault(_Footer);
 
-var _grommetComponentsBox = require('grommet/components/Box');
+var _Box = require('grommet/components/Box');
 
-var _grommetComponentsBox2 = _interopRequireDefault(_grommetComponentsBox);
+var _Box2 = _interopRequireDefault(_Box);
 
 var _Attribute = require('./Attribute');
 
 var _Attribute2 = _interopRequireDefault(_Attribute);
 
-var _utilsPropTypes = require('../utils/PropTypes');
+var _PropTypes = require('../utils/PropTypes');
 
-var _utilsPropTypes2 = _interopRequireDefault(_utilsPropTypes);
+var _PropTypes2 = _interopRequireDefault(_PropTypes);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } // (C) Copyright 2014-2015 Hewlett Packard Enterprise Development LP
 
 var CLASS_ROOT = 'index-tiles';
 
-var IndexTile = (function (_Component) {
+var IndexTile = function (_Component) {
   _inherits(IndexTile, _Component);
 
   function IndexTile() {
     _classCallCheck(this, IndexTile);
 
-    _get(Object.getPrototypeOf(IndexTile.prototype), 'constructor', this).apply(this, arguments);
+    return _possibleConstructorReturn(this, Object.getPrototypeOf(IndexTile).apply(this, arguments));
   }
 
   _createClass(IndexTile, [{
@@ -70,7 +68,7 @@ var IndexTile = (function (_Component) {
       var footerValues = [];
 
       attributes.forEach(function (attribute) {
-        var value = _react2['default'].createElement(_Attribute2['default'], { key: attribute.name,
+        var value = _react2.default.createElement(_Attribute2.default, { key: attribute.name,
           item: item, attribute: attribute });
         if ('status' === attribute.name) {
           statusValue = value;
@@ -85,7 +83,7 @@ var IndexTile = (function (_Component) {
 
       var header = undefined;
       if (headerValues.length > 0) {
-        header = _react2['default'].createElement(
+        header = _react2.default.createElement(
           'h4',
           null,
           headerValues
@@ -94,10 +92,10 @@ var IndexTile = (function (_Component) {
 
       var footer = undefined;
       if (footerValues.length > 0) {
-        footer = _react2['default'].createElement(
-          _grommetComponentsFooter2['default'],
+        footer = _react2.default.createElement(
+          _Footer2.default,
           { small: true },
-          _react2['default'].createElement(
+          _react2.default.createElement(
             'span',
             null,
             footerValues
@@ -105,15 +103,15 @@ var IndexTile = (function (_Component) {
         );
       }
 
-      return _react2['default'].createElement(
-        _grommetComponentsTile2['default'],
+      return _react2.default.createElement(
+        _Tile2.default,
         { key: item.uri, align: 'start',
           pad: { horizontal: "medium", vertical: "small" },
           direction: 'row', responsive: false,
           onClick: onClick, selected: selected },
         statusValue,
-        _react2['default'].createElement(
-          _grommetComponentsBox2['default'],
+        _react2.default.createElement(
+          _Box2.default,
           { key: 'contents', direction: 'column' },
           header,
           values,
@@ -124,23 +122,25 @@ var IndexTile = (function (_Component) {
   }]);
 
   return IndexTile;
-})(_react.Component);
+}(_react.Component);
 
 IndexTile.propTypes = {
-  attributes: _utilsPropTypes2['default'].attributes,
+  attributes: _PropTypes2.default.attributes,
   item: _react.PropTypes.object.isRequired,
   onClick: _react.PropTypes.func,
   selected: _react.PropTypes.bool
 };
 
-var IndexTiles = (function (_Component2) {
+var IndexTiles = function (_Component2) {
   _inherits(IndexTiles, _Component2);
 
   function IndexTiles() {
     _classCallCheck(this, IndexTiles);
 
-    _get(Object.getPrototypeOf(IndexTiles.prototype), 'constructor', this).call(this);
-    this._onClickTile = this._onClickTile.bind(this);
+    var _this2 = _possibleConstructorReturn(this, Object.getPrototypeOf(IndexTiles).call(this));
+
+    _this2._onClickTile = _this2._onClickTile.bind(_this2);
+    return _this2;
   }
 
   _createClass(IndexTiles, [{
@@ -161,10 +161,10 @@ var IndexTiles = (function (_Component2) {
       }
       var tile = undefined;
       if (this.props.itemComponent) {
-        tile = _react2['default'].createElement(this.props.itemComponent, { key: item.uri, item: item, onClick: onClick,
+        tile = _react2.default.createElement(this.props.itemComponent, { key: item.uri, item: item, onClick: onClick,
           selected: selected });
       } else {
-        tile = _react2['default'].createElement(IndexTile, { key: item.uri, item: item, onClick: onClick,
+        tile = _react2.default.createElement(IndexTile, { key: item.uri, item: item, onClick: onClick,
           selected: selected, attributes: this.props.attributes });
       }
       return tile;
@@ -180,7 +180,7 @@ var IndexTiles = (function (_Component2) {
       var tiles = undefined;
       var selectionIndex = undefined;
       if (this.props.result && this.props.result.items) {
-        tiles = this.props.result.items.map(function (item) {
+        tiles = this.props.result.items.map(function (item, index) {
           if (this.props.selection && item.uri === this.props.selection) {
             selectionIndex = index;
           }
@@ -193,10 +193,11 @@ var IndexTiles = (function (_Component2) {
         onMore = this.props.onMore;
       }
 
-      return _react2['default'].createElement(
-        _grommetComponentsTiles2['default'],
-        { className: classes.join(' '), onMore: onMore, flush: true,
-          selectable: this.props.onSelect || false,
+      return _react2.default.createElement(
+        _Tiles2.default,
+        { className: classes.join(' '), onMore: onMore,
+          flush: this.props.flush, fill: this.props.fill,
+          selectable: this.props.onSelect ? true : false,
           selected: selectionIndex,
           size: this.props.size },
         tiles
@@ -205,14 +206,16 @@ var IndexTiles = (function (_Component2) {
   }]);
 
   return IndexTiles;
-})(_react.Component);
+}(_react.Component);
 
-exports['default'] = IndexTiles;
+exports.default = IndexTiles;
 
 IndexTiles.propTypes = {
-  attributes: _utilsPropTypes2['default'].attributes,
-  itemComponent: _react.PropTypes.element,
-  result: _utilsPropTypes2['default'].result,
+  attributes: _PropTypes2.default.attributes,
+  fill: _react.PropTypes.bool,
+  flush: _react.PropTypes.bool,
+  itemComponent: _react.PropTypes.object,
+  result: _PropTypes2.default.result,
   selection: _react.PropTypes.oneOfType([_react.PropTypes.string, // uri
   _react.PropTypes.arrayOf(_react.PropTypes.string)]),
   size: _react.PropTypes.oneOf(['small', 'medium', 'large']),

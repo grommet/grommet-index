@@ -1,28 +1,18 @@
-// (C) Copyright 2014-2015 Hewlett Packard Enterprise Development LP
-
 'use strict';
 
-Object.defineProperty(exports, '__esModule', {
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+Object.defineProperty(exports, "__esModule", {
   value: true
 });
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
-var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; desc = parent = undefined; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _utilsPropTypes = require('../utils/PropTypes');
+var _PropTypes = require('../utils/PropTypes');
 
-var _utilsPropTypes2 = _interopRequireDefault(_utilsPropTypes);
+var _PropTypes2 = _interopRequireDefault(_PropTypes);
 
 var _Table = require('./Table');
 
@@ -40,23 +30,32 @@ var _Header = require('./Header');
 
 var _Header2 = _interopRequireDefault(_Header);
 
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } // (C) Copyright 2014-2015 Hewlett Packard Enterprise Development LP
+
 var CLASS_ROOT = 'index';
 
 var VIEW_COMPONENT = {
-  list: _List2['default'],
-  tiles: _Tiles2['default'],
-  table: _Table2['default']
+  list: _List2.default,
+  tiles: _Tiles2.default,
+  table: _Table2.default
 };
 
-var Index = (function (_Component) {
+var Index = function (_Component) {
   _inherits(Index, _Component);
 
   function Index() {
     _classCallCheck(this, Index);
 
-    _get(Object.getPrototypeOf(Index.prototype), 'constructor', this).call(this);
+    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Index).call(this));
 
-    this._onQuery = this._onQuery.bind(this);
+    _this._onQuery = _this._onQuery.bind(_this);
+    return _this;
   }
 
   _createClass(Index, [{
@@ -76,7 +75,7 @@ var Index = (function (_Component) {
 
       var error = undefined;
       if (this.props.result && this.props.result.error) {
-        error = _react2['default'].createElement(
+        error = _react2.default.createElement(
           'div',
           { className: CLASS_ROOT + "__error" },
           this.props.result.error
@@ -85,13 +84,13 @@ var Index = (function (_Component) {
 
       var ViewComponent = VIEW_COMPONENT[this.props.view];
 
-      return _react2['default'].createElement(
+      return _react2.default.createElement(
         'div',
         { className: classes.join(' ') },
-        _react2['default'].createElement(
+        _react2.default.createElement(
           'div',
           { className: CLASS_ROOT + "__container" },
-          _react2['default'].createElement(_Header2['default'], { className: CLASS_ROOT + "__header",
+          _react2.default.createElement(_Header2.default, { className: CLASS_ROOT + "__header",
             label: this.props.label,
             attributes: this.props.attributes,
             query: this.props.query,
@@ -101,11 +100,13 @@ var Index = (function (_Component) {
             addControl: this.props.addControl,
             navControl: this.props.navControl }),
           error,
-          _react2['default'].createElement(
+          _react2.default.createElement(
             'div',
             { ref: 'items', className: CLASS_ROOT + "__items" },
-            _react2['default'].createElement(ViewComponent, {
+            _react2.default.createElement(ViewComponent, {
               attributes: this.props.attributes,
+              fill: this.props.fill,
+              flush: this.props.flush,
               itemComponent: this.props.itemComponent,
               result: this.props.result,
               selection: this.props.selection,
@@ -119,21 +120,23 @@ var Index = (function (_Component) {
   }]);
 
   return Index;
-})(_react.Component);
+}(_react.Component);
 
-exports['default'] = Index;
+exports.default = Index;
 
 Index.propTypes = {
   addControl: _react.PropTypes.node,
-  attributes: _utilsPropTypes2['default'].attributes,
-  itemComponent: _react.PropTypes.element,
+  attributes: _PropTypes2.default.attributes,
+  fill: _react.PropTypes.bool, // for Tiles
+  flush: _react.PropTypes.bool, // for Tiles
+  itemComponent: _react.PropTypes.object,
   label: _react.PropTypes.string,
   onMore: _react.PropTypes.func,
   onQuery: _react.PropTypes.func,
   onSelect: _react.PropTypes.func,
   query: _react.PropTypes.object,
   navControl: _react.PropTypes.node,
-  result: _utilsPropTypes2['default'].result,
+  result: _PropTypes2.default.result,
   selection: _react.PropTypes.oneOfType([_react.PropTypes.string, // uri
   _react.PropTypes.arrayOf(_react.PropTypes.string)]),
   size: _react.PropTypes.oneOf(['small', 'medium', 'large']),
