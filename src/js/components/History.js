@@ -50,13 +50,17 @@ export default class IndexHistory extends Component {
         smooth={this.props.smooth}
         points={this.props.points}
         type={this.props.type}
-        threshold={this.props.threshold} />
+        threshold={this.props.threshold}
+        a11yTitleId={this.props.a11yTitleId}
+        a11yDescId={this.props.a11yTitleId} />
     );
   }
 
 }
 
 IndexHistory.propTypes = {
+  a11yTitleId: PropTypes.string,
+  a11yDescId: PropTypes.string,
   attribute: PropTypes.string.isRequired,
   points: PropTypes.bool,
   series: PropTypes.arrayOf(PropTypes.shape({

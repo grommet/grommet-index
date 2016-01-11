@@ -82,7 +82,9 @@ export default class Aggregate extends Component {
           legend={this.props.legend}
           size={this.props.size}
           type={this.props.type}
-          threshold={this.props.threshold} />
+          threshold={this.props.threshold}
+          a11yTitleId={this.props.a11yTitleId}
+          a11yDescId={this.props.a11yTitleId} />
       );
     }
 
@@ -92,6 +94,8 @@ export default class Aggregate extends Component {
 }
 
 Aggregate.propTypes = {
+  a11yTitleId: PropTypes.string,
+  a11yDescId: PropTypes.string,
   attribute: PropTypes.string.isRequired,
   legend: PropTypes.oneOfType([
     PropTypes.bool,
