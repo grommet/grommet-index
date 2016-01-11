@@ -76,7 +76,9 @@ var IndexHistory = function (_Component) {
         smooth: this.props.smooth,
         points: this.props.points,
         type: this.props.type,
-        threshold: this.props.threshold });
+        threshold: this.props.threshold,
+        a11yTitleId: this.props.a11yTitleId,
+        a11yDescId: this.props.a11yTitleId });
     }
   }]);
 
@@ -86,6 +88,8 @@ var IndexHistory = function (_Component) {
 exports.default = IndexHistory;
 
 IndexHistory.propTypes = {
+  a11yTitleId: _react.PropTypes.string,
+  a11yDescId: _react.PropTypes.string,
   attribute: _react.PropTypes.string.isRequired,
   points: _react.PropTypes.bool,
   series: _react.PropTypes.arrayOf(_react.PropTypes.shape({

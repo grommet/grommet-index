@@ -112,7 +112,9 @@ var Aggregate = function (_Component) {
           legend: this.props.legend,
           size: this.props.size,
           type: this.props.type,
-          threshold: this.props.threshold });
+          threshold: this.props.threshold,
+          a11yTitleId: this.props.a11yTitleId,
+          a11yDescId: this.props.a11yTitleId });
       }
 
       return component;
@@ -125,6 +127,8 @@ var Aggregate = function (_Component) {
 exports.default = Aggregate;
 
 Aggregate.propTypes = {
+  a11yTitleId: _react.PropTypes.string,
+  a11yDescId: _react.PropTypes.string,
   attribute: _react.PropTypes.string.isRequired,
   legend: _react.PropTypes.oneOfType([_react.PropTypes.bool, _react.PropTypes.shape({
     total: _react.PropTypes.bool,
