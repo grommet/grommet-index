@@ -112,6 +112,7 @@ var IndexHeader = function (_Component) {
         ),
         _react2.default.createElement(_Search2.default, { className: CLASS_ROOT + "__search" + " flex",
           inline: true,
+          placeHolder: 'Search',
           value: searchText,
           onChange: this._onSearchChange }),
         _react2.default.createElement(
