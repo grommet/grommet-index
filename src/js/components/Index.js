@@ -83,7 +83,10 @@ Index.propTypes = {
   attributes: IndexPropTypes.attributes,
   fill: PropTypes.bool, // for Tiles
   flush: PropTypes.bool, // for Tiles
-  itemComponent: PropTypes.object,
+  itemComponent: PropTypes.oneOfType([
+    PropTypes.object,
+    PropTypes.func
+  ]),
   label: PropTypes.string,
   onMore: PropTypes.func,
   onQuery: PropTypes.func,
