@@ -57,10 +57,14 @@ export default class IndexTable extends Component {
   }
 
   _simplifyAttributes (attributes) {
-    return attributes
-      .filter(function (attribute) {
-        return ! attribute.hidden;
-      });
+    let result;
+    if (attributes) {
+      result = attributes
+        .filter(function (attribute) {
+          return ! attribute.hidden;
+        });
+    }
+    return result;
   }
 
   _renderRow (item) {
@@ -95,27 +99,34 @@ export default class IndexTable extends Component {
 
     var attributes = this.state.attributes;
 
-    var headerCells = attributes.map(function (attribute) {
-      var classes = [];
-      if (attribute.secondary) {
-        classes.push(CLASS_ROOT + "__header--secondary");
-      }
-      if (attribute.size) {
-        classes.push(CLASS_ROOT + "__header--" + attribute.size);
-      }
+    var header;
+    if (attributes) {
+      let headerCells = attributes.map(function (attribute) {
+        var classes = [];
+        if (attribute.secondary) {
+          classes.push(CLASS_ROOT + "__header--secondary");
+        }
+        if (attribute.size) {
+          classes.push(CLASS_ROOT + "__header--" + attribute.size);
+        }
 
-      var content = attribute.label;
-      if ('status' === attribute.name) {
-        classes.push(CLASS_ROOT + "__cell--icon");
-        content = (
-          <StatusIcon className={CLASS_ROOT + "__header-icon"} value={'label'} small={true} />
+        var content = attribute.label;
+        if ('status' === attribute.name) {
+          classes.push(CLASS_ROOT + "__cell--icon");
+          content = (
+            <StatusIcon className={CLASS_ROOT + "__header-icon"} value={'label'} small={true} />
+          );
+        }
+
+        return (
+          <th key={attribute.name} className={classes.join(' ')}>{content}</th>
         );
-      }
+      }, this);
 
-      return (
-        <th key={attribute.name} className={classes.join(' ')}>{content}</th>
+      header = (
+        <thead><tr>{headerCells}</tr></thead>
       );
-    }, this);
+    }
 
     let rows;
     let selectionIndex;
@@ -140,7 +151,7 @@ export default class IndexTable extends Component {
         scrollable={this.props.scrollable}
         selection={selectionIndex}
         onMore={onMore}>
-        <thead><tr>{headerCells}</tr></thead>
+        {header}
         <tbody>{rows}</tbody>
       </Table>
     );
@@ -150,7 +161,10 @@ export default class IndexTable extends Component {
 
 IndexTable.propTypes = {
   attributes: IndexPropTypes.attributes,
-  itemComponent: PropTypes.object,
+  itemComponent: PropTypes.oneOfType([
+    PropTypes.object,
+    PropTypes.func
+  ]),
   result: IndexPropTypes.result,
   selection: PropTypes.oneOfType([
     PropTypes.string, // uri

@@ -147,7 +147,10 @@ IndexTiles.propTypes = {
   attributes: IndexPropTypes.attributes,
   fill: PropTypes.bool,
   flush: PropTypes.bool,
-  itemComponent: PropTypes.object,
+  itemComponent: PropTypes.oneOfType([
+    PropTypes.object,
+    PropTypes.func
+  ]),
   result: IndexPropTypes.result,
   selection: PropTypes.oneOfType([
     PropTypes.string, // uri

@@ -116,7 +116,10 @@ export default class IndexList extends Component {
 
 IndexList.propTypes = {
   attributes: IndexPropTypes.attributes,
-  itemComponent: PropTypes.object,
+  itemComponent: PropTypes.oneOfType([
+    PropTypes.object,
+    PropTypes.func
+  ]),
   result: IndexPropTypes.result,
   selection: PropTypes.oneOfType([
     PropTypes.string, // uri
