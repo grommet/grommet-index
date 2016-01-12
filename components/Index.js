@@ -129,7 +129,7 @@ Index.propTypes = {
   attributes: _PropTypes2.default.attributes,
   fill: _react.PropTypes.bool, // for Tiles
   flush: _react.PropTypes.bool, // for Tiles
-  itemComponent: _react.PropTypes.object,
+  itemComponent: _react.PropTypes.oneOfType([_react.PropTypes.object, _react.PropTypes.func]),
   label: _react.PropTypes.string,
   onMore: _react.PropTypes.func,
   onQuery: _react.PropTypes.func,
