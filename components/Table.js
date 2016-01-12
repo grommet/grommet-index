@@ -112,9 +112,13 @@ var IndexTable = function (_Component2) {
   }, {
     key: '_simplifyAttributes',
     value: function _simplifyAttributes(attributes) {
-      return attributes.filter(function (attribute) {
-        return !attribute.hidden;
-      });
+      var result = undefined;
+      if (attributes) {
+        result = attributes.filter(function (attribute) {
+          return !attribute.hidden;
+        });
+      }
+      return result;
     }
   }, {
     key: '_renderRow',
@@ -147,27 +151,40 @@ var IndexTable = function (_Component2) {
 
       var attributes = this.state.attributes;
 
-      var headerCells = attributes.map(function (attribute) {
-        var classes = [];
-        if (attribute.secondary) {
-          classes.push(CLASS_ROOT + "__header--secondary");
-        }
-        if (attribute.size) {
-          classes.push(CLASS_ROOT + "__header--" + attribute.size);
-        }
+      var header;
+      if (attributes) {
+        var headerCells = attributes.map(function (attribute) {
+          var classes = [];
+          if (attribute.secondary) {
+            classes.push(CLASS_ROOT + "__header--secondary");
+          }
+          if (attribute.size) {
+            classes.push(CLASS_ROOT + "__header--" + attribute.size);
+          }
 
-        var content = attribute.label;
-        if ('status' === attribute.name) {
-          classes.push(CLASS_ROOT + "__cell--icon");
-          content = _react2.default.createElement(_Status2.default, { className: CLASS_ROOT + "__header-icon", value: 'label', small: true });
-        }
+          var content = attribute.label;
+          if ('status' === attribute.name) {
+            classes.push(CLASS_ROOT + "__cell--icon");
+            content = _react2.default.createElement(_Status2.default, { className: CLASS_ROOT + "__header-icon", value: 'label', small: true });
+          }
 
-        return _react2.default.createElement(
-          'th',
-          { key: attribute.name, className: classes.join(' ') },
-          content
+          return _react2.default.createElement(
+            'th',
+            { key: attribute.name, className: classes.join(' ') },
+            content
+          );
+        }, this);
+
+        header = _react2.default.createElement(
+          'thead',
+          null,
+          _react2.default.createElement(
+            'tr',
+            null,
+            headerCells
+          )
         );
-      }, this);
+      }
 
       var rows = undefined;
       var selectionIndex = undefined;
@@ -192,15 +209,7 @@ var IndexTable = function (_Component2) {
           scrollable: this.props.scrollable,
           selection: selectionIndex,
           onMore: onMore },
-        _react2.default.createElement(
-          'thead',
-          null,
-          _react2.default.createElement(
-            'tr',
-            null,
-            headerCells
-          )
-        ),
+        header,
         _react2.default.createElement(
           'tbody',
           null,
@@ -217,7 +226,7 @@ exports.default = IndexTable;
 
 IndexTable.propTypes = {
   attributes: _PropTypes2.default.attributes,
-  itemComponent: _react.PropTypes.object,
+  itemComponent: _react.PropTypes.oneOfType([_react.PropTypes.object, _react.PropTypes.func]),
   result: _PropTypes2.default.result,
   selection: _react.PropTypes.oneOfType([_react.PropTypes.string, // uri
   _react.PropTypes.arrayOf(_react.PropTypes.string)]),

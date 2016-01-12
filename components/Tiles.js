@@ -214,7 +214,7 @@ IndexTiles.propTypes = {
   attributes: _PropTypes2.default.attributes,
   fill: _react.PropTypes.bool,
   flush: _react.PropTypes.bool,
-  itemComponent: _react.PropTypes.object,
+  itemComponent: _react.PropTypes.oneOfType([_react.PropTypes.object, _react.PropTypes.func]),
   result: _PropTypes2.default.result,
   selection: _react.PropTypes.oneOfType([_react.PropTypes.string, // uri
   _react.PropTypes.arrayOf(_react.PropTypes.string)]),

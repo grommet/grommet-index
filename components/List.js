@@ -170,7 +170,7 @@ exports.default = IndexList;
 
 IndexList.propTypes = {
   attributes: _PropTypes2.default.attributes,
-  itemComponent: _react.PropTypes.object,
+  itemComponent: _react.PropTypes.oneOfType([_react.PropTypes.object, _react.PropTypes.func]),
   result: _PropTypes2.default.result,
   selection: _react.PropTypes.oneOfType([_react.PropTypes.string, // uri
   _react.PropTypes.arrayOf(_react.PropTypes.string)]),
