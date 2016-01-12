@@ -70,6 +70,7 @@ export default class IndexHeader extends Component {
         <span className={CLASS_ROOT + "__title"}>{this.props.label}</span>
         <Search className={CLASS_ROOT + "__search" + " flex"}
           inline={true}
+          placeHolder="Search"
           value={searchText}
           onChange={this._onSearchChange} />
         <Box className={CLASS_ROOT + "__controls"} direction="row" responsive={false}>
