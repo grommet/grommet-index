@@ -66,7 +66,7 @@ var Timestamp = function (_Component) {
 exports.default = Timestamp;
 
 Timestamp.propTypes = {
-  align: _react.PropTypes.oneOf[('left', 'right')],
+  align: _react.PropTypes.oneOf(['left', 'right']),
   value: _react.PropTypes.object.isRequired
 };
 
