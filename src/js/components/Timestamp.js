@@ -28,7 +28,7 @@ export default class Timestamp extends Component {
 }
 
 Timestamp.propTypes = {
-  align: PropTypes.oneOf['left', 'right'],
+  align: PropTypes.oneOf(['left', 'right']),
   value: PropTypes.object.isRequired
 };
 
