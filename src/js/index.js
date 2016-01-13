@@ -9,5 +9,6 @@ export * from './components/Index';
 export * from './components/List';
 export * from './components/Table';
 export * from './components/Tiles';
+export * from './components/Timestamp';
 export * from './utils/PropTypes';
 export * from './utils/Query';
