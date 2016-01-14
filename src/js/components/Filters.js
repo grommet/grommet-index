@@ -11,36 +11,6 @@ import IndexQuery from '../utils/Query';
 
 const CLASS_ROOT = "index-filters";
 
-class BadgedFilterIcon extends Component {
-
-  render () {
-    var badge;
-    if (this.props.label) {
-      badge = (
-        <svg className="badged-icon__badge" version="1.1"
-          width="20px" height="20px" viewBox="0 0 20 20">
-          <circle stroke="none" cx="10" cy="10" r="10"/>
-          <text x="6.5" y="15" fontSize={16}>{this.props.label}</text>
-        </svg>
-      );
-    }
-
-    return (
-      <span className="badged-icon">
-        <FilterIcon />
-        {badge}
-      </span>
-    );
-  }
-}
-
-BadgedFilterIcon.propTypes = {
-  label: PropTypes.oneOfType([
-    PropTypes.number,
-    PropTypes.string
-  ])
-};
-
 export default class Filters extends Component {
 
   constructor (props) {
@@ -164,7 +134,9 @@ export default class Filters extends Component {
           </fieldset>);
       }, this);
 
-    var icon = (<BadgedFilterIcon label={activeFilterCount || ''} />);
+    var icon = (
+      <FilterIcon colorIndex={activeFilterCount ? 'brand' : undefined} />
+    );
 
     return (
       <Menu className={CLASS_ROOT + "__menu"} icon={icon}

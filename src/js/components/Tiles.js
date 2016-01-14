@@ -156,7 +156,7 @@ export default class IndexTiles extends Component {
           </Tiles>
         );
 
-        if (true || sections.length !== 0 || items.length !== 0) {
+        if (sections.length !== 0 || items.length !== 0) {
           // more than one section, add label
           sections.push(
             <div key={section.label} className={CLASS_ROOT + '__section'}>

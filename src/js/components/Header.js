@@ -44,9 +44,9 @@ export default class IndexHeader extends Component {
       }
     }
 
-    var outOfClasses = [CLASS_ROOT + "__out-of"];
-    if (this.props.unfilteredTotal > this.props.total) {
-      outOfClasses.push(CLASS_ROOT + "__out-of--active");
+    var countClasses = [CLASS_ROOT + "__count"];
+    if (this.props.result.unfilteredTotal > this.props.result.total) {
+      countClasses.push(CLASS_ROOT + "__count--active");
     }
 
     var filters;
@@ -76,10 +76,10 @@ export default class IndexHeader extends Component {
         <Box className={CLASS_ROOT + "__controls"} direction="row" responsive={false}>
           {filters}
           {this.props.addControl}
-          <span className={CLASS_ROOT + "__count"}>
-            {this.props.result.total}
-            <span className={outOfClasses.join(' ')}>
-              out of {this.props.result.unfilteredTotal}
+          <span className={CLASS_ROOT + "__total"}>
+            {this.props.result.unfilteredTotal}
+            <span className={countClasses.join(' ')}>
+              {this.props.result.total}
             </span>
           </span>
         </Box>
