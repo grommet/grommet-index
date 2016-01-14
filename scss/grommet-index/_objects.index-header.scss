@@ -15,10 +15,15 @@
     }
   }
 
-  &__total {
+  &__controls {
+    position: relative;
+  }
+
+  &__total,
+  &__count {
     color: $secondary-text-color;
     text-align: center;
-    @include inuit-font-size($label-font-size, inherit);
+    @include inuit-font-size($label-font-size);
 
     @include media-query(palm) {
       display: none;
@@ -27,14 +32,15 @@
 
     @include media-query(lap-and-up) {
       position: absolute;
-      right: round($inuit-base-spacing-unit * 3.5);
-      top: quarter($inuit-base-spacing-unit);
-      padding-left: quarter($inuit-base-spacing-unit);
-      padding-right: quarter($inuit-base-spacing-unit);
-      @include inuit-font-size($label-font-size);
+      left: $inuit-base-spacing-unit;
+      transform: translateX(-50%);
       background-color: $background-color;
-      text-align: right;
-      white-space: nowrap;
+    }
+  }
+
+  &__total {
+    @include media-query(lap-and-up) {
+      top: - halve($inuit-base-spacing-unit);
     }
   }
 
@@ -45,8 +51,7 @@
       &--active {
         display: block;
         position: absolute;
-        bottom: - round($inuit-base-spacing-unit * 2.5);
-        // margin-left: quarter($inuit-base-spacing-unit);
+        bottom: - halve($inuit-base-spacing-unit);
       }
     }
   }

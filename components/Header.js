@@ -95,9 +95,17 @@ var IndexHeader = function (_Component) {
         return attribute.hasOwnProperty('filter');
       }).length;
       if (numFilters > 0) {
-        filters = _react2.default.createElement(_Filters2.default, { attributes: this.props.attributes,
+        filters = [_react2.default.createElement(_Filters2.default, { key: 'filters', attributes: this.props.attributes,
           query: this.props.query,
-          onQuery: this.props.onQuery });
+          onQuery: this.props.onQuery }), _react2.default.createElement(
+          'span',
+          { key: 'total', className: CLASS_ROOT + "__total" },
+          this.props.result.unfilteredTotal
+        ), _react2.default.createElement(
+          'span',
+          { key: 'count', className: countClasses.join(' ') },
+          this.props.result.total
+        )];
       }
 
       return _react2.default.createElement(
@@ -119,17 +127,7 @@ var IndexHeader = function (_Component) {
           _Box2.default,
           { className: CLASS_ROOT + "__controls", direction: 'row', responsive: false },
           filters,
-          this.props.addControl,
-          _react2.default.createElement(
-            'span',
-            { className: CLASS_ROOT + "__total" },
-            this.props.result.unfilteredTotal,
-            _react2.default.createElement(
-              'span',
-              { className: countClasses.join(' ') },
-              this.props.result.total
-            )
-          )
+          this.props.addControl
         )
       );
     }
