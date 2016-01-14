@@ -15,8 +15,9 @@
     }
   }
 
-  &__count {
+  &__total {
     color: $secondary-text-color;
+    text-align: center;
     @include inuit-font-size($label-font-size, inherit);
 
     @include media-query(palm) {
@@ -26,8 +27,8 @@
 
     @include media-query(lap-and-up) {
       position: absolute;
-      right: $inuit-base-spacing-unit;
-      bottom: 0px; //- $inuit-base-spacing-unit - 1; //- round($inuit-base-spacing-unit * 3/4);
+      right: round($inuit-base-spacing-unit * 3.5);
+      top: quarter($inuit-base-spacing-unit);
       padding-left: quarter($inuit-base-spacing-unit);
       padding-right: quarter($inuit-base-spacing-unit);
       @include inuit-font-size($label-font-size);
@@ -37,13 +38,15 @@
     }
   }
 
-  &__out-of {
+  &__count {
     display: none;
 
     @include media-query(lap-and-up) {
       &--active {
-        display: inline;
-        margin-left: quarter($inuit-base-spacing-unit);
+        display: block;
+        position: absolute;
+        bottom: - round($inuit-base-spacing-unit * 2.5);
+        // margin-left: quarter($inuit-base-spacing-unit);
       }
     }
   }

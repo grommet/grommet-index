@@ -50,62 +50,19 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 var CLASS_ROOT = "index-filters";
 
-var BadgedFilterIcon = function (_Component) {
-  _inherits(BadgedFilterIcon, _Component);
-
-  function BadgedFilterIcon() {
-    _classCallCheck(this, BadgedFilterIcon);
-
-    return _possibleConstructorReturn(this, Object.getPrototypeOf(BadgedFilterIcon).apply(this, arguments));
-  }
-
-  _createClass(BadgedFilterIcon, [{
-    key: 'render',
-    value: function render() {
-      var badge;
-      if (this.props.label) {
-        badge = _react2.default.createElement(
-          'svg',
-          { className: 'badged-icon__badge', version: '1.1',
-            width: '20px', height: '20px', viewBox: '0 0 20 20' },
-          _react2.default.createElement('circle', { stroke: 'none', cx: '10', cy: '10', r: '10' }),
-          _react2.default.createElement(
-            'text',
-            { x: '6.5', y: '15', fontSize: 16 },
-            this.props.label
-          )
-        );
-      }
-
-      return _react2.default.createElement(
-        'span',
-        { className: 'badged-icon' },
-        _react2.default.createElement(_Filter2.default, null),
-        badge
-      );
-    }
-  }]);
-
-  return BadgedFilterIcon;
-}(_react.Component);
-
-BadgedFilterIcon.propTypes = {
-  label: _react.PropTypes.oneOfType([_react.PropTypes.number, _react.PropTypes.string])
-};
-
-var Filters = function (_Component2) {
-  _inherits(Filters, _Component2);
+var Filters = function (_Component) {
+  _inherits(Filters, _Component);
 
   function Filters(props) {
     _classCallCheck(this, Filters);
 
-    var _this2 = _possibleConstructorReturn(this, Object.getPrototypeOf(Filters).call(this, props));
+    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Filters).call(this, props));
 
-    _this2._onChange = _this2._onChange.bind(_this2);
-    _this2._onChangeAll = _this2._onChangeAll.bind(_this2);
+    _this._onChange = _this._onChange.bind(_this);
+    _this._onChangeAll = _this._onChangeAll.bind(_this);
 
-    _this2.state = _this2._stateFromProps(props);
-    return _this2;
+    _this.state = _this._stateFromProps(props);
+    return _this;
   }
 
   _createClass(Filters, [{
@@ -221,7 +178,7 @@ var Filters = function (_Component2) {
         );
       }, this);
 
-      var icon = _react2.default.createElement(BadgedFilterIcon, { label: activeFilterCount || '' });
+      var icon = _react2.default.createElement(_Filter2.default, { colorIndex: activeFilterCount ? 'brand' : undefined });
 
       return _react2.default.createElement(
         _Menu2.default,

@@ -85,9 +85,9 @@ var IndexHeader = function (_Component) {
         }
       }
 
-      var outOfClasses = [CLASS_ROOT + "__out-of"];
-      if (this.props.unfilteredTotal > this.props.total) {
-        outOfClasses.push(CLASS_ROOT + "__out-of--active");
+      var countClasses = [CLASS_ROOT + "__count"];
+      if (this.props.result.unfilteredTotal > this.props.result.total) {
+        countClasses.push(CLASS_ROOT + "__count--active");
       }
 
       var filters;
@@ -122,13 +122,12 @@ var IndexHeader = function (_Component) {
           this.props.addControl,
           _react2.default.createElement(
             'span',
-            { className: CLASS_ROOT + "__count" },
-            this.props.result.total,
+            { className: CLASS_ROOT + "__total" },
+            this.props.result.unfilteredTotal,
             _react2.default.createElement(
               'span',
-              { className: outOfClasses.join(' ') },
-              'out of ',
-              this.props.result.unfilteredTotal
+              { className: countClasses.join(' ') },
+              this.props.result.total
             )
           )
         )

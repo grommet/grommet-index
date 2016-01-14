@@ -220,7 +220,7 @@ var IndexTiles = function (_Component2) {
             tiles
           );
 
-          if (true || sections.length !== 0 || items.length !== 0) {
+          if (sections.length !== 0 || items.length !== 0) {
             // more than one section, add label
             sections.push(_react2.default.createElement(
               'div',
