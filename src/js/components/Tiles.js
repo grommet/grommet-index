@@ -107,12 +107,77 @@ export default class IndexTiles extends Component {
     return tile;
   }
 
-  render () {
-    let classes = [CLASS_ROOT];
-    if (this.props.className) {
-      classes.push(this.props.className);
-    }
+  _renderSections (classes, onMore) {
+    const parts = this.props.sort.split(':');
+    const attributeName = parts[0];
+    const direction = parts[1];
+    let sections = [];
+    let items = this.props.result.items.slice(0);
+    this.props.sections.forEach((section) => {
 
+      let selectionIndex = undefined;
+      let sectionValue = section.value;
+      if (sectionValue instanceof Date) {
+        sectionValue = sectionValue.getTime();
+      }
+      let tiles = [];
+
+      while (items.length > 0) {
+        const item = items[0];
+        let itemValue = item[attributeName];
+        if (itemValue instanceof Date) {
+          itemValue = itemValue.getTime();
+        }
+        if (undefined === sectionValue ||
+          ('asc' === direction && itemValue < sectionValue) ||
+          ('desc' === direction && itemValue > sectionValue)) {
+          // add it
+          items.shift();
+          if (this.props.selection && item.uri === this.props.selection) {
+            selectionIndex = tiles.length;
+          }
+          tiles.push(this._renderTile(item));
+        } else {
+          // done
+          break;
+        }
+      }
+
+      if (tiles.length > 0) {
+        // only use onMore for last section
+        let content = (
+          <Tiles key={section.label}
+            onMore={items.length === 0 ? onMore : undefined}
+            flush={this.props.flush} fill={this.props.fill}
+            selectable={this.props.onSelect ? true : false}
+            selected={selectionIndex}
+            size={this.props.size}>
+            {tiles}
+          </Tiles>
+        );
+
+        if (true || sections.length !== 0 || items.length !== 0) {
+          // more than one section, add label
+          sections.push(
+            <div key={section.label} className={CLASS_ROOT + '__section'}>
+              <label>{section.label}</label>
+              {content}
+            </div>
+          );
+        } else {
+          sections.push(content);
+        }
+      }
+    });
+
+    return (
+      <div className={classes.join(' ')}>
+        {sections}
+      </div>
+    );
+  }
+
+  _renderTiles (classes, onMore) {
     let tiles;
     let selectionIndex;
     if (this.props.result && this.props.result.items) {
@@ -122,12 +187,6 @@ export default class IndexTiles extends Component {
         }
         return this._renderTile(item);
       }, this);
-    }
-
-    let onMore;
-    if (this.props.result &&
-      this.props.result.count < this.props.result.total) {
-      onMore = this.props.onMore;
     }
 
     return (
@@ -141,6 +200,26 @@ export default class IndexTiles extends Component {
     );
   }
 
+  render () {
+    let classes = [CLASS_ROOT];
+    if (this.props.className) {
+      classes.push(this.props.className);
+    }
+
+    let onMore;
+    if (this.props.result &&
+      this.props.result.count < this.props.result.total) {
+      onMore = this.props.onMore;
+    }
+
+    if (this.props.sections && this.props.sort &&
+      this.props.result && this.props.result.items) {
+      return this._renderSections(classes, onMore);
+    } else {
+      return this._renderTiles(classes, onMore);
+    }
+  }
+
 }
 
 IndexTiles.propTypes = {
@@ -152,6 +231,10 @@ IndexTiles.propTypes = {
     PropTypes.func
   ]),
   result: IndexPropTypes.result,
+  sections: PropTypes.arrayOf(PropTypes.shape({
+    label: PropTypes.string,
+    value: PropTypes.any
+  })),
   selection: PropTypes.oneOfType([
     PropTypes.string, // uri
     PropTypes.arrayOf(PropTypes.string)

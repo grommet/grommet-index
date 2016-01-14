@@ -66,8 +66,10 @@ export default class Index extends Component {
               flush={this.props.flush}
               itemComponent={this.props.itemComponent}
               result={this.props.result}
+              sections={this.props.sections}
               selection={this.props.selection}
               size={this.props.size}
+              sort={this.props.sort}
               onSelect={this.props.onSelect}
               onMore={this.props.onMore} />
           </div>
@@ -94,11 +96,16 @@ Index.propTypes = {
   query: PropTypes.object,
   navControl: PropTypes.node,
   result: IndexPropTypes.result,
+  sections: PropTypes.arrayOf(PropTypes.shape({
+    label: PropTypes.string,
+    value: PropTypes.any
+  })),
   selection: PropTypes.oneOfType([
     PropTypes.string, // uri
     PropTypes.arrayOf(PropTypes.string)
   ]),
   size: PropTypes.oneOf(['small', 'medium', 'large']),
+  sort: PropTypes.string,
   view: PropTypes.oneOf(["table", "tiles", "list"])
 };
 

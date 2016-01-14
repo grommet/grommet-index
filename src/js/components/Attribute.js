@@ -3,7 +3,7 @@
 import React, { Component, PropTypes } from 'react';
 import StatusIcon from 'grommet/components/icons/Status';
 import IndexPropTypes from '../utils/PropTypes';
-import { FormattedTime } from 'react-intl';
+import Timestamp from './Timestamp';
 
 const CLASS_ROOT = "index-attribute";
 
@@ -51,14 +51,7 @@ export default class Attribute extends Component {
       } else if (attribute.timestamp) {
         classes.push(CLASS_ROOT + "__timestamp");
         content = (
-          <span className={classes.join(' ')}>
-            <FormattedTime value={value}
-              day="numeric"
-              month="narrow"
-              hour="2-digit"
-              minute="2-digit"
-              second="2-digit" />
-          </span>
+          <Timestamp className={classes.join(' ')} value={value} />
         );
       } else {
         content = <span className={classes.join(' ')}>{value}</span>;
