@@ -109,8 +109,10 @@ var Index = function (_Component) {
               flush: this.props.flush,
               itemComponent: this.props.itemComponent,
               result: this.props.result,
+              sections: this.props.sections,
               selection: this.props.selection,
               size: this.props.size,
+              sort: this.props.sort,
               onSelect: this.props.onSelect,
               onMore: this.props.onMore })
           )
@@ -137,9 +139,14 @@ Index.propTypes = {
   query: _react.PropTypes.object,
   navControl: _react.PropTypes.node,
   result: _PropTypes2.default.result,
+  sections: _react.PropTypes.arrayOf(_react.PropTypes.shape({
+    label: _react.PropTypes.string,
+    value: _react.PropTypes.any
+  })),
   selection: _react.PropTypes.oneOfType([_react.PropTypes.string, // uri
   _react.PropTypes.arrayOf(_react.PropTypes.string)]),
   size: _react.PropTypes.oneOf(['small', 'medium', 'large']),
+  sort: _react.PropTypes.string,
   view: _react.PropTypes.oneOf(["table", "tiles", "list"])
 };
 

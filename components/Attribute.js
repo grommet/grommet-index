@@ -18,7 +18,9 @@ var _PropTypes = require('../utils/PropTypes');
 
 var _PropTypes2 = _interopRequireDefault(_PropTypes);
 
-var _reactIntl = require('react-intl');
+var _Timestamp = require('./Timestamp');
+
+var _Timestamp2 = _interopRequireDefault(_Timestamp);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -86,16 +88,7 @@ var Attribute = function (_Component) {
             value: value.toLowerCase(), small: true });
         } else if (attribute.timestamp) {
           classes.push(CLASS_ROOT + "__timestamp");
-          content = _react2.default.createElement(
-            'span',
-            { className: classes.join(' ') },
-            _react2.default.createElement(_reactIntl.FormattedTime, { value: value,
-              day: 'numeric',
-              month: 'narrow',
-              hour: '2-digit',
-              minute: '2-digit',
-              second: '2-digit' })
-          );
+          content = _react2.default.createElement(_Timestamp2.default, { className: classes.join(' '), value: value });
         } else {
           content = _react2.default.createElement(
             'span',

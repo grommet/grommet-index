@@ -170,13 +170,83 @@ var IndexTiles = function (_Component2) {
       return tile;
     }
   }, {
-    key: 'render',
-    value: function render() {
-      var classes = [CLASS_ROOT];
-      if (this.props.className) {
-        classes.push(this.props.className);
-      }
+    key: '_renderSections',
+    value: function _renderSections(classes, onMore) {
+      var _this3 = this;
 
+      var parts = this.props.sort.split(':');
+      var attributeName = parts[0];
+      var direction = parts[1];
+      var sections = [];
+      var items = this.props.result.items.slice(0);
+      this.props.sections.forEach(function (section) {
+
+        var selectionIndex = undefined;
+        var sectionValue = section.value;
+        if (sectionValue instanceof Date) {
+          sectionValue = sectionValue.getTime();
+        }
+        var tiles = [];
+
+        while (items.length > 0) {
+          var item = items[0];
+          var itemValue = item[attributeName];
+          if (itemValue instanceof Date) {
+            itemValue = itemValue.getTime();
+          }
+          if (undefined === sectionValue || 'asc' === direction && itemValue < sectionValue || 'desc' === direction && itemValue > sectionValue) {
+            // add it
+            items.shift();
+            if (_this3.props.selection && item.uri === _this3.props.selection) {
+              selectionIndex = tiles.length;
+            }
+            tiles.push(_this3._renderTile(item));
+          } else {
+            // done
+            break;
+          }
+        }
+
+        if (tiles.length > 0) {
+          // only use onMore for last section
+          var content = _react2.default.createElement(
+            _Tiles2.default,
+            { key: section.label,
+              onMore: items.length === 0 ? onMore : undefined,
+              flush: _this3.props.flush, fill: _this3.props.fill,
+              selectable: _this3.props.onSelect ? true : false,
+              selected: selectionIndex,
+              size: _this3.props.size },
+            tiles
+          );
+
+          if (true || sections.length !== 0 || items.length !== 0) {
+            // more than one section, add label
+            sections.push(_react2.default.createElement(
+              'div',
+              { key: section.label, className: CLASS_ROOT + '__section' },
+              _react2.default.createElement(
+                'label',
+                null,
+                section.label
+              ),
+              content
+            ));
+          } else {
+            sections.push(content);
+          }
+        }
+      });
+
+      return _react2.default.createElement(
+        'div',
+        { className: classes.join(' ') },
+        sections
+      );
+    }
+  }, {
+    key: '_renderTiles',
+    value: function _renderTiles(classes, onMore) {
       var tiles = undefined;
       var selectionIndex = undefined;
       if (this.props.result && this.props.result.items) {
@@ -188,11 +258,6 @@ var IndexTiles = function (_Component2) {
         }, this);
       }
 
-      var onMore = undefined;
-      if (this.props.result && this.props.result.count < this.props.result.total) {
-        onMore = this.props.onMore;
-      }
-
       return _react2.default.createElement(
         _Tiles2.default,
         { className: classes.join(' '), onMore: onMore,
@@ -202,6 +267,25 @@ var IndexTiles = function (_Component2) {
           size: this.props.size },
         tiles
       );
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var classes = [CLASS_ROOT];
+      if (this.props.className) {
+        classes.push(this.props.className);
+      }
+
+      var onMore = undefined;
+      if (this.props.result && this.props.result.count < this.props.result.total) {
+        onMore = this.props.onMore;
+      }
+
+      if (this.props.sections && this.props.sort && this.props.result && this.props.result.items) {
+        return this._renderSections(classes, onMore);
+      } else {
+        return this._renderTiles(classes, onMore);
+      }
     }
   }]);
 
@@ -216,6 +300,10 @@ IndexTiles.propTypes = {
   flush: _react.PropTypes.bool,
   itemComponent: _react.PropTypes.oneOfType([_react.PropTypes.object, _react.PropTypes.func]),
   result: _PropTypes2.default.result,
+  sections: _react.PropTypes.arrayOf(_react.PropTypes.shape({
+    label: _react.PropTypes.string,
+    value: _react.PropTypes.any
+  })),
   selection: _react.PropTypes.oneOfType([_react.PropTypes.string, // uri
   _react.PropTypes.arrayOf(_react.PropTypes.string)]),
   size: _react.PropTypes.oneOf(['small', 'medium', 'large']),
