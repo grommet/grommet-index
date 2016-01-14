@@ -56,11 +56,17 @@ export default class IndexHeader extends Component {
       })
       .length;
     if (numFilters > 0) {
-      filters = (
-        <Filters attributes={this.props.attributes}
+      filters = [
+        <Filters key="filters" attributes={this.props.attributes}
           query={this.props.query}
-          onQuery={this.props.onQuery} />
-      );
+          onQuery={this.props.onQuery} />,
+        <span key="total" className={CLASS_ROOT + "__total"}>
+          {this.props.result.unfilteredTotal}
+        </span>,
+        <span key="count" className={countClasses.join(' ')}>
+          {this.props.result.total}
+        </span>
+      ];
     }
 
     return (
@@ -76,12 +82,6 @@ export default class IndexHeader extends Component {
         <Box className={CLASS_ROOT + "__controls"} direction="row" responsive={false}>
           {filters}
           {this.props.addControl}
-          <span className={CLASS_ROOT + "__total"}>
-            {this.props.result.unfilteredTotal}
-            <span className={countClasses.join(' ')}>
-              {this.props.result.total}
-            </span>
-          </span>
         </Box>
       </Header>
     );
