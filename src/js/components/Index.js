@@ -53,7 +53,7 @@ export default class Index extends Component {
             label={this.props.label}
             attributes={this.props.attributes}
             query={this.props.query}
-            result={this.props.result}
+            result={this.props.result || {}}
             fixed={true}
             onQuery={this._onQuery}
             addControl={this.props.addControl}
@@ -65,7 +65,7 @@ export default class Index extends Component {
               fill={this.props.fill}
               flush={this.props.flush}
               itemComponent={this.props.itemComponent}
-              result={this.props.result}
+              result={this.props.result || {}}
               sections={this.props.sections}
               selection={this.props.selection}
               size={this.props.size}
