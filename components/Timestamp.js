@@ -10,6 +10,8 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+var _Locale = require('grommet/utils/Locale');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -37,11 +39,12 @@ var Timestamp = function (_Component) {
       if (this.props.className) {
         classes.push(this.props.className);
       }
-      var locale = undefined;
+      var locale = (0, _Locale.getCurrentLocale)();
+      var value = typeof this.props.value === 'string' ? new Date(this.props.value) : this.props.value;
       var dateOptions = { year: 'numeric', month: 'short', day: 'numeric' };
-      var date = this.props.value.toLocaleDateString(locale, dateOptions);
+      var date = value.toLocaleDateString(locale, dateOptions);
       var timeOptions = { hour: '2-digit', minute: '2-digit' };
-      var time = this.props.value.toLocaleTimeString(locale, timeOptions);
+      var time = value.toLocaleTimeString(locale, timeOptions);
       return _react2.default.createElement(
         'span',
         { className: classes.join(' ') },
@@ -67,7 +70,7 @@ exports.default = Timestamp;
 
 Timestamp.propTypes = {
   align: _react.PropTypes.oneOf(['left', 'right']),
-  value: _react.PropTypes.object.isRequired
+  value: _react.PropTypes.oneOfType([_react.PropTypes.string, _react.PropTypes.object]).isRequired
 };
 
 Timestamp.defaultProps = {
