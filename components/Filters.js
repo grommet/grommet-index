@@ -183,7 +183,7 @@ var Filters = function (_Component) {
       return _react2.default.createElement(
         _Menu2.default,
         { className: CLASS_ROOT + "__menu", icon: icon,
-          dropAlign: { right: 'right' }, pad: 'medium',
+          dropAlign: { right: 'right' }, pad: 'medium', a11yTitle: 'Filter',
           direction: 'column', closeOnClick: false },
         filters
       );
