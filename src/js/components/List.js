@@ -28,7 +28,7 @@ class IndexListItem extends Component {
 
     return (
       <ListItem key={item.uri} className={CLASS_ROOT + '-item'}
-        direction="row" responsive={false} pad={{between: 'medium'}}
+        direction="row" responsive={false} pad={{horizontal: 'medium', vertical: 'small'}}
         onClick={onClick} selected={selected}>
         {status}
         {primary}
