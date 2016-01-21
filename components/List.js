@@ -71,7 +71,7 @@ var IndexListItem = function (_Component) {
       return _react2.default.createElement(
         _ListItem2.default,
         { key: item.uri, className: CLASS_ROOT + '-item',
-          direction: 'row', responsive: false, pad: { between: 'medium' },
+          direction: 'row', responsive: false, pad: { horizontal: 'medium', vertical: 'small', between: 'medium' },
           onClick: onClick, selected: selected },
         status,
         primary,
