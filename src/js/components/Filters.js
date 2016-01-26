@@ -8,8 +8,9 @@ import CheckBox from 'grommet/components/CheckBox';
 import StatusIcon from 'grommet/components/icons/Status';
 import IndexPropTypes from '../utils/PropTypes';
 import IndexQuery from '../utils/Query';
+import Intl from 'grommet/utils/Intl';
 
-const CLASS_ROOT = "index-filters";
+const CLASS_ROOT = 'index-filters';
 
 export default class Filters extends Component {
 
@@ -27,7 +28,7 @@ export default class Filters extends Component {
   }
 
   _notify () {
-    var query;
+    let query;
     if (this.props.query) {
       query = this.props.query.clone();
     } else {
@@ -35,25 +36,19 @@ export default class Filters extends Component {
     }
 
     this.props.attributes
-      .filter(function (attribute) {
-        return attribute.hasOwnProperty('filter');
-      })
-      .forEach(function (attribute) {
-        var attributeData = this.state[attribute.name];
-        var activeValues = attribute.filter.filter(function (value) {
-          return attributeData[value];
-        });
+      .filter(attribute => attribute.hasOwnProperty('filter'))
+      .forEach(attribute => {
+        let attributeData = this.state[attribute.name];
+        let activeValues = attribute.filter.filter(value => attributeData[value]);
         query.replaceAttributeValues(attribute.name, activeValues);
-      }, this);
+      });
     this.props.onQuery(query);
   }
 
   _onChange (attribute, value) {
-    var result = update(this.state, {
+    let result = update(this.state, {
       [attribute]: {
-        [value]: { $apply: function(x) {
-          return !x;
-        } },
+        [value]: { $apply: x => !x },
         all: { $set: false }
       }
     });
@@ -61,24 +56,22 @@ export default class Filters extends Component {
   }
 
   _onChangeAll (attribute, values) {
-    var changes = {[attribute]: {all: { $set: true }}};
-    values.forEach(function (value) {
+    let changes = {[attribute]: {all: { $set: true }}};
+    values.forEach(value => {
       changes[attribute][value] = { $set: false };
     });
-    var result = update(this.state, changes);
+    let result = update(this.state, changes);
     this.setState(result, this._notify);
   }
 
   _stateFromProps (props) {
-    var query = props.query || IndexQuery.create('');
-    var state = {};
+    let query = props.query || IndexQuery.create('');
+    let state = {};
     props.attributes
-      .filter(function (attribute) {
-        return attribute.hasOwnProperty('filter');
-      })
-      .forEach(function (attribute) {
-        var values = {};
-        attribute.filter.forEach(function (value) {
+      .filter(attribute => attribute.hasOwnProperty('filter'))
+      .forEach(attribute => {
+        let values = {};
+        attribute.filter.forEach(value => {
           values[value] =
             query.hasToken({attribute: attribute.name, value: value});
         });
@@ -90,56 +83,52 @@ export default class Filters extends Component {
   }
 
   render () {
-    var activeFilterCount = 0;
+    let activeFilterCount = 0;
 
-    var filters = this.props.attributes
-      .filter(function (attribute) {
-        return attribute.hasOwnProperty('filter');
-      })
-      .map(function (attribute) {
-
-        var values = attribute.filter.map(function (value) {
-          var id = attribute.name + '-' + value;
-          var active = this.state[attribute.name][value];
+    let filters = this.props.attributes
+      .filter(attribute => attribute.hasOwnProperty('filter'))
+      .map(attribute => {
+        let values = attribute.filter.map(value => {
+          let id = attribute.name + '-' + value;
+          let active = this.state[attribute.name][value];
           if (active) {
             activeFilterCount += 1;
           }
-          var label = value || '';
+          let label = value || '';
           if (attribute.name === 'status') {
-            label = <span><StatusIcon value={value} size="small"/> {value}</span>;
+            label = <span><StatusIcon value={value} size="small" /> {value}</span>;
           }
           return (
-            <CheckBox key={id} className={CLASS_ROOT + "__filter-value"}
+            <CheckBox key={id} className={`${CLASS_ROOT}__filter-value`}
               id={id} label={label}
               checked={active}
               onChange={this._onChange
                 .bind(this, attribute.name, value)} />
           );
-        }, this);
+        });
 
-        var components = [];
+        let components = [];
+        let label = Intl.getMessage(this.context.intl, 'All');
         components.push(
           <CheckBox key={attribute.name + '-all'}
-            className={CLASS_ROOT + "__filter-value"}
+            className={`${CLASS_ROOT}__filter-value`}
             id={attribute.name + '-all'}
-            label="All"
+            label={label}
             checked={this.state[attribute.name].all}
             onChange={this._onChangeAll
               .bind(this, attribute.name, attribute.filter)} />
         );
         return (
           <fieldset key={attribute.name} className={CLASS_ROOT}>
-            <legend className={CLASS_ROOT + "__filter-legend"}>{attribute.label}</legend>
+            <legend className={`${CLASS_ROOT}__filter-legend`}>{attribute.label}</legend>
             {components.concat(values)}
           </fieldset>);
-      }, this);
+      });
 
-    var icon = (
-      <FilterIcon colorIndex={activeFilterCount ? 'brand' : undefined} />
-    );
+    let icon = <FilterIcon colorIndex={activeFilterCount ? 'brand' : undefined} />;
 
     return (
-      <Menu className={CLASS_ROOT + "__menu"} icon={icon}
+      <Menu className={`${CLASS_ROOT}__menu`} icon={icon}
         dropAlign={{right: 'right'}} pad="medium" a11yTitle="Filter"
         direction="column" closeOnClick={false}>
         {filters}
@@ -153,4 +142,8 @@ Filters.propTypes = {
   attributes: IndexPropTypes.attributes.isRequired,
   query: PropTypes.object,
   onQuery: PropTypes.func
+};
+
+Filters.contextTypes = {
+  intl: PropTypes.object
 };
