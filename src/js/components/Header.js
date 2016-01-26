@@ -7,6 +7,7 @@ import Box from 'grommet/components/Box';
 import Filters from './Filters';
 import IndexPropTypes from '../utils/PropTypes';
 import IndexQuery from '../utils/Query';
+import Intl from 'grommet/utils/Intl';
 
 const CLASS_ROOT = 'index-header';
 
@@ -19,7 +20,7 @@ export default class IndexHeader extends Component {
   }
 
   _onSearchChange (text) {
-    var query = this.props.query;
+    let query = this.props.query;
     if (query) {
       query.replaceTextTokens(text);
     } else {
@@ -29,14 +30,14 @@ export default class IndexHeader extends Component {
   }
 
   render () {
-    var classes = [CLASS_ROOT];
+    let classes = [CLASS_ROOT];
     if (this.props.className) {
       classes.push(this.props.className);
     }
 
-    var searchText = '';
+    let searchText = '';
     if (this.props.query) {
-      var query = this.props.query;
+      let query = this.props.query;
       if (typeof query === 'string') {
         searchText = query;
       } else {
@@ -44,23 +45,21 @@ export default class IndexHeader extends Component {
       }
     }
 
-    var countClasses = [CLASS_ROOT + "__count"];
+    let countClasses = [`${CLASS_ROOT}__count`];
     if (this.props.result.unfilteredTotal > this.props.result.total) {
-      countClasses.push(CLASS_ROOT + "__count--active");
+      countClasses.push(`${CLASS_ROOT}__count--active`);
     }
 
-    var filters;
-    var numFilters = this.props.attributes
-      .filter(function (attribute) {
-        return attribute.hasOwnProperty('filter');
-      })
+    let filters;
+    let numFilters = this.props.attributes
+      .filter(attribute => attribute.hasOwnProperty('filter'))
       .length;
     if (numFilters > 0) {
       filters = [
         <Filters key="filters" attributes={this.props.attributes}
           query={this.props.query}
           onQuery={this.props.onQuery} />,
-        <span key="total" className={CLASS_ROOT + "__total"}>
+        <span key="total" className={`${CLASS_ROOT}__total`}>
           {this.props.result.unfilteredTotal}
         </span>,
         <span key="count" className={countClasses.join(' ')}>
@@ -69,17 +68,19 @@ export default class IndexHeader extends Component {
       ];
     }
 
+    let placeHolder = Intl.getMessage(this.context.intl, 'Search');
+
     return (
       <Header className={classes.join(' ')}
         fixed={this.props.fixed} pad="medium" justify="between" size="large">
         {this.props.navControl}
-        <span className={CLASS_ROOT + "__title"}>{this.props.label}</span>
-        <Search className={CLASS_ROOT + "__search" + " flex"}
+        <span className={`${CLASS_ROOT}__title`}>{this.props.label}</span>
+        <Search className={`${CLASS_ROOT}__search flex`}
           inline={true}
-          placeHolder="Search"
+          placeHolder={placeHolder}
           value={searchText}
           onChange={this._onSearchChange} />
-        <Box className={CLASS_ROOT + "__controls"} direction="row" responsive={false}>
+        <Box className={`${CLASS_ROOT}__controls`} direction="row" responsive={false}>
           {filters}
           {this.props.addControl}
         </Box>
@@ -102,4 +103,8 @@ IndexHeader.propTypes = {
 
 IndexHeader.defaultProps = {
   result: {}
+};
+
+IndexHeader.contextTypes = {
+  intl: PropTypes.object
 };
