@@ -38,6 +38,10 @@ var _Query = require('../utils/Query');
 
 var _Query2 = _interopRequireDefault(_Query);
 
+var _Intl = require('grommet/utils/Intl');
+
+var _Intl2 = _interopRequireDefault(_Intl);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -48,7 +52,7 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } // (C) Copyright 2014-2015 Hewlett Packard Enterprise Development LP
 
-var CLASS_ROOT = "index-filters";
+var CLASS_ROOT = 'index-filters';
 
 var Filters = function (_Component) {
   _inherits(Filters, _Component);
@@ -73,7 +77,9 @@ var Filters = function (_Component) {
   }, {
     key: '_notify',
     value: function _notify() {
-      var query;
+      var _this2 = this;
+
+      var query = undefined;
       if (this.props.query) {
         query = this.props.query.clone();
       } else {
@@ -83,12 +89,12 @@ var Filters = function (_Component) {
       this.props.attributes.filter(function (attribute) {
         return attribute.hasOwnProperty('filter');
       }).forEach(function (attribute) {
-        var attributeData = this.state[attribute.name];
+        var attributeData = _this2.state[attribute.name];
         var activeValues = attribute.filter.filter(function (value) {
           return attributeData[value];
         });
         query.replaceAttributeValues(attribute.name, activeValues);
-      }, this);
+      });
       this.props.onQuery(query);
     }
   }, {
@@ -131,15 +137,16 @@ var Filters = function (_Component) {
   }, {
     key: 'render',
     value: function render() {
+      var _this3 = this;
+
       var activeFilterCount = 0;
 
       var filters = this.props.attributes.filter(function (attribute) {
         return attribute.hasOwnProperty('filter');
       }).map(function (attribute) {
-
         var values = attribute.filter.map(function (value) {
           var id = attribute.name + '-' + value;
-          var active = this.state[attribute.name][value];
+          var active = _this3.state[attribute.name][value];
           if (active) {
             activeFilterCount += 1;
           }
@@ -153,36 +160,37 @@ var Filters = function (_Component) {
               value
             );
           }
-          return _react2.default.createElement(_CheckBox2.default, { key: id, className: CLASS_ROOT + "__filter-value",
+          return _react2.default.createElement(_CheckBox2.default, { key: id, className: CLASS_ROOT + '__filter-value',
             id: id, label: label,
             checked: active,
-            onChange: this._onChange.bind(this, attribute.name, value) });
-        }, this);
+            onChange: _this3._onChange.bind(_this3, attribute.name, value) });
+        });
 
         var components = [];
+        var label = _Intl2.default.getMessage(_this3.context.intl, 'All');
         components.push(_react2.default.createElement(_CheckBox2.default, { key: attribute.name + '-all',
-          className: CLASS_ROOT + "__filter-value",
+          className: CLASS_ROOT + '__filter-value',
           id: attribute.name + '-all',
-          label: 'All',
-          checked: this.state[attribute.name].all,
-          onChange: this._onChangeAll.bind(this, attribute.name, attribute.filter) }));
+          label: label,
+          checked: _this3.state[attribute.name].all,
+          onChange: _this3._onChangeAll.bind(_this3, attribute.name, attribute.filter) }));
         return _react2.default.createElement(
           'fieldset',
           { key: attribute.name, className: CLASS_ROOT },
           _react2.default.createElement(
             'legend',
-            { className: CLASS_ROOT + "__filter-legend" },
+            { className: CLASS_ROOT + '__filter-legend' },
             attribute.label
           ),
           components.concat(values)
         );
-      }, this);
+      });
 
       var icon = _react2.default.createElement(_Filter2.default, { colorIndex: activeFilterCount ? 'brand' : undefined });
 
       return _react2.default.createElement(
         _Menu2.default,
-        { className: CLASS_ROOT + "__menu", icon: icon,
+        { className: CLASS_ROOT + '__menu', icon: icon,
           dropAlign: { right: 'right' }, pad: 'medium', a11yTitle: 'Filter',
           direction: 'column', closeOnClick: false },
         filters
@@ -199,5 +207,9 @@ Filters.propTypes = {
   attributes: _PropTypes2.default.attributes.isRequired,
   query: _react.PropTypes.object,
   onQuery: _react.PropTypes.func
+};
+
+Filters.contextTypes = {
+  intl: _react.PropTypes.object
 };
 module.exports = exports['default'];

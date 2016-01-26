@@ -34,6 +34,10 @@ var _Query = require('../utils/Query');
 
 var _Query2 = _interopRequireDefault(_Query);
 
+var _Intl = require('grommet/utils/Intl');
+
+var _Intl2 = _interopRequireDefault(_Intl);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -85,12 +89,12 @@ var IndexHeader = function (_Component) {
         }
       }
 
-      var countClasses = [CLASS_ROOT + "__count"];
+      var countClasses = [CLASS_ROOT + '__count'];
       if (this.props.result.unfilteredTotal > this.props.result.total) {
-        countClasses.push(CLASS_ROOT + "__count--active");
+        countClasses.push(CLASS_ROOT + '__count--active');
       }
 
-      var filters;
+      var filters = undefined;
       var numFilters = this.props.attributes.filter(function (attribute) {
         return attribute.hasOwnProperty('filter');
       }).length;
@@ -99,7 +103,7 @@ var IndexHeader = function (_Component) {
           query: this.props.query,
           onQuery: this.props.onQuery }), _react2.default.createElement(
           'span',
-          { key: 'total', className: CLASS_ROOT + "__total" },
+          { key: 'total', className: CLASS_ROOT + '__total' },
           this.props.result.unfilteredTotal
         ), _react2.default.createElement(
           'span',
@@ -108,6 +112,8 @@ var IndexHeader = function (_Component) {
         )];
       }
 
+      var placeHolder = _Intl2.default.getMessage(this.context.intl, 'Search');
+
       return _react2.default.createElement(
         _Header2.default,
         { className: classes.join(' '),
@@ -115,17 +121,17 @@ var IndexHeader = function (_Component) {
         this.props.navControl,
         _react2.default.createElement(
           'span',
-          { className: CLASS_ROOT + "__title" },
+          { className: CLASS_ROOT + '__title' },
           this.props.label
         ),
-        _react2.default.createElement(_Search2.default, { className: CLASS_ROOT + "__search" + " flex",
+        _react2.default.createElement(_Search2.default, { className: CLASS_ROOT + '__search flex',
           inline: true,
-          placeHolder: 'Search',
+          placeHolder: placeHolder,
           value: searchText,
           onChange: this._onSearchChange }),
         _react2.default.createElement(
           _Box2.default,
-          { className: CLASS_ROOT + "__controls", direction: 'row', responsive: false },
+          { className: CLASS_ROOT + '__controls', direction: 'row', responsive: false },
           filters,
           this.props.addControl
         )
@@ -151,5 +157,9 @@ IndexHeader.propTypes = {
 
 IndexHeader.defaultProps = {
   result: {}
+};
+
+IndexHeader.contextTypes = {
+  intl: _react.PropTypes.object
 };
 module.exports = exports['default'];
