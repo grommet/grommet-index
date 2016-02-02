@@ -15,55 +15,47 @@ export default class IndexHeader extends Component {
 
   constructor () {
     super();
-
-    this._onSearchChange = this._onSearchChange.bind(this);
+    this._onChangeSearch = this._onChangeSearch.bind(this);
   }
 
-  _onSearchChange (text) {
-    let query = this.props.query;
-    if (query) {
-      query.replaceTextTokens(text);
-    } else {
-      query = IndexQuery.create(text);
-    }
-    this.props.onQuery(query);
+  _onChangeSearch (text) {
+    this.props.onQuery(IndexQuery(text));
   }
 
   render () {
+    const { attributes, query } = this.props;
+    const result = this.props.result || {};
     let classes = [CLASS_ROOT];
     if (this.props.className) {
       classes.push(this.props.className);
     }
 
     let searchText = '';
-    if (this.props.query) {
-      let query = this.props.query;
-      if (typeof query === 'string') {
-        searchText = query;
-      } else {
-        searchText = query.text;
-      }
+    if (query) {
+      searchText = query.toString();
     }
 
     let countClasses = [`${CLASS_ROOT}__count`];
-    if (this.props.result.unfilteredTotal > this.props.result.total) {
+    if (result.unfilteredTotal > result.total) {
       countClasses.push(`${CLASS_ROOT}__count--active`);
     }
 
     let filters;
-    let numFilters = this.props.attributes
-      .filter(attribute => attribute.hasOwnProperty('filter'))
-      .length;
-    if (numFilters > 0) {
+    const filterOrSortAttributes = attributes
+      .filter(attribute => {
+        return attribute.filter || attribute.sort;
+      });
+    if (filterOrSortAttributes.length > 0) {
       filters = [
-        <Filters key="filters" attributes={this.props.attributes}
-          query={this.props.query}
-          onQuery={this.props.onQuery} />,
+        <Filters key="filters" attributes={filterOrSortAttributes}
+          values={this.props.filter} sort={this.props.sort}
+          onChange={this.props.onFilter}
+          onSort={this.props.onSort} />,
         <span key="total" className={`${CLASS_ROOT}__total`}>
-          {this.props.result.unfilteredTotal}
+          {result.unfilteredTotal}
         </span>,
         <span key="count" className={countClasses.join(' ')}>
-          {this.props.result.total}
+          {result.total}
         </span>
       ];
     }
@@ -71,16 +63,17 @@ export default class IndexHeader extends Component {
     let placeHolder = Intl.getMessage(this.context.intl, 'Search');
 
     return (
-      <Header className={classes.join(' ')}
-        fixed={this.props.fixed} pad="medium" justify="between" size="large">
+      <Header className={classes.join(' ')} pad={{horizontal: 'medium'}}
+        fixed={this.props.fixed} size="large">
         {this.props.navControl}
-        <span className={`${CLASS_ROOT}__title`}>{this.props.label}</span>
+        <span className={`${CLASS_ROOT}__label`}>{this.props.label}</span>
         <Search className={`${CLASS_ROOT}__search flex`}
           inline={true}
           placeHolder={placeHolder}
           value={searchText}
-          onChange={this._onSearchChange} />
-        <Box className={`${CLASS_ROOT}__controls`} direction="row" responsive={false}>
+          onChange={this._onChangeSearch} />
+        <Box className={`${CLASS_ROOT}__controls`} direction="row"
+          responsive={false}>
           {filters}
           {this.props.addControl}
         </Box>
@@ -91,14 +84,18 @@ export default class IndexHeader extends Component {
 }
 
 IndexHeader.propTypes = {
-  //addControl: PropTypes.node,
+  addControl: PropTypes.node,
   attributes: IndexPropTypes.attributes.isRequired,
+  filter: PropTypes.object, // { name: [value, ...] }
   fixed: PropTypes.bool,
   label: PropTypes.string.isRequired,
   navControl: PropTypes.node,
-  onQuery: PropTypes.func.isRequired,
-  query: PropTypes.object,
-  result: IndexPropTypes.result
+  onFilter: PropTypes.func.isRequired, // (filters)
+  onQuery: PropTypes.func.isRequired, // (query)
+  onSort: PropTypes.func.isRequired, // (sort)
+  query: PropTypes.object, // Query
+  result: IndexPropTypes.result,
+  sort: PropTypes.string
 };
 
 IndexHeader.defaultProps = {

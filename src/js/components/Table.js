@@ -42,9 +42,7 @@ export default class IndexTable extends Component {
 
   constructor (props) {
     super(props);
-
     this._onClickRow = this._onClickRow.bind(this);
-
     this.state = {attributes: this._simplifyAttributes(props.attributes)};
   }
 
@@ -52,34 +50,33 @@ export default class IndexTable extends Component {
     this.setState({attributes: this._simplifyAttributes(nextProps.attributes)});
   }
 
-  _onClickRow (uri) {
-    this.props.onSelect(uri);
-  }
-
   _simplifyAttributes (attributes) {
     let result;
     if (attributes) {
-      result = attributes
-        .filter(function (attribute) {
-          return ! attribute.hidden;
-        });
+      result = attributes.filter(attribute => ! attribute.hidden);
     }
     return result;
   }
 
+  _onClickRow (uri) {
+    this.props.onSelect(uri);
+  }
+
   _renderRow (item) {
+    const { selection, itemComponent } = this.props;
     let onClick;
     if (this.props.onSelect) {
       onClick = this._onClickRow.bind(this, item.uri);
     }
     let selected = false;
-    if (this.props.selection && item.uri === this.props.selection) {
+    if (selection && item.uri === selection) {
       selected = true;
     }
     let row;
-    if (this.props.itemComponent) {
+    if (itemComponent) {
+      const Component = itemComponent;
       row = (
-        <this.props.itemComponent key={item.uri} item={item} onClick={onClick}
+        <Component key={item.uri} item={item} onClick={onClick}
           selected={selected} />
       );
     } else {
@@ -92,29 +89,30 @@ export default class IndexTable extends Component {
   }
 
   render () {
-    var classes = [CLASS_ROOT];
+    const { result, selection } = this.props;
+    const { attributes } = this.state;
+    let classes = [CLASS_ROOT];
     if (this.props.className) {
       classes.push(this.props.className);
     }
 
-    var attributes = this.state.attributes;
-
     var header;
     if (attributes) {
-      let headerCells = attributes.map(function (attribute) {
-        var classes = [];
+      let headerCells = attributes.map(attribute => {
+        let classes = [];
         if (attribute.secondary) {
-          classes.push(CLASS_ROOT + "__header--secondary");
+          classes.push(`${CLASS_ROOT}__header--secondary`);
         }
         if (attribute.size) {
-          classes.push(CLASS_ROOT + "__header--" + attribute.size);
+          classes.push(`${CLASS_ROOT}__header--${attribute.size}`);
         }
 
-        var content = attribute.label;
+        let content = attribute.label;
         if ('status' === attribute.name) {
-          classes.push(CLASS_ROOT + "__cell--icon");
+          classes.push(`${CLASS_ROOT}__cell--icon`);
           content = (
-            <StatusIcon className={CLASS_ROOT + "__header-icon"} value={'label'} small={true} />
+            <StatusIcon className={`${CLASS_ROOT}__header-icon`}
+              value={'label'} small={true} />
           );
         }
 
@@ -130,18 +128,17 @@ export default class IndexTable extends Component {
 
     let rows;
     let selectionIndex;
-    if (this.props.result && this.props.result.items) {
-      rows = this.props.result.items.map(function (item, index) {
-        if (this.props.selection && item.uri === this.props.selection) {
+    if (result && result.items) {
+      rows = result.items.map((item, index) => {
+        if (selection && item.uri === selection) {
           selectionIndex = index;
         }
         return this._renderRow(item);
-      }, this);
+      });
     }
 
     let onMore;
-    if (this.props.result &&
-      this.props.result.count < this.props.result.total) {
+    if (result && result.count < result.total) {
       onMore = this.props.onMore;
     }
 
@@ -165,14 +162,14 @@ IndexTable.propTypes = {
     PropTypes.object,
     PropTypes.func
   ]),
+  onMore: PropTypes.func,
+  onSelect: PropTypes.func,
   result: IndexPropTypes.result,
   selection: PropTypes.oneOfType([
     PropTypes.string, // uri
     PropTypes.arrayOf(PropTypes.string)
   ]),
-  scrollable: PropTypes.bool,
-  onMore: PropTypes.func,
-  onSelect: PropTypes.func
+  scrollable: PropTypes.bool
 };
 
 IndexTable.defaultProps = {

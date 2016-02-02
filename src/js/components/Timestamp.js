@@ -22,8 +22,8 @@ export default class Timestamp extends Component {
     const time = value.toLocaleTimeString(locale, timeOptions);
     return (
       <span className={classes.join(' ')}>
-        <span className={CLASS_ROOT + '__date'}>{date}
-        </span> <span className={CLASS_ROOT + '__time'}>{time}</span>
+        <span className={`${CLASS_ROOT}__date`}>{date}
+        </span> <span className={`${CLASS_ROOT}__time`}>{time}</span>
       </span>
     );
   }

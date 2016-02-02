@@ -57,18 +57,20 @@ export default class IndexList extends Component {
   }
 
   _renderListItem (item) {
+    const { selection, itemComponent } = this.props;
     let onClick;
     if (this.props.onSelect) {
       onClick = this._onClickItem.bind(this, item.uri);
     }
     let selected = false;
-    if (this.props.selection && item.uri === this.props.selection) {
+    if (selection && item.uri === selection) {
       selected = true;
     }
     let listItem;
-    if (this.props.itemComponent) {
+    if (itemComponent) {
+      const Component = itemComponent;
       listItem = (
-        <this.props.itemComponent key={item.uri} item={item} onClick={onClick}
+        <Component key={item.uri} item={item} onClick={onClick}
           selected={selected} />
       );
     } else {
@@ -81,16 +83,17 @@ export default class IndexList extends Component {
   }
 
   render () {
-    var classes = [CLASS_ROOT];
+    const { result, selection } = this.props;
+    let classes = [CLASS_ROOT];
     if (this.props.className) {
       classes.push(this.props.className);
     }
 
     let listItems;
     let selectionIndex;
-    if (this.props.result && this.props.result.items) {
-      listItems = this.props.result.items.map(function (item, index) {
-        if (this.props.selection && item.uri === this.props.selection) {
+    if (result && result.items) {
+      listItems = result.items.map(function (item, index) {
+        if (selection && item.uri === selection) {
           selectionIndex = index;
         }
         return this._renderListItem(item);
@@ -98,8 +101,7 @@ export default class IndexList extends Component {
     }
 
     let onMore;
-    if (this.props.result &&
-      this.props.result.count < this.props.result.total) {
+    if (result && result.count < result.total) {
       onMore = this.props.onMore;
     }
 
@@ -120,10 +122,10 @@ IndexList.propTypes = {
     PropTypes.object,
     PropTypes.func
   ]),
+  onSelect: PropTypes.func,
   result: IndexPropTypes.result,
   selection: PropTypes.oneOfType([
     PropTypes.string, // uri
     PropTypes.arrayOf(PropTypes.string)
-  ]),
-  onSelect: PropTypes.func
+  ])
 };

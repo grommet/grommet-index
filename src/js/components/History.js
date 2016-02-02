@@ -16,11 +16,15 @@ export default class IndexHistory extends Component {
   }
 
   _stateFromProps (props) {
-    var xAxis = [];
+    let series = [];
+    let xAxis = [];
     if (props.series) {
-      var series = props.series.map(function (item, index) {
-        var values = item.intervals.map(function (interval) {
-          var date = new Date(Date.parse(interval.start));
+      series = props.series.map((item, index) => {
+        const values = item.intervals.map(interval => {
+          let date = interval.start;
+          if (typeof interval.start === 'string') {
+            date = new Date(Date.parse(interval.start));
+          }
           if (0 === index) {
             xAxis.push({
               label: (date.getMonth() + 1) + '/' + date.getDate(),
@@ -30,11 +34,15 @@ export default class IndexHistory extends Component {
           return [date, interval.count];
         });
 
-        var colorIndex = 'graph-' + (index + 1);
-        if ('status' === props.attribute) {
-          colorIndex = interval.value.toLowerCase();
+        let colorIndex = `graph-${index + 1}`;
+        if ('status' === props.name) {
+          colorIndex = item.value.toLowerCase();
         }
-        return {label: item.value, values: values, colorIndex: colorIndex};
+        return {
+          label: (item.label || item.value),
+          values: values,
+          colorIndex: colorIndex
+        };
       });
     }
     return { series: series, xAxis: xAxis };
@@ -44,7 +52,7 @@ export default class IndexHistory extends Component {
     return (
       <Chart series={this.state.series || []}
         xAxis={this.state.xAxis || []}
-        legend={{position: 'overlay'}}
+        legend={{position: 'after'}}
         legendTotal={true}
         size={this.props.size}
         smooth={this.props.smooth}
@@ -61,9 +69,10 @@ export default class IndexHistory extends Component {
 IndexHistory.propTypes = {
   a11yTitleId: PropTypes.string,
   a11yDescId: PropTypes.string,
-  attribute: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
   points: PropTypes.bool,
   series: PropTypes.arrayOf(PropTypes.shape({
+    label: PropTypes.string,
     value: PropTypes.string.isRequired,
     intervals: PropTypes.arrayOf(PropTypes.shape({
       count: PropTypes.number,

@@ -3,7 +3,6 @@
 import React, { Component, PropTypes } from 'react';
 import Meter from 'grommet/components/Meter';
 import Distribution from 'grommet/components/Distribution';
-import IndexQuery from '../utils/Query';
 
 const STATUS_IMPORTANCE = {
   'error': 1,
@@ -18,9 +17,7 @@ export default class Aggregate extends Component {
 
   constructor (props) {
     super(props);
-
     this._onClick = this._onClick.bind(this);
-
     this.state = this._stateFromProps(props);
   }
 
@@ -28,21 +25,11 @@ export default class Aggregate extends Component {
     this.setState(this._stateFromProps(nextProps));
   }
 
-  _onClick (value) {
-    var query;
-    if (this.props.query) {
-      query = this.props.query.clone();
-    } else {
-      query = IndexQuery.create();
-    }
-    query.replaceAttributeValues(this.props.attribute, [value]);
-    this.props.onClick(query);
-  }
-
   _stateFromProps (props) {
-    var series = (props.series || []).map(function(item, index) {
-      var colorIndex = 'graph-' + (index + 1);
-      if ('status' === props.attribute) {
+    // convert the format Meter and Distribution want
+    let series = props.values.map((item, index) => {
+      let colorIndex = `graph-${index + 1}`;
+      if ('status' === props.name) {
         colorIndex = item.value.toLowerCase();
       }
       return {
@@ -52,9 +39,9 @@ export default class Aggregate extends Component {
         onClick: this._onClick.bind(this, item.value),
         important: false
       };
-    }, this);
+    });
 
-    if ('status' === props.attribute && series.length > 0) {
+    if ('status' === props.name && series.length > 0) {
       // re-order by importance
       series.sort(function (s1, s2) {
         return (STATUS_IMPORTANCE[s2.label.toLowerCase()] -
@@ -67,20 +54,27 @@ export default class Aggregate extends Component {
     return { series: series };
   }
 
+  _onClick (value) {
+    let filters = { ...this.props.filters };
+    filters[this.props.name] = value;
+    this.props.onClick(filters);
+  }
+
   render () {
-    var component;
+    let result;
     if ('distribution' === this.props.type) {
-      component = (
-        <Distribution series={this.state.series || []}
+      result = (
+        <Distribution series={this.state.series}
           legend={true}
           legendTotal={true}
           size={this.props.size} />
       );
     } else {
-      component = (
-        <Meter series={this.state.series || []}
+      result = (
+        <Meter series={this.state.series}
           legend={this.props.legend}
           size={this.props.size}
+          stacked={this.props.stacked}
           type={this.props.type}
           threshold={this.props.threshold}
           a11yTitleId={this.props.a11yTitleId}
@@ -88,7 +82,7 @@ export default class Aggregate extends Component {
       );
     }
 
-    return component;
+    return result;
   }
 
 }
@@ -96,7 +90,7 @@ export default class Aggregate extends Component {
 Aggregate.propTypes = {
   a11yTitleId: PropTypes.string,
   a11yDescId: PropTypes.string,
-  attribute: PropTypes.string.isRequired,
+  filters: PropTypes.object, // { name: [value, ...] }
   legend: PropTypes.oneOfType([
     PropTypes.bool,
     PropTypes.shape({
@@ -104,14 +98,19 @@ Aggregate.propTypes = {
       placement: PropTypes.oneOf(['right', 'bottom'])
     })
   ]),
-  onClick: PropTypes.func,
-  query: PropTypes.object,
-  series: PropTypes.arrayOf(PropTypes.shape({
+  name: PropTypes.string.isRequired,
+  onClick: PropTypes.func, // (filters)
+  size: PropTypes.oneOf(['small', 'medium', 'large']),
+  stacked: PropTypes.bool,
+  threshold: PropTypes.number,
+  type: PropTypes.oneOf(['bar', 'arc', 'circle', 'distribution']),
+  values: PropTypes.arrayOf(PropTypes.shape({
     label: PropTypes.string,
     value: PropTypes.string.isRequired,
     count: PropTypes.number.isRequired
-  })),
-  size: PropTypes.oneOf(['small', 'medium', 'large']),
-  threshold: PropTypes.number,
-  type: PropTypes.oneOf(['bar', 'arc', 'circle', 'distribution'])
+  }))
+};
+
+Aggregate.defaultProps = {
+  values: []
 };

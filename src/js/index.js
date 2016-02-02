@@ -2,6 +2,7 @@
 
 export * from './components/Aggregate';
 export * from './components/Attribute';
+export * from './components/Filter';
 export * from './components/Filters';
 export * from './components/Header';
 export * from './components/History';

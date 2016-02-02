@@ -10,22 +10,21 @@ const CLASS_ROOT = "index-attribute";
 export default class Attribute extends Component {
 
   render () {
-    var attribute = this.props.attribute;
+    const { attribute, item } = this.props;
 
-    var classes = [CLASS_ROOT];
+    let classes = [CLASS_ROOT];
     if (attribute.secondary) {
-      classes.push(CLASS_ROOT + "--secondary");
+      classes.push(`${CLASS_ROOT}--secondary`);
     }
     if (attribute.size) {
-      classes.push(CLASS_ROOT + "--" + attribute.size);
+      classes.push(`${CLASS_ROOT}--${attribute.size}`);
     }
     if (this.props.className) {
       classes.push(this.props.className);
     }
 
-    var item = this.props.item;
-    var content = (<span>'?'</span>);
-    var value;
+    let content = <span>'?'</span>;
+    let value;
 
     if (attribute.hasOwnProperty('render')) {
 
@@ -49,7 +48,7 @@ export default class Attribute extends Component {
             value={value.toLowerCase()} small={true} />
         );
       } else if (attribute.timestamp) {
-        classes.push(CLASS_ROOT + "__timestamp");
+        classes.push(`${CLASS_ROOT}__timestamp`);
         content = (
           <Timestamp className={classes.join(' ')} value={value} />
         );
@@ -65,6 +64,5 @@ export default class Attribute extends Component {
 
 Attribute.propTypes = {
   item: PropTypes.object.isRequired,
-  attribute: IndexPropTypes.attribute.isRequired,
-  className: PropTypes.string
+  attribute: IndexPropTypes.attribute.isRequired
 };

@@ -1,14 +1,11 @@
 // (C) Copyright 2014-2015 Hewlett Packard Enterprise Development LP
 
 import React, { Component, PropTypes } from 'react';
-import update from 'react/lib/update';
 import Menu from 'grommet/components/Menu';
+import Box from 'grommet/components/Box';
 import FilterIcon from 'grommet/components/icons/base/Filter';
-import CheckBox from 'grommet/components/CheckBox';
-import StatusIcon from 'grommet/components/icons/Status';
-import IndexPropTypes from '../utils/PropTypes';
-import IndexQuery from '../utils/Query';
-import Intl from 'grommet/utils/Intl';
+import Filter from './Filter';
+import Sort from './Sort';
 
 const CLASS_ROOT = 'index-filters';
 
@@ -18,130 +15,123 @@ export default class Filters extends Component {
     super(props);
 
     this._onChange = this._onChange.bind(this);
-    this._onChangeAll = this._onChangeAll.bind(this);
-
-    this.state = this._stateFromProps(props);
+    this._onChangeSort = this._onChangeSort.bind(this);
   }
 
-  componentWillReceiveProps (nextProps) {
-    this.setState(this._stateFromProps(nextProps));
+  _onChange (name, filterValues) {
+    let values = { ...this.props.values };
+    values[name] = filterValues;
+    this.props.onChange(values);
   }
 
-  _notify () {
-    let query;
-    if (this.props.query) {
-      query = this.props.query.clone();
-    } else {
-      query = IndexQuery.create('');
-    }
-
-    this.props.attributes
-      .filter(attribute => attribute.hasOwnProperty('filter'))
-      .forEach(attribute => {
-        let attributeData = this.state[attribute.name];
-        let activeValues = attribute.filter.filter(value => attributeData[value]);
-        query.replaceAttributeValues(attribute.name, activeValues);
-      });
-    this.props.onQuery(query);
+  _onChangeSort (value) {
+    this.props.onSort(value);
   }
 
-  _onChange (attribute, value) {
-    let result = update(this.state, {
-      [attribute]: {
-        [value]: { $apply: x => !x },
-        all: { $set: false }
-      }
-    });
-    this.setState(result, this._notify);
+  _renderFilter (attribute) {
+    const { filter } = attribute;
+    return (
+      <Filter key={attribute.name} all={filter.all} inline={true}
+        label={attribute.label} name={attribute.name}
+        status={attribute.status} choices={filter.values}
+        values={this.props.values[attribute.name]}
+        onChange={values => {
+          this._onChange(attribute.name, values);
+        }} />
+    );
   }
 
-  _onChangeAll (attribute, values) {
-    let changes = {[attribute]: {all: { $set: true }}};
-    values.forEach(value => {
-      changes[attribute][value] = { $set: false };
-    });
-    let result = update(this.state, changes);
-    this.setState(result, this._notify);
-  }
-
-  _stateFromProps (props) {
-    let query = props.query || IndexQuery.create('');
-    let state = {};
-    props.attributes
-      .filter(attribute => attribute.hasOwnProperty('filter'))
-      .forEach(attribute => {
-        let values = {};
-        attribute.filter.forEach(value => {
-          values[value] =
-            query.hasToken({attribute: attribute.name, value: value});
-        });
-        values.all =
-          (query.attributeValues(attribute.name).length === 0);
-        state[attribute.name] = values;
-      });
-    return state;
+  _renderSort () {
+    const { attributes, sort } = this.props;
+    return (
+      <Sort attributes={attributes} value={sort}
+        onChange={this._onChangeSort} />
+    );
   }
 
   render () {
-    let activeFilterCount = 0;
+    const { attributes, inline, values } = this.props;
+    let classNames = [CLASS_ROOT];
+    if (inline) {
+      classNames.push(`${CLASS_ROOT}--inline`);
+    }
+    if (this.props.className) {
+      classNames.push(this.props.className);
+    }
 
-    let filters = this.props.attributes
+    const filters = attributes
       .filter(attribute => attribute.hasOwnProperty('filter'))
-      .map(attribute => {
-        let values = attribute.filter.map(value => {
-          let id = attribute.name + '-' + value;
-          let active = this.state[attribute.name][value];
-          if (active) {
-            activeFilterCount += 1;
-          }
-          let label = value || '';
-          if (attribute.name === 'status') {
-            label = <span><StatusIcon value={value} size="small" /> {value}</span>;
-          }
-          return (
-            <CheckBox key={id} className={`${CLASS_ROOT}__filter-value`}
-              id={id} label={label}
-              checked={active}
-              onChange={this._onChange
-                .bind(this, attribute.name, value)} />
-          );
-        });
+      .map(attribute => this._renderFilter(attribute));
 
-        let components = [];
-        let label = Intl.getMessage(this.context.intl, 'All');
-        components.push(
-          <CheckBox key={attribute.name + '-all'}
-            className={`${CLASS_ROOT}__filter-value`}
-            id={attribute.name + '-all'}
-            label={label}
-            checked={this.state[attribute.name].all}
-            onChange={this._onChangeAll
-              .bind(this, attribute.name, attribute.filter)} />
-        );
-        return (
-          <fieldset key={attribute.name} className={CLASS_ROOT}>
-            <legend className={`${CLASS_ROOT}__filter-legend`}>{attribute.label}</legend>
-            {components.concat(values)}
-          </fieldset>);
-      });
+    let sort;
+    if (this.props.sort) {
+      sort = this._renderSort();
+    }
 
-    let icon = <FilterIcon colorIndex={activeFilterCount ? 'brand' : undefined} />;
-
-    return (
-      <Menu className={`${CLASS_ROOT}__menu`} icon={icon}
-        dropAlign={{right: 'right'}} pad="medium" a11yTitle="Filter"
-        direction="column" closeOnClick={false}>
-        {filters}
-      </Menu>
+    const selectedFilterCount = Object.keys(values).length;
+    const icon = (
+      <FilterIcon colorIndex={selectedFilterCount ? 'brand' : undefined} />
     );
+
+    let result;
+    if (inline) {
+      result = (
+        <Box direction="column" pad={{between: 'medium'}}
+          className={classNames.join(' ')}>
+          {filters}
+          {sort}
+        </Box>
+      );
+    } else {
+      classNames.push(`${CLASS_ROOT}__drop`);
+      result = (
+        <Menu className={CLASS_ROOT + "__menu"} icon={icon}
+          dropAlign={{right: 'right'}} a11yTitle="Filter"
+          direction="column" closeOnClick={false}>
+          <Box direction="column"
+            pad={{horizontal: 'medium', vertical: 'medium', between: 'medium'}}
+            className={classNames.join(' ')}>
+            {filters}
+            {sort}
+          </Box>
+        </Menu>
+      );
+    }
+
+    return result;
   }
 
 }
 
 Filters.propTypes = {
-  attributes: IndexPropTypes.attributes.isRequired,
-  query: PropTypes.object,
-  onQuery: PropTypes.func
+  attributes: PropTypes.arrayOf(PropTypes.shape({
+    filter: PropTypes.shape({
+      all: PropTypes.bool,
+      values: PropTypes.arrayOf(PropTypes.shape({
+        label: PropTypes.string,
+        value: PropTypes.string.isRequired
+      })).isRequired
+    }),
+    label: PropTypes.string,
+    name: PropTypes.string.isRequired,
+    sort: PropTypes.shape({
+      direction: PropTypes.string, // asc|desc
+      sections: PropTypes.arrayOf(PropTypes.shape({
+        label: PropTypes.string,
+        value: PropTypes.any
+      }))
+    }),
+    status: PropTypes.bool
+  })).isRequired,
+  inline: PropTypes.bool,
+  onChange: PropTypes.func, // (values)
+  onSort: PropTypes.func, // (sort)
+  sort: PropTypes.string, // name:asc|desc
+  values: PropTypes.object // name: [value, ...]
+};
+
+Filters.defaultProps = {
+  values: {}
 };
 
 Filters.contextTypes = {

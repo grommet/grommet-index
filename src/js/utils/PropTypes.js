@@ -2,25 +2,40 @@
 
 import { PropTypes } from 'react';
 
-var attribute = PropTypes.shape({
-  name: PropTypes.string,
+let attribute = PropTypes.shape({
+  filter: PropTypes.shape({
+    all: PropTypes.bool,
+    values: PropTypes.arrayOf(PropTypes.shape({
+      label: PropTypes.string,
+      value: PropTypes.string
+    })).isRequired
+  }),
   header: PropTypes.bool,
   hidden: PropTypes.bool,
   label: PropTypes.string,
+  name: PropTypes.string.isRequired,
+  render: PropTypes.func,
   size: PropTypes.string,
-  timestamp: PropTypes.bool,
-  render: PropTypes.func
+  sort: PropTypes.shape({
+    direction: PropTypes.string,
+    sections: PropTypes.arrayOf(PropTypes.shape({
+      label: PropTypes.string,
+      value: PropTypes.any
+    }))
+  }),
+  timestamp: PropTypes.bool
 });
 
 export default {
   attribute: attribute,
   attributes: PropTypes.arrayOf(attribute),
+  query: PropTypes.object,
   result: PropTypes.shape({
-    total: PropTypes.number,
+    total: PropTypes.number.isRequired,
     unfilteredTotal: PropTypes.number,
     start: PropTypes.number,
-    count: PropTypes.number,
-    items: PropTypes.arrayOf(PropTypes.object),
+    count: PropTypes.number.isRequired,
+    items: PropTypes.arrayOf(PropTypes.object).isRequired,
     error: PropTypes.string
   })
 };
