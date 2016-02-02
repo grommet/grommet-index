@@ -1,5 +1,7 @@
 'use strict';
 
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 Object.defineProperty(exports, "__esModule", {
@@ -10,41 +12,27 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _update2 = require('react/lib/update');
-
-var _update3 = _interopRequireDefault(_update2);
-
 var _Menu = require('grommet/components/Menu');
 
 var _Menu2 = _interopRequireDefault(_Menu);
+
+var _Box = require('grommet/components/Box');
+
+var _Box2 = _interopRequireDefault(_Box);
 
 var _Filter = require('grommet/components/icons/base/Filter');
 
 var _Filter2 = _interopRequireDefault(_Filter);
 
-var _CheckBox = require('grommet/components/CheckBox');
+var _Filter3 = require('./Filter');
 
-var _CheckBox2 = _interopRequireDefault(_CheckBox);
+var _Filter4 = _interopRequireDefault(_Filter3);
 
-var _Status = require('grommet/components/icons/Status');
+var _Sort = require('./Sort');
 
-var _Status2 = _interopRequireDefault(_Status);
-
-var _PropTypes = require('../utils/PropTypes');
-
-var _PropTypes2 = _interopRequireDefault(_PropTypes);
-
-var _Query = require('../utils/Query');
-
-var _Query2 = _interopRequireDefault(_Query);
-
-var _Intl = require('grommet/utils/Intl');
-
-var _Intl2 = _interopRequireDefault(_Intl);
+var _Sort2 = _interopRequireDefault(_Sort);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -63,138 +51,107 @@ var Filters = function (_Component) {
     var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Filters).call(this, props));
 
     _this._onChange = _this._onChange.bind(_this);
-    _this._onChangeAll = _this._onChangeAll.bind(_this);
-
-    _this.state = _this._stateFromProps(props);
+    _this._onChangeSort = _this._onChangeSort.bind(_this);
     return _this;
   }
 
   _createClass(Filters, [{
-    key: 'componentWillReceiveProps',
-    value: function componentWillReceiveProps(nextProps) {
-      this.setState(this._stateFromProps(nextProps));
+    key: '_onChange',
+    value: function _onChange(name, filterValues) {
+      var values = _extends({}, this.props.values);
+      values[name] = filterValues;
+      this.props.onChange(values);
     }
   }, {
-    key: '_notify',
-    value: function _notify() {
+    key: '_onChangeSort',
+    value: function _onChangeSort(value) {
+      this.props.onSort(value);
+    }
+  }, {
+    key: '_renderFilter',
+    value: function _renderFilter(attribute) {
       var _this2 = this;
 
-      var query = undefined;
-      if (this.props.query) {
-        query = this.props.query.clone();
-      } else {
-        query = _Query2.default.create('');
-      }
+      var filter = attribute.filter;
 
-      this.props.attributes.filter(function (attribute) {
-        return attribute.hasOwnProperty('filter');
-      }).forEach(function (attribute) {
-        var attributeData = _this2.state[attribute.name];
-        var activeValues = attribute.filter.filter(function (value) {
-          return attributeData[value];
-        });
-        query.replaceAttributeValues(attribute.name, activeValues);
-      });
-      this.props.onQuery(query);
+      return _react2.default.createElement(_Filter4.default, { key: attribute.name, all: filter.all, inline: true,
+        label: attribute.label, name: attribute.name,
+        status: attribute.status, choices: filter.values,
+        values: this.props.values[attribute.name],
+        onChange: function onChange(values) {
+          _this2._onChange(attribute.name, values);
+        } });
     }
   }, {
-    key: '_onChange',
-    value: function _onChange(attribute, value) {
-      var _attribute;
+    key: '_renderSort',
+    value: function _renderSort() {
+      var _props = this.props;
+      var attributes = _props.attributes;
+      var sort = _props.sort;
 
-      var result = (0, _update3.default)(this.state, _defineProperty({}, attribute, (_attribute = {}, _defineProperty(_attribute, value, { $apply: function $apply(x) {
-          return !x;
-        } }), _defineProperty(_attribute, 'all', { $set: false }), _attribute)));
-      this.setState(result, this._notify);
-    }
-  }, {
-    key: '_onChangeAll',
-    value: function _onChangeAll(attribute, values) {
-      var changes = _defineProperty({}, attribute, { all: { $set: true } });
-      values.forEach(function (value) {
-        changes[attribute][value] = { $set: false };
-      });
-      var result = (0, _update3.default)(this.state, changes);
-      this.setState(result, this._notify);
-    }
-  }, {
-    key: '_stateFromProps',
-    value: function _stateFromProps(props) {
-      var query = props.query || _Query2.default.create('');
-      var state = {};
-      props.attributes.filter(function (attribute) {
-        return attribute.hasOwnProperty('filter');
-      }).forEach(function (attribute) {
-        var values = {};
-        attribute.filter.forEach(function (value) {
-          values[value] = query.hasToken({ attribute: attribute.name, value: value });
-        });
-        values.all = query.attributeValues(attribute.name).length === 0;
-        state[attribute.name] = values;
-      });
-      return state;
+      return _react2.default.createElement(_Sort2.default, { attributes: attributes, value: sort,
+        onChange: this._onChangeSort });
     }
   }, {
     key: 'render',
     value: function render() {
       var _this3 = this;
 
-      var activeFilterCount = 0;
+      var _props2 = this.props;
+      var attributes = _props2.attributes;
+      var inline = _props2.inline;
+      var values = _props2.values;
 
-      var filters = this.props.attributes.filter(function (attribute) {
+      var classNames = [CLASS_ROOT];
+      if (inline) {
+        classNames.push(CLASS_ROOT + '--inline');
+      }
+      if (this.props.className) {
+        classNames.push(this.props.className);
+      }
+
+      var filters = attributes.filter(function (attribute) {
         return attribute.hasOwnProperty('filter');
       }).map(function (attribute) {
-        var values = attribute.filter.map(function (value) {
-          var id = attribute.name + '-' + value;
-          var active = _this3.state[attribute.name][value];
-          if (active) {
-            activeFilterCount += 1;
-          }
-          var label = value || '';
-          if (attribute.name === 'status') {
-            label = _react2.default.createElement(
-              'span',
-              null,
-              _react2.default.createElement(_Status2.default, { value: value, size: 'small' }),
-              ' ',
-              value
-            );
-          }
-          return _react2.default.createElement(_CheckBox2.default, { key: id, className: CLASS_ROOT + '__filter-value',
-            id: id, label: label,
-            checked: active,
-            onChange: _this3._onChange.bind(_this3, attribute.name, value) });
-        });
-
-        var components = [];
-        var label = _Intl2.default.getMessage(_this3.context.intl, 'All');
-        components.push(_react2.default.createElement(_CheckBox2.default, { key: attribute.name + '-all',
-          className: CLASS_ROOT + '__filter-value',
-          id: attribute.name + '-all',
-          label: label,
-          checked: _this3.state[attribute.name].all,
-          onChange: _this3._onChangeAll.bind(_this3, attribute.name, attribute.filter) }));
-        return _react2.default.createElement(
-          'fieldset',
-          { key: attribute.name, className: CLASS_ROOT },
-          _react2.default.createElement(
-            'legend',
-            { className: CLASS_ROOT + '__filter-legend' },
-            attribute.label
-          ),
-          components.concat(values)
-        );
+        return _this3._renderFilter(attribute);
       });
 
-      var icon = _react2.default.createElement(_Filter2.default, { colorIndex: activeFilterCount ? 'brand' : undefined });
+      var sort = undefined;
+      if (this.props.sort) {
+        sort = this._renderSort();
+      }
 
-      return _react2.default.createElement(
-        _Menu2.default,
-        { className: CLASS_ROOT + '__menu', icon: icon,
-          dropAlign: { right: 'right' }, pad: 'medium', a11yTitle: 'Filter',
-          direction: 'column', closeOnClick: false },
-        filters
-      );
+      var selectedFilterCount = Object.keys(values).length;
+      var icon = _react2.default.createElement(_Filter2.default, { colorIndex: selectedFilterCount ? 'brand' : undefined });
+
+      var result = undefined;
+      if (inline) {
+        result = _react2.default.createElement(
+          _Box2.default,
+          { direction: 'column', pad: { between: 'medium' },
+            className: classNames.join(' ') },
+          filters,
+          sort
+        );
+      } else {
+        classNames.push(CLASS_ROOT + '__drop');
+        result = _react2.default.createElement(
+          _Menu2.default,
+          { className: CLASS_ROOT + "__menu", icon: icon,
+            dropAlign: { right: 'right' }, a11yTitle: 'Filter',
+            direction: 'column', closeOnClick: false },
+          _react2.default.createElement(
+            _Box2.default,
+            { direction: 'column',
+              pad: { horizontal: 'medium', vertical: 'medium', between: 'medium' },
+              className: classNames.join(' ') },
+            filters,
+            sort
+          )
+        );
+      }
+
+      return result;
     }
   }]);
 
@@ -204,9 +161,34 @@ var Filters = function (_Component) {
 exports.default = Filters;
 
 Filters.propTypes = {
-  attributes: _PropTypes2.default.attributes.isRequired,
-  query: _react.PropTypes.object,
-  onQuery: _react.PropTypes.func
+  attributes: _react.PropTypes.arrayOf(_react.PropTypes.shape({
+    filter: _react.PropTypes.shape({
+      all: _react.PropTypes.bool,
+      values: _react.PropTypes.arrayOf(_react.PropTypes.shape({
+        label: _react.PropTypes.string,
+        value: _react.PropTypes.string.isRequired
+      })).isRequired
+    }),
+    label: _react.PropTypes.string,
+    name: _react.PropTypes.string.isRequired,
+    sort: _react.PropTypes.shape({
+      direction: _react.PropTypes.string, // asc|desc
+      sections: _react.PropTypes.arrayOf(_react.PropTypes.shape({
+        label: _react.PropTypes.string,
+        value: _react.PropTypes.any
+      }))
+    }),
+    status: _react.PropTypes.bool
+  })).isRequired,
+  inline: _react.PropTypes.bool,
+  onChange: _react.PropTypes.func, // (values)
+  onSort: _react.PropTypes.func, // (sort)
+  sort: _react.PropTypes.string, // name:asc|desc
+  values: _react.PropTypes.object // name: [value, ...]
+};
+
+Filters.defaultProps = {
+  values: {}
 };
 
 Filters.contextTypes = {

@@ -94,7 +94,6 @@ var IndexTable = function (_Component2) {
     var _this2 = _possibleConstructorReturn(this, Object.getPrototypeOf(IndexTable).call(this, props));
 
     _this2._onClickRow = _this2._onClickRow.bind(_this2);
-
     _this2.state = { attributes: _this2._simplifyAttributes(props.attributes) };
     return _this2;
   }
@@ -103,11 +102,6 @@ var IndexTable = function (_Component2) {
     key: 'componentWillReceiveProps',
     value: function componentWillReceiveProps(nextProps) {
       this.setState({ attributes: this._simplifyAttributes(nextProps.attributes) });
-    }
-  }, {
-    key: '_onClickRow',
-    value: function _onClickRow(uri) {
-      this.props.onSelect(uri);
     }
   }, {
     key: '_simplifyAttributes',
@@ -121,19 +115,29 @@ var IndexTable = function (_Component2) {
       return result;
     }
   }, {
+    key: '_onClickRow',
+    value: function _onClickRow(uri) {
+      this.props.onSelect(uri);
+    }
+  }, {
     key: '_renderRow',
     value: function _renderRow(item) {
+      var _props2 = this.props;
+      var selection = _props2.selection;
+      var itemComponent = _props2.itemComponent;
+
       var onClick = undefined;
       if (this.props.onSelect) {
         onClick = this._onClickRow.bind(this, item.uri);
       }
       var selected = false;
-      if (this.props.selection && item.uri === this.props.selection) {
+      if (selection && item.uri === selection) {
         selected = true;
       }
       var row = undefined;
-      if (this.props.itemComponent) {
-        row = _react2.default.createElement(this.props.itemComponent, { key: item.uri, item: item, onClick: onClick,
+      if (itemComponent) {
+        var _Component3 = itemComponent;
+        row = _react2.default.createElement(_Component3, { key: item.uri, item: item, onClick: onClick,
           selected: selected });
       } else {
         row = _react2.default.createElement(IndexTableRow, { key: item.uri, item: item, onClick: onClick,
@@ -144,28 +148,34 @@ var IndexTable = function (_Component2) {
   }, {
     key: 'render',
     value: function render() {
+      var _this3 = this;
+
+      var _props3 = this.props;
+      var result = _props3.result;
+      var selection = _props3.selection;
+      var attributes = this.state.attributes;
+
       var classes = [CLASS_ROOT];
       if (this.props.className) {
         classes.push(this.props.className);
       }
-
-      var attributes = this.state.attributes;
 
       var header;
       if (attributes) {
         var headerCells = attributes.map(function (attribute) {
           var classes = [];
           if (attribute.secondary) {
-            classes.push(CLASS_ROOT + "__header--secondary");
+            classes.push(CLASS_ROOT + '__header--secondary');
           }
           if (attribute.size) {
-            classes.push(CLASS_ROOT + "__header--" + attribute.size);
+            classes.push(CLASS_ROOT + '__header--' + attribute.size);
           }
 
           var content = attribute.label;
           if ('status' === attribute.name) {
-            classes.push(CLASS_ROOT + "__cell--icon");
-            content = _react2.default.createElement(_Status2.default, { className: CLASS_ROOT + "__header-icon", value: 'label', small: true });
+            classes.push(CLASS_ROOT + '__cell--icon');
+            content = _react2.default.createElement(_Status2.default, { className: CLASS_ROOT + '__header-icon',
+              value: 'label', small: true });
           }
 
           return _react2.default.createElement(
@@ -188,17 +198,17 @@ var IndexTable = function (_Component2) {
 
       var rows = undefined;
       var selectionIndex = undefined;
-      if (this.props.result && this.props.result.items) {
-        rows = this.props.result.items.map(function (item, index) {
-          if (this.props.selection && item.uri === this.props.selection) {
+      if (result && result.items) {
+        rows = result.items.map(function (item, index) {
+          if (selection && item.uri === selection) {
             selectionIndex = index;
           }
-          return this._renderRow(item);
-        }, this);
+          return _this3._renderRow(item);
+        });
       }
 
       var onMore = undefined;
-      if (this.props.result && this.props.result.count < this.props.result.total) {
+      if (result && result.count < result.total) {
         onMore = this.props.onMore;
       }
 
@@ -227,12 +237,12 @@ exports.default = IndexTable;
 IndexTable.propTypes = {
   attributes: _PropTypes2.default.attributes,
   itemComponent: _react.PropTypes.oneOfType([_react.PropTypes.object, _react.PropTypes.func]),
+  onMore: _react.PropTypes.func,
+  onSelect: _react.PropTypes.func,
   result: _PropTypes2.default.result,
   selection: _react.PropTypes.oneOfType([_react.PropTypes.string, // uri
   _react.PropTypes.arrayOf(_react.PropTypes.string)]),
-  scrollable: _react.PropTypes.bool,
-  onMore: _react.PropTypes.func,
-  onSelect: _react.PropTypes.func
+  scrollable: _react.PropTypes.bool
 };
 
 IndexTable.defaultProps = {

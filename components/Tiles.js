@@ -151,17 +151,22 @@ var IndexTiles = function (_Component2) {
   }, {
     key: '_renderTile',
     value: function _renderTile(item) {
+      var _props2 = this.props;
+      var selection = _props2.selection;
+      var itemComponent = _props2.itemComponent;
+
       var onClick = undefined;
       if (this.props.onSelect) {
         onClick = this._onClickTile.bind(this, item.uri);
       }
       var selected = false;
-      if (this.props.selection && item.uri === this.props.selection) {
+      if (selection && item.uri === selection) {
         selected = true;
       }
       var tile = undefined;
-      if (this.props.itemComponent) {
-        tile = _react2.default.createElement(this.props.itemComponent, { key: item.uri, item: item, onClick: onClick,
+      if (itemComponent) {
+        var _Component3 = itemComponent;
+        tile = _react2.default.createElement(_Component3, { key: item.uri, item: item, onClick: onClick,
           selected: selected });
       } else {
         tile = _react2.default.createElement(IndexTile, { key: item.uri, item: item, onClick: onClick,
@@ -174,11 +179,16 @@ var IndexTiles = function (_Component2) {
     value: function _renderSections(classes, onMore) {
       var _this3 = this;
 
-      var parts = this.props.sort.split(':');
+      var _props3 = this.props;
+      var result = _props3.result;
+      var selection = _props3.selection;
+      var sort = _props3.sort;
+
+      var parts = sort.split(':');
       var attributeName = parts[0];
       var direction = parts[1];
       var sections = [];
-      var items = this.props.result.items.slice(0);
+      var items = result.items.slice(0);
       this.props.sections.forEach(function (section) {
 
         var selectionIndex = undefined;
@@ -197,7 +207,7 @@ var IndexTiles = function (_Component2) {
           if (undefined === sectionValue || 'asc' === direction && itemValue < sectionValue || 'desc' === direction && itemValue > sectionValue) {
             // add it
             items.shift();
-            if (_this3.props.selection && item.uri === _this3.props.selection) {
+            if (selection && item.uri === selection) {
               selectionIndex = tiles.length;
             }
             tiles.push(_this3._renderTile(item));
@@ -247,11 +257,15 @@ var IndexTiles = function (_Component2) {
   }, {
     key: '_renderTiles',
     value: function _renderTiles(classes, onMore) {
+      var _props4 = this.props;
+      var result = _props4.result;
+      var selection = _props4.selection;
+
       var tiles = undefined;
       var selectionIndex = undefined;
-      if (this.props.result && this.props.result.items) {
-        tiles = this.props.result.items.map(function (item, index) {
-          if (this.props.selection && item.uri === this.props.selection) {
+      if (result && result.items) {
+        tiles = result.items.map(function (item, index) {
+          if (selection && item.uri === selection) {
             selectionIndex = index;
           }
           return this._renderTile(item);
@@ -271,17 +285,21 @@ var IndexTiles = function (_Component2) {
   }, {
     key: 'render',
     value: function render() {
+      var _props5 = this.props;
+      var result = _props5.result;
+      var sort = _props5.sort;
+
       var classes = [CLASS_ROOT];
       if (this.props.className) {
         classes.push(this.props.className);
       }
 
       var onMore = undefined;
-      if (this.props.result && this.props.result.count < this.props.result.total) {
+      if (result && result.count < result.total) {
         onMore = this.props.onMore;
       }
 
-      if (this.props.sections && this.props.sort && this.props.result && this.props.result.items) {
+      if (this.props.sections && sort && result && result.items) {
         return this._renderSections(classes, onMore);
       } else {
         return this._renderTiles(classes, onMore);
@@ -299,6 +317,7 @@ IndexTiles.propTypes = {
   fill: _react.PropTypes.bool,
   flush: _react.PropTypes.bool,
   itemComponent: _react.PropTypes.oneOfType([_react.PropTypes.object, _react.PropTypes.func]),
+  onSelect: _react.PropTypes.func,
   result: _PropTypes2.default.result,
   sections: _react.PropTypes.arrayOf(_react.PropTypes.shape({
     label: _react.PropTypes.string,
@@ -306,7 +325,6 @@ IndexTiles.propTypes = {
   })),
   selection: _react.PropTypes.oneOfType([_react.PropTypes.string, // uri
   _react.PropTypes.arrayOf(_react.PropTypes.string)]),
-  size: _react.PropTypes.oneOf(['small', 'medium', 'large']),
-  onSelect: _react.PropTypes.func
+  size: _react.PropTypes.oneOf(['small', 'medium', 'large'])
 };
 module.exports = exports['default'];

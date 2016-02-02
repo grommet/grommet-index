@@ -52,20 +52,10 @@ var Index = function (_Component) {
   function Index() {
     _classCallCheck(this, Index);
 
-    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Index).call(this));
-
-    _this._onQuery = _this._onQuery.bind(_this);
-    return _this;
+    return _possibleConstructorReturn(this, Object.getPrototypeOf(Index).apply(this, arguments));
   }
 
   _createClass(Index, [{
-    key: '_onQuery',
-    value: function _onQuery(query) {
-      if (this.props.onQuery) {
-        this.props.onQuery(query);
-      }
-    }
-  }, {
     key: 'render',
     value: function render() {
       var classes = [CLASS_ROOT];
@@ -77,7 +67,7 @@ var Index = function (_Component) {
       if (this.props.result && this.props.result.error) {
         error = _react2.default.createElement(
           'div',
-          { className: CLASS_ROOT + "__error" },
+          { className: CLASS_ROOT + '__error' },
           this.props.result.error
         );
       }
@@ -89,26 +79,27 @@ var Index = function (_Component) {
         { className: classes.join(' ') },
         _react2.default.createElement(
           'div',
-          { className: CLASS_ROOT + "__container" },
-          _react2.default.createElement(_Header2.default, { className: CLASS_ROOT + "__header",
+          { className: CLASS_ROOT + '__container' },
+          _react2.default.createElement(_Header2.default, { className: CLASS_ROOT + '__header',
             label: this.props.label,
             attributes: this.props.attributes,
-            query: this.props.query,
-            result: this.props.result || {},
-            fixed: true,
-            onQuery: this._onQuery,
+            filter: this.props.filter, onFilter: this.props.onFilter,
+            query: this.props.query, onQuery: this.props.onQuery,
+            sort: this.props.sort, onSort: this.props.onSort,
+            result: this.props.result,
+            fixed: this.props.fixed,
             addControl: this.props.addControl,
             navControl: this.props.navControl }),
           error,
           _react2.default.createElement(
             'div',
-            { ref: 'items', className: CLASS_ROOT + "__items" },
+            { ref: 'items', className: CLASS_ROOT + '__items' },
             _react2.default.createElement(ViewComponent, {
               attributes: this.props.attributes,
               fill: this.props.fill,
               flush: this.props.flush,
               itemComponent: this.props.itemComponent,
-              result: this.props.result || {},
+              result: this.props.result,
               sections: this.props.sections,
               selection: this.props.selection,
               size: this.props.size,
@@ -130,19 +121,19 @@ Index.propTypes = {
   addControl: _react.PropTypes.node,
   attributes: _PropTypes2.default.attributes,
   fill: _react.PropTypes.bool, // for Tiles
+  filter: _react.PropTypes.object, // { name: [value, ...] }
+  fixed: _react.PropTypes.bool,
   flush: _react.PropTypes.bool, // for Tiles
   itemComponent: _react.PropTypes.oneOfType([_react.PropTypes.object, _react.PropTypes.func]),
   label: _react.PropTypes.string,
+  onFilter: _react.PropTypes.func, // (filter)
   onMore: _react.PropTypes.func,
-  onQuery: _react.PropTypes.func,
+  onQuery: _react.PropTypes.func, // (query)
   onSelect: _react.PropTypes.func,
-  query: _react.PropTypes.object,
+  onSort: _react.PropTypes.func, // (sort)
+  query: _react.PropTypes.object, // Query
   navControl: _react.PropTypes.node,
   result: _PropTypes2.default.result,
-  sections: _react.PropTypes.arrayOf(_react.PropTypes.shape({
-    label: _react.PropTypes.string,
-    value: _react.PropTypes.any
-  })),
   selection: _react.PropTypes.oneOfType([_react.PropTypes.string, // uri
   _react.PropTypes.arrayOf(_react.PropTypes.string)]),
   size: _react.PropTypes.oneOf(['small', 'medium', 'large']),
@@ -152,6 +143,7 @@ Index.propTypes = {
 
 Index.defaultProps = {
   attributes: [{ name: 'name', label: 'Name', index: 0 }],
+  fixed: true,
   flush: true,
   view: "tiles"
 };

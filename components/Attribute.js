@@ -44,26 +44,27 @@ var Attribute = function (_Component) {
   _createClass(Attribute, [{
     key: 'render',
     value: function render() {
-      var attribute = this.props.attribute;
+      var _props = this.props;
+      var attribute = _props.attribute;
+      var item = _props.item;
 
       var classes = [CLASS_ROOT];
       if (attribute.secondary) {
-        classes.push(CLASS_ROOT + "--secondary");
+        classes.push(CLASS_ROOT + '--secondary');
       }
       if (attribute.size) {
-        classes.push(CLASS_ROOT + "--" + attribute.size);
+        classes.push(CLASS_ROOT + '--' + attribute.size);
       }
       if (this.props.className) {
         classes.push(this.props.className);
       }
 
-      var item = this.props.item;
       var content = _react2.default.createElement(
         'span',
         null,
         '\'?\''
       );
-      var value;
+      var value = undefined;
 
       if (attribute.hasOwnProperty('render')) {
 
@@ -87,7 +88,7 @@ var Attribute = function (_Component) {
           content = _react2.default.createElement(_Status2.default, { className: classes.join(' '),
             value: value.toLowerCase(), small: true });
         } else if (attribute.timestamp) {
-          classes.push(CLASS_ROOT + "__timestamp");
+          classes.push(CLASS_ROOT + '__timestamp');
           content = _react2.default.createElement(_Timestamp2.default, { className: classes.join(' '), value: value });
         } else {
           content = _react2.default.createElement(
@@ -109,7 +110,6 @@ exports.default = Attribute;
 
 Attribute.propTypes = {
   item: _react.PropTypes.object.isRequired,
-  attribute: _PropTypes2.default.attribute.isRequired,
-  className: _react.PropTypes.string
+  attribute: _PropTypes2.default.attribute.isRequired
 };
 module.exports = exports['default'];

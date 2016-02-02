@@ -42,11 +42,15 @@ var IndexHistory = function (_Component) {
   }, {
     key: '_stateFromProps',
     value: function _stateFromProps(props) {
+      var series = [];
       var xAxis = [];
       if (props.series) {
-        var series = props.series.map(function (item, index) {
+        series = props.series.map(function (item, index) {
           var values = item.intervals.map(function (interval) {
-            var date = new Date(Date.parse(interval.start));
+            var date = interval.start;
+            if (typeof interval.start === 'string') {
+              date = new Date(Date.parse(interval.start));
+            }
             if (0 === index) {
               xAxis.push({
                 label: date.getMonth() + 1 + '/' + date.getDate(),
@@ -57,10 +61,14 @@ var IndexHistory = function (_Component) {
           });
 
           var colorIndex = 'graph-' + (index + 1);
-          if ('status' === props.attribute) {
-            colorIndex = interval.value.toLowerCase();
+          if ('status' === props.name) {
+            colorIndex = item.value.toLowerCase();
           }
-          return { label: item.value, values: values, colorIndex: colorIndex };
+          return {
+            label: item.label || item.value,
+            values: values,
+            colorIndex: colorIndex
+          };
         });
       }
       return { series: series, xAxis: xAxis };
@@ -70,7 +78,7 @@ var IndexHistory = function (_Component) {
     value: function render() {
       return _react2.default.createElement(_Chart2.default, { series: this.state.series || [],
         xAxis: this.state.xAxis || [],
-        legend: { position: 'overlay' },
+        legend: { position: 'after' },
         legendTotal: true,
         size: this.props.size,
         smooth: this.props.smooth,
@@ -90,9 +98,10 @@ exports.default = IndexHistory;
 IndexHistory.propTypes = {
   a11yTitleId: _react.PropTypes.string,
   a11yDescId: _react.PropTypes.string,
-  attribute: _react.PropTypes.string.isRequired,
+  name: _react.PropTypes.string.isRequired,
   points: _react.PropTypes.bool,
   series: _react.PropTypes.arrayOf(_react.PropTypes.shape({
+    label: _react.PropTypes.string,
     value: _react.PropTypes.string.isRequired,
     intervals: _react.PropTypes.arrayOf(_react.PropTypes.shape({
       count: _react.PropTypes.number,

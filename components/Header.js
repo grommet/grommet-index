@@ -56,59 +56,54 @@ var IndexHeader = function (_Component) {
 
     var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(IndexHeader).call(this));
 
-    _this._onSearchChange = _this._onSearchChange.bind(_this);
+    _this._onChangeSearch = _this._onChangeSearch.bind(_this);
     return _this;
   }
 
   _createClass(IndexHeader, [{
-    key: '_onSearchChange',
-    value: function _onSearchChange(text) {
-      var query = this.props.query;
-      if (query) {
-        query.replaceTextTokens(text);
-      } else {
-        query = _Query2.default.create(text);
-      }
-      this.props.onQuery(query);
+    key: '_onChangeSearch',
+    value: function _onChangeSearch(text) {
+      this.props.onQuery((0, _Query2.default)(text));
     }
   }, {
     key: 'render',
     value: function render() {
+      var _props = this.props;
+      var attributes = _props.attributes;
+      var query = _props.query;
+
+      var result = this.props.result || {};
       var classes = [CLASS_ROOT];
       if (this.props.className) {
         classes.push(this.props.className);
       }
 
       var searchText = '';
-      if (this.props.query) {
-        var query = this.props.query;
-        if (typeof query === 'string') {
-          searchText = query;
-        } else {
-          searchText = query.text;
-        }
+      if (query) {
+        searchText = query.toString();
       }
 
       var countClasses = [CLASS_ROOT + '__count'];
-      if (this.props.result.unfilteredTotal > this.props.result.total) {
+      if (result.unfilteredTotal > result.total) {
         countClasses.push(CLASS_ROOT + '__count--active');
       }
 
       var filters = undefined;
-      var numFilters = this.props.attributes.filter(function (attribute) {
-        return attribute.hasOwnProperty('filter');
-      }).length;
-      if (numFilters > 0) {
-        filters = [_react2.default.createElement(_Filters2.default, { key: 'filters', attributes: this.props.attributes,
-          query: this.props.query,
-          onQuery: this.props.onQuery }), _react2.default.createElement(
+      var filterOrSortAttributes = attributes.filter(function (attribute) {
+        return attribute.filter || attribute.sort;
+      });
+      if (filterOrSortAttributes.length > 0) {
+        filters = [_react2.default.createElement(_Filters2.default, { key: 'filters', attributes: filterOrSortAttributes,
+          values: this.props.filter, sort: this.props.sort,
+          onChange: this.props.onFilter,
+          onSort: this.props.onSort }), _react2.default.createElement(
           'span',
           { key: 'total', className: CLASS_ROOT + '__total' },
-          this.props.result.unfilteredTotal
+          result.unfilteredTotal
         ), _react2.default.createElement(
           'span',
           { key: 'count', className: countClasses.join(' ') },
-          this.props.result.total
+          result.total
         )];
       }
 
@@ -116,22 +111,23 @@ var IndexHeader = function (_Component) {
 
       return _react2.default.createElement(
         _Header2.default,
-        { className: classes.join(' '),
-          fixed: this.props.fixed, pad: 'medium', justify: 'between', size: 'large' },
+        { className: classes.join(' '), pad: { horizontal: 'medium' },
+          fixed: this.props.fixed, size: 'large' },
         this.props.navControl,
         _react2.default.createElement(
           'span',
-          { className: CLASS_ROOT + '__title' },
+          { className: CLASS_ROOT + '__label' },
           this.props.label
         ),
         _react2.default.createElement(_Search2.default, { className: CLASS_ROOT + '__search flex',
           inline: true,
           placeHolder: placeHolder,
           value: searchText,
-          onChange: this._onSearchChange }),
+          onChange: this._onChangeSearch }),
         _react2.default.createElement(
           _Box2.default,
-          { className: CLASS_ROOT + '__controls', direction: 'row', responsive: false },
+          { className: CLASS_ROOT + '__controls', direction: 'row',
+            responsive: false },
           filters,
           this.props.addControl
         )
@@ -145,14 +141,18 @@ var IndexHeader = function (_Component) {
 exports.default = IndexHeader;
 
 IndexHeader.propTypes = {
-  //addControl: PropTypes.node,
+  addControl: _react.PropTypes.node,
   attributes: _PropTypes2.default.attributes.isRequired,
+  filter: _react.PropTypes.object, // { name: [value, ...] }
   fixed: _react.PropTypes.bool,
   label: _react.PropTypes.string.isRequired,
   navControl: _react.PropTypes.node,
-  onQuery: _react.PropTypes.func.isRequired,
-  query: _react.PropTypes.object,
-  result: _PropTypes2.default.result
+  onFilter: _react.PropTypes.func.isRequired, // (filters)
+  onQuery: _react.PropTypes.func.isRequired, // (query)
+  onSort: _react.PropTypes.func.isRequired, // (sort)
+  query: _react.PropTypes.object, // Query
+  result: _PropTypes2.default.result,
+  sort: _react.PropTypes.string
 };
 
 IndexHeader.defaultProps = {

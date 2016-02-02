@@ -110,17 +110,22 @@ var IndexList = function (_Component2) {
   }, {
     key: '_renderListItem',
     value: function _renderListItem(item) {
+      var _props2 = this.props;
+      var selection = _props2.selection;
+      var itemComponent = _props2.itemComponent;
+
       var onClick = undefined;
       if (this.props.onSelect) {
         onClick = this._onClickItem.bind(this, item.uri);
       }
       var selected = false;
-      if (this.props.selection && item.uri === this.props.selection) {
+      if (selection && item.uri === selection) {
         selected = true;
       }
       var listItem = undefined;
-      if (this.props.itemComponent) {
-        listItem = _react2.default.createElement(this.props.itemComponent, { key: item.uri, item: item, onClick: onClick,
+      if (itemComponent) {
+        var _Component3 = itemComponent;
+        listItem = _react2.default.createElement(_Component3, { key: item.uri, item: item, onClick: onClick,
           selected: selected });
       } else {
         listItem = _react2.default.createElement(IndexListItem, { key: item.uri, item: item, onClick: onClick,
@@ -131,6 +136,10 @@ var IndexList = function (_Component2) {
   }, {
     key: 'render',
     value: function render() {
+      var _props3 = this.props;
+      var result = _props3.result;
+      var selection = _props3.selection;
+
       var classes = [CLASS_ROOT];
       if (this.props.className) {
         classes.push(this.props.className);
@@ -138,9 +147,9 @@ var IndexList = function (_Component2) {
 
       var listItems = undefined;
       var selectionIndex = undefined;
-      if (this.props.result && this.props.result.items) {
-        listItems = this.props.result.items.map(function (item, index) {
-          if (this.props.selection && item.uri === this.props.selection) {
+      if (result && result.items) {
+        listItems = result.items.map(function (item, index) {
+          if (selection && item.uri === selection) {
             selectionIndex = index;
           }
           return this._renderListItem(item);
@@ -148,7 +157,7 @@ var IndexList = function (_Component2) {
       }
 
       var onMore = undefined;
-      if (this.props.result && this.props.result.count < this.props.result.total) {
+      if (result && result.count < result.total) {
         onMore = this.props.onMore;
       }
 
@@ -171,9 +180,9 @@ exports.default = IndexList;
 IndexList.propTypes = {
   attributes: _PropTypes2.default.attributes,
   itemComponent: _react.PropTypes.oneOfType([_react.PropTypes.object, _react.PropTypes.func]),
+  onSelect: _react.PropTypes.func,
   result: _PropTypes2.default.result,
   selection: _react.PropTypes.oneOfType([_react.PropTypes.string, // uri
-  _react.PropTypes.arrayOf(_react.PropTypes.string)]),
-  onSelect: _react.PropTypes.func
+  _react.PropTypes.arrayOf(_react.PropTypes.string)])
 };
 module.exports = exports['default'];
