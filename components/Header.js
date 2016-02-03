@@ -93,18 +93,24 @@ var IndexHeader = function (_Component) {
         return attribute.filter || attribute.sort;
       });
       if (filterOrSortAttributes.length > 0) {
-        filters = [_react2.default.createElement(_Filters2.default, { key: 'filters', attributes: filterOrSortAttributes,
-          values: this.props.filter, sort: this.props.sort,
-          onChange: this.props.onFilter,
-          onSort: this.props.onSort }), _react2.default.createElement(
-          'span',
-          { key: 'total', className: CLASS_ROOT + '__total' },
-          result.unfilteredTotal
-        ), _react2.default.createElement(
-          'span',
-          { key: 'count', className: countClasses.join(' ') },
-          result.total
-        )];
+        filters = _react2.default.createElement(
+          'div',
+          { className: CLASS_ROOT + '__filters' },
+          _react2.default.createElement(_Filters2.default, { attributes: filterOrSortAttributes,
+            values: this.props.filter, sort: this.props.sort,
+            onChange: this.props.onFilter,
+            onSort: this.props.onSort }),
+          _react2.default.createElement(
+            'span',
+            { className: CLASS_ROOT + '__total' },
+            result.unfilteredTotal
+          ),
+          _react2.default.createElement(
+            'span',
+            { className: countClasses.join(' ') },
+            result.total
+          )
+        );
       }
 
       var placeHolder = _Intl2.default.getMessage(this.context.intl, 'Search');
@@ -127,7 +133,7 @@ var IndexHeader = function (_Component) {
         _react2.default.createElement(
           _Box2.default,
           { className: CLASS_ROOT + '__controls', direction: 'row',
-            responsive: false },
+            align: 'center', responsive: false },
           filters,
           this.props.addControl
         )
