@@ -19,7 +19,7 @@ export default class IndexHeader extends Component {
   }
 
   _onChangeSearch (text) {
-    this.props.onQuery(IndexQuery(text));
+    this.props.onQuery(new IndexQuery(text));
   }
 
   render () {
