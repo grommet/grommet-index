@@ -46,18 +46,20 @@ export default class IndexHeader extends Component {
         return attribute.filter || attribute.sort;
       });
     if (filterOrSortAttributes.length > 0) {
-      filters = [
-        <Filters key="filters" attributes={filterOrSortAttributes}
-          values={this.props.filter} sort={this.props.sort}
-          onChange={this.props.onFilter}
-          onSort={this.props.onSort} />,
-        <span key="total" className={`${CLASS_ROOT}__total`}>
-          {result.unfilteredTotal}
-        </span>,
-        <span key="count" className={countClasses.join(' ')}>
-          {result.total}
-        </span>
-      ];
+      filters = (
+        <div className={`${CLASS_ROOT}__filters`}>
+          <Filters attributes={filterOrSortAttributes}
+            values={this.props.filter} sort={this.props.sort}
+            onChange={this.props.onFilter}
+            onSort={this.props.onSort} />
+          <span className={`${CLASS_ROOT}__total`}>
+            {result.unfilteredTotal}
+          </span>
+          <span className={countClasses.join(' ')}>
+            {result.total}
+          </span>
+        </div>
+      );
     }
 
     let placeHolder = Intl.getMessage(this.context.intl, 'Search');
@@ -73,7 +75,7 @@ export default class IndexHeader extends Component {
           value={searchText}
           onChange={this._onChangeSearch} />
         <Box className={`${CLASS_ROOT}__controls`} direction="row"
-          responsive={false}>
+          align="center" responsive={false}>
           {filters}
           {this.props.addControl}
         </Box>

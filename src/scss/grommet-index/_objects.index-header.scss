@@ -1,8 +1,6 @@
 // (C) Copyright 2014-2015 Hewlett Packard Enterprise Development LP
 
 .index-header {
-  position: relative;
-
   &__title,
   .title,
   &__controls {
@@ -15,26 +13,23 @@
     }
   }
 
-  &__controls {
+  &__filters {
     position: relative;
   }
 
   &__total,
   &__count {
-    color: $secondary-text-color;
-    text-align: center;
-    @include inuit-font-size($label-font-size);
-
     @include media-query(palm) {
       display: none;
-      //margin-left: halve($inuit-base-spacing-unit);
     }
 
     @include media-query(lap-and-up) {
       position: absolute;
       left: $inuit-base-spacing-unit;
       transform: translateX(-50%);
-      background-color: $background-color;
+      color: $secondary-text-color;
+      text-align: center;
+      @include inuit-font-size($label-font-size);
     }
   }
 
