@@ -1,14 +1,10 @@
 'use strict';
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }(); // (C) Copyright 2014-2015 Hewlett Packard Enterprise Development LP
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-
-exports.default = function (string) {
-  var query = new Query();
-  query.initialize(string);
-  return query;
-};
 
 var _StringConvert = require('grommet/utils/StringConvert');
 
@@ -16,172 +12,7 @@ var _StringConvert2 = _interopRequireDefault(_StringConvert);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-// // Parse the query text into a boolean logic tree.
-// function parseX(text) {
-//   text = text || '';
-//   var result = [];
-//   // strip leading and trailing whitespace
-//   ///var text = text.replace(/^\s+|\s+$/g, '');
-//   // split into tokens
-//   var index = 0;
-//   var endIndex;
-//   var token;
-//   var value;
-//   var rest;
-//   var matches;
-//   var parts;
-//   var op = null;
-//
-//   // TODO: handle nested parentheses, handle quoted parentheses
-//
-//   while (index < text.length) {
-//
-//     token = null;
-//     if (' ' === text[index]) { // space
-//       index += 1;
-//     } else if ('(' === text[index]) { // begin paren
-//       endIndex = text.indexOf(')', index);
-//       token = tokenize(text.slice(index + 1, endIndex));
-//       index = endIndex + 1;
-//     } else if ('AND' === text.slice(index, index + 3)) { // AND
-//       op = 'AND';
-//       index += 3;
-//     } else if ('OR' === text.slice(index, index + 2)) { // OR
-//       op = 'OR';
-//       index += 2;
-//     } else if ('NOT' === text.slice(index, index + 3)) { // NOT
-//       op = 'NOT';
-//       index += 3;
-//     } else {
-//       rest = text.slice(index, text.length);
-//       matches = rest.match(/^\w+:[^'"\s]+|^\w+:'[^']+'|^\w+:"[^"]+"/);
-//       if (matches) { // attribute:value
-//         endIndex = index + matches[0].length;
-//         parts = matches[0].split(':');
-//         value = StringConvert.unquoteIfNecessary(parts[1]);
-//         token = {attribute: parts[0], value: value, text: text.slice(index, endIndex)};
-//         index = endIndex + 1;
-//       } else { // plain text, possibly quoted
-//         matches = rest.match(/^[^'"\s]+|^'[^']+'|^"[^"]+"/);
-//         if (matches) { // text
-//           endIndex = index + matches[0].length;
-//           token = {text: text.slice(index, endIndex)};
-//           index = endIndex + 1;
-//         } else {
-//           // Hmm... must be syntatically invalid, perhaps a single quote
-//           token = {text: rest, error: 'Syntax error'};
-//           index = index + rest.length;
-//         }
-//       }
-//     }
-//
-//     if (token) {
-//       if (Array.isArray(token)) {
-//         token = {tokens: token};
-//       }
-//       if (op) {
-//         token.op = op;
-//         op = null;
-//       }
-//       token.index = result.length;
-//       result.push(token);
-//     }
-//   }
-//
-//   return result;
-// }
-
-// // An attribute term in an Expression.
-// function AttributeTerm (text) {
-//   this._not = false;
-//
-//   var parts = text.toLowerCase().split(':');
-//   this._name = parts[0];
-//   this._value = StringConvert.unquoteIfNecessary(parts[1]);
-//
-//   this.not = function (not) {
-//     this._not = not;
-//   };
-//
-//   this.isRelatedTo = function (term) {
-//     return (this._name === term._name);
-//   };
-// }
-//
-// // A text term in an Expression.
-// function TextTerm (text) {
-//   this._not = false;
-//   this._text = text;
-//
-//   // if the string is quoted, require matching at both ends
-//   var unquoted = StringConvert.unquoteIfNecessary(text);
-//   if (text === unquoted) {
-//     this._regexp = new RegExp(text, 'i');
-//   } else {
-//     this._regexp = new RegExp('^' + unquoted + '$', 'i');
-//   }
-//
-//   this.not = function (not) {
-//     this._not = not;
-//   };
-//
-//   this.isRelatedTo = function () {
-//     return false;
-//   };
-// }
-//
-// // A simple expression in a query.
-// // These can be nested for more complex expressions.
-// // They have a _left term, a _right term, and an _op (AND or OR).
-// function Expression () {
-//
-//   this.op = function (op) {
-//     if (! this._op) {
-//       this._op = op;
-//     } else {
-//       // already have an op, nest
-//       // If the right is a simple term, convert it to an expression.
-//       if (! this._right._left) {
-//         var expression = new Expression();
-//         expression.addTerm(this._right);
-//         expression.op(op);
-//         this._right = expression;
-//       } else {
-//         // right is an expression, add to it
-//         this._right.op(op);
-//       }
-//     }
-//   };
-//
-//   this.addTerm = function (term) {
-//     if (! this._left) {
-//       this._left = term;
-//     } else if (! this._right) {
-//       this._right = term;
-//       if (! this._op) {
-//         if (this._left.isRelatedTo(this._right)) {
-//           this._op = 'OR';
-//         } else {
-//           this._op = 'AND';
-//         }
-//       }
-//     } else {
-//       // We already have a left and a right.
-//       // If the right is a simple term, convert it to an expression.
-//       if (! this._right._left) {
-//         var expression = new Expression();
-//         expression.addTerm(this._right);
-//         this._right = expression;
-//       }
-//       // Add the term to the right expression.
-//       this._right.addTerm(term);
-//     }
-//   };
-//
-//   this.isRelatedTo = function () {
-//     return false;
-//   };
-// }
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var TRACE_PARSING = false;
 // don't convert timestamps, MAC addresses, or WWNs to attribute:value
@@ -190,8 +21,6 @@ var TRACE_PARSING = false;
 // pattern three times, once for single quoted value, once for double quoted
 // value, and lastly with no quotes.
 // We don't build this programmatically for better performance.
-// (C) Copyright 2014-2015 Hewlett Packard Enterprise Development LP
-
 var ATTRIBUTE_PATTERN = /^[^\d:'"\s]{1}[^:'"\s]*:'[^']+'|^[^\d:'"\s]{1}[^:'"\s]*:"[^"]+"|^[^\d:'"\s]{1}[^:'"\s]*:[^'"\s]+/;
 // allow for text to contain quotes
 var TEXT_PATTERN = /^[^'"\s]+|^'[^']+'|^"[^"]+"/;
@@ -359,51 +188,49 @@ function parse(text) {
   return expression;
 }
 
-var Query = function Query() {
-  this.parseErrors = null;
-  this.text = '';
-  this.parsedTree = {};
-};
+var Query = function () {
+  function Query(string) {
+    _classCallCheck(this, Query);
 
-Query.prototype = {
-
-  initialize: function initialize(string) {
     this.text = string || '';
-    try {
-      this.parsedTree = parse(this.text);
-    } catch (e) {
-      this.parseErrors = e;
-    }
-    return this;
-  },
-
-  clone: function clone() {
-    var query = new Query();
-    return query.initialize(this.text);
-  },
-
-  error: function error() {
-    return this.parseErrors;
-  },
-
-  set: function set(string) {
-    this.text = string || '';
-    try {
-      this.parsedTree = parse(this.text);
-    } catch (e) {
-      this.parseErrors = e;
-    }
-    return this;
-  },
-
-  toString: function toString() {
-    return this.text;
-  },
-
-  tree: function tree() {
-    return this.parsedTree;
+    this.parsedTree = undefined;
+    this.parseErrors = undefined;
   }
-};
 
+  _createClass(Query, [{
+    key: 'error',
+    value: function error() {
+      this.tree(); // to trigger generating it
+      return this.parseErrors;
+    }
+  }, {
+    key: 'set',
+    value: function set(string) {
+      this.text = string || '';
+      return this;
+    }
+  }, {
+    key: 'toString',
+    value: function toString() {
+      return this.text;
+    }
+  }, {
+    key: 'tree',
+    value: function tree() {
+      if (!this.parsedTree) {
+        try {
+          this.parsedTree = parse(this.text);
+        } catch (e) {
+          this.parseErrors = e;
+        }
+      }
+      return this.parsedTree;
+    }
+  }]);
+
+  return Query;
+}();
+
+exports.default = Query;
 ;
 module.exports = exports['default'];

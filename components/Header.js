@@ -63,7 +63,7 @@ var IndexHeader = function (_Component) {
   _createClass(IndexHeader, [{
     key: '_onChangeSearch',
     value: function _onChangeSearch(text) {
-      this.props.onQuery((0, _Query2.default)(text));
+      this.props.onQuery(new _Query2.default(text));
     }
   }, {
     key: 'render',
