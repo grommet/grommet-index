@@ -127,7 +127,8 @@ export default class IndexTiles extends Component {
 
       while (items.length > 0) {
         const item = items[0];
-        let itemValue = item[attributeName];
+        let itemValue = (item.hasOwnProperty(attributeName) ?
+          item[attributeName] : item.attributes[attributeName]);
         if (itemValue instanceof Date) {
           itemValue = itemValue.getTime();
         }

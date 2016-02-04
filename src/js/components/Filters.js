@@ -43,8 +43,10 @@ export default class Filters extends Component {
 
   _renderSort () {
     const { attributes, sort } = this.props;
+    // prune to just attributes that we should sort
+    const sortAttributes = attributes.filter(attribute => attribute.sort);
     return (
-      <Sort attributes={attributes} value={sort}
+      <Sort attributes={sortAttributes} value={sort}
         onChange={this._onChangeSort} />
     );
   }
