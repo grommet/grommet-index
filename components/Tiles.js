@@ -200,7 +200,7 @@ var IndexTiles = function (_Component2) {
 
         while (items.length > 0) {
           var item = items[0];
-          var itemValue = item[attributeName];
+          var itemValue = item.hasOwnProperty(attributeName) ? item[attributeName] : item.attributes[attributeName];
           if (itemValue instanceof Date) {
             itemValue = itemValue.getTime();
           }

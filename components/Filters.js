@@ -88,8 +88,12 @@ var Filters = function (_Component) {
       var _props = this.props;
       var attributes = _props.attributes;
       var sort = _props.sort;
+      // prune to just attributes that we should sort
 
-      return _react2.default.createElement(_Sort2.default, { attributes: attributes, value: sort,
+      var sortAttributes = attributes.filter(function (attribute) {
+        return attribute.sort;
+      });
+      return _react2.default.createElement(_Sort2.default, { attributes: sortAttributes, value: sort,
         onChange: this._onChangeSort });
     }
   }, {
