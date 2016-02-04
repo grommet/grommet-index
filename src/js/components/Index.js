@@ -1,6 +1,7 @@
 // (C) Copyright 2014-2015 Hewlett Packard Enterprise Development LP
 
 import React, { Component, PropTypes } from 'react';
+import Box from 'grommet/components/Box';
 import IndexPropTypes from '../utils/PropTypes';
 import IndexTable from './Table';
 import IndexTiles from './Tiles';
@@ -32,6 +33,32 @@ export default class Index extends Component {
       );
     }
 
+    let empty;
+    if (this.props.result) {
+      let emptyMessage;
+      let addControl;
+      if (this.props.result.unfilteredTotal === 0) {
+        emptyMessage = this.props.emptyMessage;
+        if (this.props.emptyAddControl) {
+          addControl = this.props.emptyAddControl;
+        } else {
+          addControl = this.props.addControl;
+        }
+      } else if (this.props.result.total === 0) {
+        emptyMessage = "No matches";
+      }
+      if (emptyMessage) {
+        empty = (
+          <Box className={`${CLASS_ROOT}__empty`}
+            pad={{horizontal: 'medium', vertical: 'large', between: 'medium'}}
+            justify="center" align="center">
+            <span className="secondary">{emptyMessage}</span>
+            {addControl}
+          </Box>
+        );
+      }
+    }
+
     const ViewComponent = VIEW_COMPONENT[this.props.view];
 
     return (
@@ -61,6 +88,7 @@ export default class Index extends Component {
               sort={this.props.sort}
               onSelect={this.props.onSelect}
               onMore={this.props.onMore} />
+            {empty}
           </div>
         </div>
       </div>
@@ -72,6 +100,8 @@ export default class Index extends Component {
 Index.propTypes = {
   addControl: PropTypes.node,
   attributes: IndexPropTypes.attributes,
+  emptyMessage: PropTypes.string,
+  emptyAddControl: PropTypes.node,
   fill: PropTypes.bool, // for Tiles
   filter: PropTypes.object, // { name: [value, ...] }
   fixed: PropTypes.bool,
