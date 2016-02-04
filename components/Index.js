@@ -10,6 +10,10 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+var _Box = require('grommet/components/Box');
+
+var _Box2 = _interopRequireDefault(_Box);
+
 var _PropTypes = require('../utils/PropTypes');
 
 var _PropTypes2 = _interopRequireDefault(_PropTypes);
@@ -72,6 +76,36 @@ var Index = function (_Component) {
         );
       }
 
+      var empty = undefined;
+      if (this.props.result) {
+        var emptyMessage = undefined;
+        var addControl = undefined;
+        if (this.props.result.unfilteredTotal === 0) {
+          emptyMessage = this.props.emptyMessage;
+          if (this.props.emptyAddControl) {
+            addControl = this.props.emptyAddControl;
+          } else {
+            addControl = this.props.addControl;
+          }
+        } else if (this.props.result.total === 0) {
+          emptyMessage = "No matches";
+        }
+        if (emptyMessage) {
+          empty = _react2.default.createElement(
+            _Box2.default,
+            { className: CLASS_ROOT + '__empty',
+              pad: { horizontal: 'medium', vertical: 'large', between: 'medium' },
+              justify: 'center', align: 'center' },
+            _react2.default.createElement(
+              'span',
+              { className: 'secondary' },
+              emptyMessage
+            ),
+            addControl
+          );
+        }
+      }
+
       var ViewComponent = VIEW_COMPONENT[this.props.view];
 
       return _react2.default.createElement(
@@ -105,7 +139,8 @@ var Index = function (_Component) {
               size: this.props.size,
               sort: this.props.sort,
               onSelect: this.props.onSelect,
-              onMore: this.props.onMore })
+              onMore: this.props.onMore }),
+            empty
           )
         )
       );
@@ -120,6 +155,8 @@ exports.default = Index;
 Index.propTypes = {
   addControl: _react.PropTypes.node,
   attributes: _PropTypes2.default.attributes,
+  emptyMessage: _react.PropTypes.string,
+  emptyAddControl: _react.PropTypes.node,
   fill: _react.PropTypes.bool, // for Tiles
   filter: _react.PropTypes.object, // { name: [value, ...] }
   fixed: _react.PropTypes.bool,
