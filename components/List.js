@@ -50,13 +50,15 @@ var IndexListItem = function (_Component) {
     value: function render() {
       var _props = this.props;
       var item = _props.item;
+      var index = _props.index;
       var selected = _props.selected;
       var onClick = _props.onClick;
       var attributes = _props.attributes;
 
-      var status = undefined;
-      var primary = undefined;
-      var secondary = undefined;
+      var status = undefined,
+          primary = undefined,
+          secondary = undefined,
+          separator = undefined;
 
       attributes.forEach(function (attribute) {
         if ('status' === attribute.name) {
@@ -66,12 +68,17 @@ var IndexListItem = function (_Component) {
         } else if (!secondary) {
           secondary = _react2.default.createElement(_Attribute2.default, { key: attribute.name, item: item, attribute: attribute });;
         }
-      }, this);
+      });
+
+      if (0 === index) {
+        separator = 'horizontal';
+      }
 
       return _react2.default.createElement(
         _ListItem2.default,
         { key: item.uri, className: CLASS_ROOT + '-item',
-          direction: 'row', responsive: false, pad: { horizontal: 'medium', vertical: 'small', between: 'medium' },
+          direction: 'row', responsive: false, separator: separator,
+          pad: { horizontal: 'medium', vertical: 'small', between: 'medium' },
           onClick: onClick, selected: selected },
         status,
         primary,
@@ -109,7 +116,7 @@ var IndexList = function (_Component2) {
     }
   }, {
     key: '_renderListItem',
-    value: function _renderListItem(item) {
+    value: function _renderListItem(item, index) {
       var _props2 = this.props;
       var selection = _props2.selection;
       var itemComponent = _props2.itemComponent;
@@ -125,10 +132,10 @@ var IndexList = function (_Component2) {
       var listItem = undefined;
       if (itemComponent) {
         var _Component3 = itemComponent;
-        listItem = _react2.default.createElement(_Component3, { key: item.uri, item: item, onClick: onClick,
+        listItem = _react2.default.createElement(_Component3, { key: item.uri, item: item, index: index, onClick: onClick,
           selected: selected });
       } else {
-        listItem = _react2.default.createElement(IndexListItem, { key: item.uri, item: item, onClick: onClick,
+        listItem = _react2.default.createElement(IndexListItem, { key: item.uri, item: item, index: index, onClick: onClick,
           selected: selected, attributes: this.props.attributes });
       }
       return listItem;
@@ -136,6 +143,8 @@ var IndexList = function (_Component2) {
   }, {
     key: 'render',
     value: function render() {
+      var _this3 = this;
+
       var _props3 = this.props;
       var result = _props3.result;
       var selection = _props3.selection;
@@ -152,8 +161,8 @@ var IndexList = function (_Component2) {
           if (selection && item.uri === selection) {
             selectionIndex = index;
           }
-          return this._renderListItem(item);
-        }, this);
+          return _this3._renderListItem(item, index);
+        });
       }
 
       var onMore = undefined;
