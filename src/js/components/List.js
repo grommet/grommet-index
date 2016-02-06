@@ -11,12 +11,10 @@ const CLASS_ROOT = 'index-list';
 class IndexListItem extends Component {
 
   render () {
-    let { item, selected, onClick, attributes } = this.props;
-    let status;
-    let primary;
-    let secondary;
+    let { item, index, selected, onClick, attributes } = this.props;
+    let status, primary, secondary, separator;
 
-    attributes.forEach(function (attribute) {
+    attributes.forEach(attribute => {
       if ('status' === attribute.name) {
         status = <Attribute key={attribute.name} item={item} attribute={attribute} />;
       } else if (! primary) {
@@ -24,11 +22,16 @@ class IndexListItem extends Component {
       } else if (! secondary) {
         secondary = <Attribute key={attribute.name} item={item} attribute={attribute} />;;
       }
-    }, this);
+    });
+
+    if (0 === index) {
+      separator = 'horizontal';
+    }
 
     return (
       <ListItem key={item.uri} className={CLASS_ROOT + '-item'}
-        direction="row" responsive={false} pad={{horizontal: 'medium', vertical: 'small', between: 'medium'}}
+        direction="row" responsive={false} separator={separator}
+        pad={{horizontal: 'medium', vertical: 'small', between: 'medium'}}
         onClick={onClick} selected={selected}>
         {status}
         {primary}
@@ -56,7 +59,7 @@ export default class IndexList extends Component {
     this.props.onSelect(uri);
   }
 
-  _renderListItem (item) {
+  _renderListItem (item, index) {
     const { selection, itemComponent } = this.props;
     let onClick;
     if (this.props.onSelect) {
@@ -70,12 +73,12 @@ export default class IndexList extends Component {
     if (itemComponent) {
       const Component = itemComponent;
       listItem = (
-        <Component key={item.uri} item={item} onClick={onClick}
+        <Component key={item.uri} item={item} index={index} onClick={onClick}
           selected={selected} />
       );
     } else {
       listItem = (
-        <IndexListItem key={item.uri} item={item} onClick={onClick}
+        <IndexListItem key={item.uri} item={item} index={index} onClick={onClick}
           selected={selected} attributes={this.props.attributes} />
       );
     }
@@ -92,12 +95,12 @@ export default class IndexList extends Component {
     let listItems;
     let selectionIndex;
     if (result && result.items) {
-      listItems = result.items.map(function (item, index) {
+      listItems = result.items.map((item, index) => {
         if (selection && item.uri === selection) {
           selectionIndex = index;
         }
-        return this._renderListItem(item);
-      }, this);
+        return this._renderListItem(item, index);
+      });
     }
 
     let onMore;
