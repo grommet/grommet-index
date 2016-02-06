@@ -100,10 +100,6 @@ IndexHeader.propTypes = {
   sort: PropTypes.string
 };
 
-IndexHeader.defaultProps = {
-  result: {}
-};
-
 IndexHeader.contextTypes = {
   intl: PropTypes.object
 };
