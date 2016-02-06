@@ -161,10 +161,6 @@ IndexHeader.propTypes = {
   sort: _react.PropTypes.string
 };
 
-IndexHeader.defaultProps = {
-  result: {}
-};
-
 IndexHeader.contextTypes = {
   intl: _react.PropTypes.object
 };
