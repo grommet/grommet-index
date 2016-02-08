@@ -62,13 +62,17 @@ var Index = function (_Component) {
   _createClass(Index, [{
     key: 'render',
     value: function render() {
+      var _props = this.props;
+      var result = _props.result;
+      var notifications = _props.notifications;
+
       var classes = [CLASS_ROOT];
       if (this.props.className) {
         classes.push(this.props.className);
       }
 
       var error = undefined;
-      if (this.props.result && this.props.result.error) {
+      if (result && result.error) {
         error = _react2.default.createElement(
           'div',
           { className: CLASS_ROOT + '__error' },
@@ -77,17 +81,17 @@ var Index = function (_Component) {
       }
 
       var empty = undefined;
-      if (this.props.result) {
+      if (result) {
         var emptyMessage = undefined;
         var addControl = undefined;
-        if (this.props.result.unfilteredTotal === 0) {
+        if (result.unfilteredTotal === 0) {
           emptyMessage = this.props.emptyMessage;
           if (this.props.emptyAddControl) {
             addControl = this.props.emptyAddControl;
           } else {
             addControl = this.props.addControl;
           }
-        } else if (this.props.result.total === 0) {
+        } else if (result.total === 0) {
           emptyMessage = "No matches";
         }
         if (emptyMessage) {
@@ -120,11 +124,12 @@ var Index = function (_Component) {
             filter: this.props.filter, onFilter: this.props.onFilter,
             query: this.props.query, onQuery: this.props.onQuery,
             sort: this.props.sort, onSort: this.props.onSort,
-            result: this.props.result,
+            result: result,
             fixed: this.props.fixed,
             addControl: this.props.addControl,
             navControl: this.props.navControl }),
           error,
+          notifications,
           _react2.default.createElement(
             'div',
             { ref: 'items', className: CLASS_ROOT + '__items' },
@@ -163,13 +168,14 @@ Index.propTypes = {
   flush: _react.PropTypes.bool, // for Tiles
   itemComponent: _react.PropTypes.oneOfType([_react.PropTypes.object, _react.PropTypes.func]),
   label: _react.PropTypes.string,
+  navControl: _react.PropTypes.node,
+  notifications: _react.PropTypes.node,
   onFilter: _react.PropTypes.func, // (filter)
   onMore: _react.PropTypes.func,
   onQuery: _react.PropTypes.func, // (query)
   onSelect: _react.PropTypes.func,
   onSort: _react.PropTypes.func, // (sort)
   query: _react.PropTypes.object, // Query
-  navControl: _react.PropTypes.node,
   result: _PropTypes2.default.result,
   selection: _react.PropTypes.oneOfType([_react.PropTypes.string, // uri
   _react.PropTypes.arrayOf(_react.PropTypes.string)]),
