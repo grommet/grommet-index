@@ -19,13 +19,14 @@ const VIEW_COMPONENT = {
 export default class Index extends Component {
 
   render () {
+    const { result, notifications } = this.props;
     var classes = [CLASS_ROOT];
     if (this.props.className) {
       classes.push(this.props.className);
     }
 
     let error;
-    if (this.props.result && this.props.result.error) {
+    if (result && result.error) {
       error = (
         <div className={`${CLASS_ROOT}__error`}>
           {this.props.result.error}
@@ -34,17 +35,17 @@ export default class Index extends Component {
     }
 
     let empty;
-    if (this.props.result) {
+    if (result) {
       let emptyMessage;
       let addControl;
-      if (this.props.result.unfilteredTotal === 0) {
+      if (result.unfilteredTotal === 0) {
         emptyMessage = this.props.emptyMessage;
         if (this.props.emptyAddControl) {
           addControl = this.props.emptyAddControl;
         } else {
           addControl = this.props.addControl;
         }
-      } else if (this.props.result.total === 0) {
+      } else if (result.total === 0) {
         emptyMessage = "No matches";
       }
       if (emptyMessage) {
@@ -70,11 +71,12 @@ export default class Index extends Component {
             filter={this.props.filter} onFilter={this.props.onFilter}
             query={this.props.query} onQuery={this.props.onQuery}
             sort={this.props.sort} onSort={this.props.onSort}
-            result={this.props.result}
+            result={result}
             fixed={this.props.fixed}
             addControl={this.props.addControl}
             navControl={this.props.navControl} />
           {error}
+          {notifications}
           <div ref="items" className={`${CLASS_ROOT}__items`}>
             <ViewComponent
               attributes={this.props.attributes}
@@ -111,13 +113,14 @@ Index.propTypes = {
     PropTypes.func
   ]),
   label: PropTypes.string,
+  navControl: PropTypes.node,
+  notifications: PropTypes.node,
   onFilter: PropTypes.func, // (filter)
   onMore: PropTypes.func,
   onQuery: PropTypes.func, // (query)
   onSelect: PropTypes.func,
   onSort: PropTypes.func, // (sort)
   query: PropTypes.object, // Query
-  navControl: PropTypes.node,
   result: IndexPropTypes.result,
   selection: PropTypes.oneOfType([
     PropTypes.string, // uri
