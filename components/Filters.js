@@ -93,8 +93,12 @@ var Filters = function (_Component) {
       var sortAttributes = attributes.filter(function (attribute) {
         return attribute.sort;
       });
-      return _react2.default.createElement(_Sort2.default, { attributes: sortAttributes, value: sort,
-        onChange: this._onChangeSort });
+      var result = undefined;
+      if (sortAttributes.length > 0) {
+        result = _react2.default.createElement(_Sort2.default, { attributes: sortAttributes, value: sort,
+          onChange: this._onChangeSort });
+      }
+      return result;
     }
   }, {
     key: 'render',
