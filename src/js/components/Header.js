@@ -69,13 +69,13 @@ export default class IndexHeader extends Component {
         fixed={this.props.fixed} size="large">
         {this.props.navControl}
         <span className={`${CLASS_ROOT}__label`}>{this.props.label}</span>
-        <Search className={`${CLASS_ROOT}__search flex`}
-          inline={true}
-          placeHolder={placeHolder}
-          value={searchText}
-          onChange={this._onChangeSearch} />
-        <Box className={`${CLASS_ROOT}__controls`} direction="row"
-          align="center" responsive={false}>
+        <Box className={`${CLASS_ROOT}__controls flex`} direction="row"
+          align="center" justify="end" responsive={false}>
+          <Search className={`${CLASS_ROOT}__search flex`}
+            inline={true}
+            placeHolder={placeHolder}
+            value={searchText}
+            onChange={this._onChangeSearch} />
           {filters}
           {this.props.addControl}
         </Box>
