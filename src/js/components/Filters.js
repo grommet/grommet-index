@@ -45,10 +45,14 @@ export default class Filters extends Component {
     const { attributes, sort } = this.props;
     // prune to just attributes that we should sort
     const sortAttributes = attributes.filter(attribute => attribute.sort);
-    return (
-      <Sort attributes={sortAttributes} value={sort}
-        onChange={this._onChangeSort} />
-    );
+    let result;
+    if (sortAttributes.length > 0) {
+      result = (
+        <Sort attributes={sortAttributes} value={sort}
+          onChange={this._onChangeSort} />
+      );
+    }
+    return result;
   }
 
   render () {
