@@ -125,15 +125,15 @@ var IndexHeader = function (_Component) {
           { className: CLASS_ROOT + '__label' },
           this.props.label
         ),
-        _react2.default.createElement(_Search2.default, { className: CLASS_ROOT + '__search flex',
-          inline: true,
-          placeHolder: placeHolder,
-          value: searchText,
-          onChange: this._onChangeSearch }),
         _react2.default.createElement(
           _Box2.default,
-          { className: CLASS_ROOT + '__controls', direction: 'row',
-            align: 'center', responsive: false },
+          { className: CLASS_ROOT + '__controls flex', direction: 'row',
+            align: 'center', justify: 'end', responsive: false },
+          _react2.default.createElement(_Search2.default, { className: CLASS_ROOT + '__search flex',
+            inline: true,
+            placeHolder: placeHolder,
+            value: searchText,
+            onChange: this._onChangeSearch }),
           filters,
           this.props.addControl
         )
