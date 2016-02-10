@@ -3,7 +3,9 @@
 .index-header {
   &__title,
   .title,
-  &__controls {
+  &__label,
+  &__filters,
+  a {
     flex-shrink: 0;
   }
 
