@@ -108,7 +108,8 @@ var IndexTile = function (_Component) {
         { key: item.uri, align: 'start',
           pad: { horizontal: "medium", vertical: "small" },
           direction: 'row', responsive: false,
-          onClick: onClick, selected: selected },
+          onClick: onClick, selected: selected,
+          a11yTitle: 'Open ' + headerValues },
         statusValue,
         _react2.default.createElement(
           _Box2.default,
