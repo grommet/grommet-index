@@ -92,9 +92,9 @@ IndexHeader.propTypes = {
   fixed: PropTypes.bool,
   label: PropTypes.string.isRequired,
   navControl: PropTypes.node,
-  onFilter: PropTypes.func.isRequired, // (filters)
-  onQuery: PropTypes.func.isRequired, // (query)
-  onSort: PropTypes.func.isRequired, // (sort)
+  onFilter: PropTypes.func, // (filters)
+  onQuery: PropTypes.func, // (query)
+  onSort: PropTypes.func, // (sort)
   query: PropTypes.object, // Query
   result: IndexPropTypes.result,
   sort: PropTypes.string
