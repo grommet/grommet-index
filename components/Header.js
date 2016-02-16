@@ -153,9 +153,9 @@ IndexHeader.propTypes = {
   fixed: _react.PropTypes.bool,
   label: _react.PropTypes.string.isRequired,
   navControl: _react.PropTypes.node,
-  onFilter: _react.PropTypes.func.isRequired, // (filters)
-  onQuery: _react.PropTypes.func.isRequired, // (query)
-  onSort: _react.PropTypes.func.isRequired, // (sort)
+  onFilter: _react.PropTypes.func, // (filters)
+  onQuery: _react.PropTypes.func, // (query)
+  onSort: _react.PropTypes.func, // (sort)
   query: _react.PropTypes.object, // Query
   result: _PropTypes2.default.result,
   sort: _react.PropTypes.string
