@@ -29,7 +29,7 @@ export default class Aggregate extends Component {
     // convert the format Meter and Distribution want
     let series = props.values.map((item, index) => {
       let colorIndex = `graph-${index + 1}`;
-      if ('status' === props.name) {
+      if ('status' === props.attribute) {
         colorIndex = item.value.toLowerCase();
       }
       return {
@@ -41,7 +41,7 @@ export default class Aggregate extends Component {
       };
     });
 
-    if ('status' === props.name && series.length > 0) {
+    if ('status' === props.attribute && series.length > 0) {
       // re-order by importance
       series.sort(function (s1, s2) {
         return (STATUS_IMPORTANCE[s2.label.toLowerCase()] -
@@ -56,7 +56,7 @@ export default class Aggregate extends Component {
 
   _onClick (value) {
     let filters = { ...this.props.filters };
-    filters[this.props.name] = value;
+    filters[this.props.attribute] = value;
     this.props.onClick(filters);
   }
 
@@ -90,6 +90,7 @@ export default class Aggregate extends Component {
 Aggregate.propTypes = {
   a11yTitleId: PropTypes.string,
   a11yDescId: PropTypes.string,
+  attribute: PropTypes.string.isRequired,
   filters: PropTypes.object, // { name: [value, ...] }
   legend: PropTypes.oneOfType([
     PropTypes.bool,
