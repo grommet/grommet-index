@@ -78,7 +78,7 @@ var IndexHistory = function (_Component) {
     value: function render() {
       return _react2.default.createElement(_Chart2.default, { series: this.state.series || [],
         xAxis: this.state.xAxis || [],
-        legend: { position: 'after' },
+        legend: this.props.legend,
         legendTotal: true,
         size: this.props.size,
         smooth: this.props.smooth,
@@ -98,6 +98,10 @@ exports.default = IndexHistory;
 IndexHistory.propTypes = {
   a11yTitleId: _react.PropTypes.string,
   a11yDescId: _react.PropTypes.string,
+  legend: _react.PropTypes.shape({
+    position: _react.PropTypes.oneOf(['overlay', 'after']),
+    total: _react.PropTypes.bool
+  }),
   name: _react.PropTypes.string.isRequired,
   points: _react.PropTypes.bool,
   series: _react.PropTypes.arrayOf(_react.PropTypes.shape({
@@ -113,5 +117,9 @@ IndexHistory.propTypes = {
   smooth: _react.PropTypes.bool,
   threshold: _react.PropTypes.number,
   type: _react.PropTypes.oneOf(['bar', 'area', 'line'])
+};
+
+IndexHistory.defaultProps = {
+  legend: { position: 'after' }
 };
 module.exports = exports['default'];
