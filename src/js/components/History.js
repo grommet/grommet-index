@@ -52,7 +52,7 @@ export default class IndexHistory extends Component {
     return (
       <Chart series={this.state.series || []}
         xAxis={this.state.xAxis || []}
-        legend={{position: 'after'}}
+        legend={this.props.legend}
         legendTotal={true}
         size={this.props.size}
         smooth={this.props.smooth}
@@ -69,6 +69,10 @@ export default class IndexHistory extends Component {
 IndexHistory.propTypes = {
   a11yTitleId: PropTypes.string,
   a11yDescId: PropTypes.string,
+  legend: PropTypes.shape({
+    position: PropTypes.oneOf(['overlay', 'after']),
+    total: PropTypes.bool
+  }),
   name: PropTypes.string.isRequired,
   points: PropTypes.bool,
   series: PropTypes.arrayOf(PropTypes.shape({
@@ -90,4 +94,8 @@ IndexHistory.propTypes = {
   smooth: PropTypes.bool,
   threshold: PropTypes.number,
   type: PropTypes.oneOf(['bar', 'area', 'line'])
+};
+
+IndexHistory.defaultProps = {
+  legend: {position: 'after'}
 };
