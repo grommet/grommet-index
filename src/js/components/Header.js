@@ -47,7 +47,7 @@ export default class IndexHeader extends Component {
       });
     if (filterOrSortAttributes.length > 0) {
       filters = (
-        <div className={`${CLASS_ROOT}__filters`}>
+        <div className={`${CLASS_ROOT}__filters no-flex`}>
           <Filters attributes={filterOrSortAttributes}
             values={this.props.filter} sort={this.props.sort}
             onChange={this.props.onFilter}
@@ -65,7 +65,8 @@ export default class IndexHeader extends Component {
     let placeHolder = Intl.getMessage(this.context.intl, 'Search');
 
     return (
-      <Header className={classes.join(' ')} pad={{horizontal: 'medium'}}
+      <Header className={classes.join(' ')}
+        pad={{horizontal: 'medium', between: 'small'}}
         fixed={this.props.fixed} size="large">
         {this.props.navControl}
         <span className={`${CLASS_ROOT}__label`}>{this.props.label}</span>
