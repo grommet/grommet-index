@@ -95,7 +95,7 @@ var IndexHeader = function (_Component) {
       if (filterOrSortAttributes.length > 0) {
         filters = _react2.default.createElement(
           'div',
-          { className: CLASS_ROOT + '__filters' },
+          { className: CLASS_ROOT + '__filters no-flex' },
           _react2.default.createElement(_Filters2.default, { attributes: filterOrSortAttributes,
             values: this.props.filter, sort: this.props.sort,
             onChange: this.props.onFilter,
@@ -117,7 +117,8 @@ var IndexHeader = function (_Component) {
 
       return _react2.default.createElement(
         _Header2.default,
-        { className: classes.join(' '), pad: { horizontal: 'medium' },
+        { className: classes.join(' '),
+          pad: { horizontal: 'medium', between: 'small' },
           fixed: this.props.fixed, size: 'large' },
         this.props.navControl,
         _react2.default.createElement(
