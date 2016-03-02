@@ -4,8 +4,9 @@ import React, { Component, PropTypes } from 'react';
 import pick from 'lodash/object/pick';
 import keys from 'lodash/object/keys';
 import CheckBox from 'grommet/components/CheckBox';
+import RadioButton from 'grommet/components/RadioButton';
 import Box from 'grommet/components/Box';
-import Header from 'grommet/components/Header';
+import Heading from 'grommet/components/Heading';
 import Button from 'grommet/components/Button';
 import StatusIcon from 'grommet/components/icons/Status';
 import CaretDownIcon from 'grommet/components/icons/base/CaretDown';
@@ -26,12 +27,18 @@ export default class Filter extends Component {
   }
 
   _onChange (value) {
-    let values = this.props.values.slice(0);
-    const index = values.indexOf(value);
-    if (-1 === index) {
-      values.push(value);
+    const { exclusive } = this.props;
+    let values;
+    if (exclusive) {
+      values = [value];
     } else {
-      values.splice(index, 1);
+      values = this.props.values.slice(0);
+      const index = values.indexOf(value);
+      if (-1 === index) {
+        values.push(value);
+      } else {
+        values.splice(index, 1);
+      }
     }
     this.props.onChange(values);
   }
@@ -46,7 +53,8 @@ export default class Filter extends Component {
   }
 
   _renderChoices () {
-    const { name, values, choices, all, status } = this.props;
+    const { name, values, choices, all, exclusive, status } = this.props;
+    const Type = (exclusive ? RadioButton : CheckBox);
     let checkBoxes = choices.map(choice => {
       const id = `${name}-${choice.value}`;
       const checked = (-1 !== values.indexOf(choice.value));
@@ -59,7 +67,7 @@ export default class Filter extends Component {
         );
       }
       return (
-        <CheckBox key={id} className={`${CLASS_ROOT}__choice`}
+        <Type key={id}
           id={id} label={label} checked={checked}
           onChange={this._onChange.bind(this, choice.value)} />
       );
@@ -67,14 +75,13 @@ export default class Filter extends Component {
 
     if (all) {
       checkBoxes.unshift(
-        <CheckBox key={`${name}-all`} className={`${CLASS_ROOT}__choice`}
+        <Type key={`${name}-all`}
           id={`${name}-all`} label="All" checked={values.length === 0}
           onChange={this._onChangeAll} />
       );
     }
     return (
-      <Box direction="column" pad={{between: 'small'}}
-        className={`${CLASS_ROOT}__choices`}>
+      <Box direction="column" pad={{between: 'small'}}>
         {checkBoxes}
       </Box>
     );
@@ -94,32 +101,28 @@ export default class Filter extends Component {
     } else {
       summary = `${values.length} values`;
     }
-    return <span className={`${CLASS_ROOT}__summary secondary`}>{summary}</span>;
+    return <label><strong>{summary}</strong></label>;
   }
 
   render () {
     const { label, inline } = this.props;
+    const { active } = this.state;
     var other = pick(this.props, keys(Box.propTypes));
-    let classNames = [CLASS_ROOT];
 
-    let header = <h3 className={`${CLASS_ROOT}__label`}>{label}</h3>;
-
-    if (inline) {
-      classNames.push(`${CLASS_ROOT}--inline`);
-    } else {
-
+    let header = <Heading tag="h3">{label}</Heading>;
+    if (! inline) {
       let summary = this._renderSummary();
       let icon;
-      if (this.state.active) {
-        classNames.push(`${CLASS_ROOT}--active`);
+      if (active) {
         icon = <CaretUpIcon />;
       } else {
         icon = <CaretDownIcon />;
       }
 
       header = (
-        <Header className={`${CLASS_ROOT}__header`}
-          justify="between" align="center" onClick={this._onToggleActive}>
+        <Box direction="row" justify="between" align="center"
+          className={`${CLASS_ROOT}__header`}
+          onClick={this._onToggleActive}>
           <div>
             {header}
             {summary}
@@ -127,14 +130,17 @@ export default class Filter extends Component {
           <Button type="icon" onClick={this._onToggleActive}>
             {icon}
           </Button>
-        </Header>
+        </Box>
       );
     }
 
-    const choices = this._renderChoices();
+    let choices;
+    if (inline || active) {
+      choices = this._renderChoices();
+    }
 
     return (
-      <Box {...other} className={classNames.join(' ')}>
+      <Box {...other} pad={{...other.pad, ...{between: 'small'}}}>
         {header}
         {choices}
       </Box>
@@ -151,6 +157,7 @@ Filter.propTypes = {
     }),
     PropTypes.string
   ])).isRequired,
+  exclusive: PropTypes.bool,
   inline: PropTypes.bool,
   label: PropTypes.string,
   name: PropTypes.string,
