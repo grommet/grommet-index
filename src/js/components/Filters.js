@@ -6,6 +6,7 @@ import Box from 'grommet/components/Box';
 import FilterIcon from 'grommet/components/icons/base/Filter';
 import Filter from './Filter';
 import Sort from './Sort';
+import Intl from 'grommet/utils/Intl';
 
 const CLASS_ROOT = 'index-filters';
 
@@ -90,9 +91,10 @@ export default class Filters extends Component {
       );
     } else {
       classNames.push(`${CLASS_ROOT}__drop`);
+      let a11yTitle = Intl.getMessage(this.context.intl, 'Filter');
       result = (
         <Menu className={CLASS_ROOT + "__menu"} icon={icon}
-          dropAlign={{right: 'right'}} a11yTitle="Filter"
+          dropAlign={{right: 'right'}} a11yTitle={a11yTitle}
           direction="column" closeOnClick={false}>
           <Box direction="column"
             pad={{horizontal: 'large', vertical: 'medium', between: 'medium'}}

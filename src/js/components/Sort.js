@@ -8,6 +8,7 @@ import Button from 'grommet/components/Button';
 import Box from 'grommet/components/Box';
 import AscIcon from 'grommet/components/icons/base/LinkDown';
 import DescIcon from 'grommet/components/icons/base/LinkUp';
+import Intl from 'grommet/utils/Intl';
 
 const CLASS_ROOT = "index-sort";
 
@@ -58,9 +59,11 @@ export default class Sort extends Component {
         );
       });
 
+    let title = Intl.getMessage(this.context.intl, 'Sort');
+
     return (
       <Box {...other} className={classNames.join(' ')}>
-        <Header size="small">Sort</Header>
+        <Header size="small">{title}</Header>
         <Box direction="row" justify="between" align="center">
           <select ref="sort" value={this.state.name} className="flex"
             onChange={this._onChange}>
@@ -91,4 +94,8 @@ Sort.propTypes = {
 
 Sort.defaultProps = {
   value: ''
+};
+
+Sort.contextTypes = {
+  intl: PropTypes.object
 };

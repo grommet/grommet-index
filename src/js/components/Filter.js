@@ -1,8 +1,6 @@
 // (C) Copyright 2014-2015 Hewlett Packard Enterprise Development LP
 
 import React, { Component, PropTypes } from 'react';
-import pick from 'lodash/object/pick';
-import keys from 'lodash/object/keys';
 import CheckBox from 'grommet/components/CheckBox';
 import RadioButton from 'grommet/components/RadioButton';
 import Box from 'grommet/components/Box';
@@ -11,8 +9,10 @@ import Button from 'grommet/components/Button';
 import StatusIcon from 'grommet/components/icons/Status';
 import CaretDownIcon from 'grommet/components/icons/base/CaretDown';
 import CaretUpIcon from 'grommet/components/icons/base/CaretUp';
+import FormattedMessage from 'grommet/components/FormattedMessage';
+import Props from 'grommet/utils/Props';
 
-const CLASS_ROOT = "index-filter";
+const CLASS_ROOT = 'index-filter';
 
 export default class Filter extends Component {
 
@@ -74,9 +74,10 @@ export default class Filter extends Component {
     });
 
     if (all) {
+      let label = <FormattedMessage id="All" defaultMessage="All" />;
       checkBoxes.unshift(
         <Type key={`${name}-all`}
-          id={`${name}-all`} label="All" checked={values.length === 0}
+          id={`${name}-all`} label={label} checked={values.length === 0}
           onChange={this._onChangeAll} />
       );
     }
@@ -92,14 +93,20 @@ export default class Filter extends Component {
     let summary;
     if (values.length === 0) {
       if (all) {
-        summary = 'All';
+        summary = <FormattedMessage id="All" defaultMessage="All" />;
       }
     } else if (values.length === 1) {
       summary = choices
         .filter(choice => values.indexOf(choice.value) !== -1)
         .map(choice => choice.label);
     } else {
-      summary = `${values.length} values`;
+      summary = (
+        <FormattedMessage
+          id="FilterSummary"
+          defaultMessage="{count, number} values"
+          count={values.length}
+        />
+      );
     }
     return <label><strong>{summary}</strong></label>;
   }
@@ -107,7 +114,7 @@ export default class Filter extends Component {
   render () {
     const { label, inline } = this.props;
     const { active } = this.state;
-    var other = pick(this.props, keys(Box.propTypes));
+    let boxProps = Props.pick(this.props, Object.keys(Box.propTypes));
 
     let header = <Heading tag="h3">{label}</Heading>;
     if (! inline) {
@@ -138,7 +145,7 @@ export default class Filter extends Component {
     }
 
     return (
-      <Box {...other} pad={{...other.pad, ...{between: 'small'}}}>
+      <Box {...boxProps} pad={{...boxProps.pad, ...{between: 'small'}}}>
         {header}
         {choices}
       </Box>
