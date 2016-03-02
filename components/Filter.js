@@ -24,13 +24,17 @@ var _CheckBox = require('grommet/components/CheckBox');
 
 var _CheckBox2 = _interopRequireDefault(_CheckBox);
 
+var _RadioButton = require('grommet/components/RadioButton');
+
+var _RadioButton2 = _interopRequireDefault(_RadioButton);
+
 var _Box = require('grommet/components/Box');
 
 var _Box2 = _interopRequireDefault(_Box);
 
-var _Header = require('grommet/components/Header');
+var _Heading = require('grommet/components/Heading');
 
-var _Header2 = _interopRequireDefault(_Header);
+var _Heading2 = _interopRequireDefault(_Heading);
 
 var _Button = require('grommet/components/Button');
 
@@ -77,12 +81,19 @@ var Filter = function (_Component) {
   _createClass(Filter, [{
     key: '_onChange',
     value: function _onChange(value) {
-      var values = this.props.values.slice(0);
-      var index = values.indexOf(value);
-      if (-1 === index) {
-        values.push(value);
+      var exclusive = this.props.exclusive;
+
+      var values = undefined;
+      if (exclusive) {
+        values = [value];
       } else {
-        values.splice(index, 1);
+        values = this.props.values.slice(0);
+        var index = values.indexOf(value);
+        if (-1 === index) {
+          values.push(value);
+        } else {
+          values.splice(index, 1);
+        }
       }
       this.props.onChange(values);
     }
@@ -107,8 +118,10 @@ var Filter = function (_Component) {
       var values = _props.values;
       var choices = _props.choices;
       var all = _props.all;
+      var exclusive = _props.exclusive;
       var status = _props.status;
 
+      var Type = exclusive ? _RadioButton2.default : _CheckBox2.default;
       var checkBoxes = choices.map(function (choice) {
         var id = name + '-' + choice.value;
         var checked = -1 !== values.indexOf(choice.value);
@@ -122,20 +135,19 @@ var Filter = function (_Component) {
             label
           );
         }
-        return _react2.default.createElement(_CheckBox2.default, { key: id, className: CLASS_ROOT + '__choice',
+        return _react2.default.createElement(Type, { key: id,
           id: id, label: label, checked: checked,
           onChange: _this2._onChange.bind(_this2, choice.value) });
       });
 
       if (all) {
-        checkBoxes.unshift(_react2.default.createElement(_CheckBox2.default, { key: name + '-all', className: CLASS_ROOT + '__choice',
+        checkBoxes.unshift(_react2.default.createElement(Type, { key: name + '-all',
           id: name + '-all', label: 'All', checked: values.length === 0,
           onChange: this._onChangeAll }));
       }
       return _react2.default.createElement(
         _Box2.default,
-        { direction: 'column', pad: { between: 'small' },
-          className: CLASS_ROOT + '__choices' },
+        { direction: 'column', pad: { between: 'small' } },
         checkBoxes
       );
     }
@@ -162,9 +174,13 @@ var Filter = function (_Component) {
         summary = values.length + ' values';
       }
       return _react2.default.createElement(
-        'span',
-        { className: CLASS_ROOT + '__summary secondary' },
-        summary
+        'label',
+        null,
+        _react2.default.createElement(
+          'strong',
+          null,
+          summary
+        )
       );
     }
   }, {
@@ -173,33 +189,29 @@ var Filter = function (_Component) {
       var _props3 = this.props;
       var label = _props3.label;
       var inline = _props3.inline;
+      var active = this.state.active;
 
       var other = (0, _pick2.default)(this.props, (0, _keys2.default)(_Box2.default.propTypes));
-      var classNames = [CLASS_ROOT];
 
       var header = _react2.default.createElement(
-        'h3',
-        { className: CLASS_ROOT + '__label' },
+        _Heading2.default,
+        { tag: 'h3' },
         label
       );
-
-      if (inline) {
-        classNames.push(CLASS_ROOT + '--inline');
-      } else {
-
+      if (!inline) {
         var summary = this._renderSummary();
         var icon = undefined;
-        if (this.state.active) {
-          classNames.push(CLASS_ROOT + '--active');
+        if (active) {
           icon = _react2.default.createElement(_CaretUp2.default, null);
         } else {
           icon = _react2.default.createElement(_CaretDown2.default, null);
         }
 
         header = _react2.default.createElement(
-          _Header2.default,
-          { className: CLASS_ROOT + '__header',
-            justify: 'between', align: 'center', onClick: this._onToggleActive },
+          _Box2.default,
+          { direction: 'row', justify: 'between', align: 'center',
+            className: CLASS_ROOT + '__header',
+            onClick: this._onToggleActive },
           _react2.default.createElement(
             'div',
             null,
@@ -214,11 +226,14 @@ var Filter = function (_Component) {
         );
       }
 
-      var choices = this._renderChoices();
+      var choices = undefined;
+      if (inline || active) {
+        choices = this._renderChoices();
+      }
 
       return _react2.default.createElement(
         _Box2.default,
-        _extends({}, other, { className: classNames.join(' ') }),
+        _extends({}, other, { pad: _extends({}, other.pad, { between: 'small' }) }),
         header,
         choices
       );
@@ -236,6 +251,7 @@ Filter.propTypes = {
     label: _react.PropTypes.string,
     value: _react.PropTypes.string
   }), _react.PropTypes.string])).isRequired,
+  exclusive: _react.PropTypes.bool,
   inline: _react.PropTypes.bool,
   label: _react.PropTypes.string,
   name: _react.PropTypes.string,
