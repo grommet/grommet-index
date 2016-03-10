@@ -95,7 +95,7 @@ export default class Filters extends Component {
           dropAlign={{right: 'right'}} a11yTitle="Filter"
           direction="column" closeOnClick={false}>
           <Box direction="column"
-            pad={{horizontal: 'medium', vertical: 'medium', between: 'medium'}}
+            pad={{horizontal: 'large', vertical: 'medium', between: 'medium'}}
             className={classNames.join(' ')}>
             {filters}
             {sort}

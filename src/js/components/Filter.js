@@ -127,9 +127,7 @@ export default class Filter extends Component {
             {header}
             {summary}
           </div>
-          <Button type="icon" onClick={this._onToggleActive}>
-            {icon}
-          </Button>
+          <Button icon={icon} onClick={this._onToggleActive} />
         </Box>
       );
     }
