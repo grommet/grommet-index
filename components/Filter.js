@@ -1,12 +1,12 @@
 'use strict';
 
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _react = require('react');
 
@@ -83,7 +83,7 @@ var Filter = function (_Component) {
     value: function _onChange(value) {
       var exclusive = this.props.exclusive;
 
-      var values = undefined;
+      var values = void 0;
       if (exclusive) {
         values = [value];
       } else {
@@ -159,7 +159,7 @@ var Filter = function (_Component) {
       var choices = _props2.choices;
       var all = _props2.all;
 
-      var summary = undefined;
+      var summary = void 0;
       if (values.length === 0) {
         if (all) {
           summary = 'All';
@@ -200,7 +200,7 @@ var Filter = function (_Component) {
       );
       if (!inline) {
         var summary = this._renderSummary();
-        var icon = undefined;
+        var icon = void 0;
         if (active) {
           icon = _react2.default.createElement(_CaretUp2.default, null);
         } else {
@@ -218,15 +218,11 @@ var Filter = function (_Component) {
             header,
             summary
           ),
-          _react2.default.createElement(
-            _Button2.default,
-            { type: 'icon', onClick: this._onToggleActive },
-            icon
-          )
+          _react2.default.createElement(_Button2.default, { icon: icon, onClick: this._onToggleActive })
         );
       }
 
-      var choices = undefined;
+      var choices = void 0;
       if (inline || active) {
         choices = this._renderChoices();
       }
@@ -244,6 +240,7 @@ var Filter = function (_Component) {
 }(_react.Component);
 
 exports.default = Filter;
+
 
 Filter.propTypes = {
   all: _react.PropTypes.bool,

@@ -1,12 +1,12 @@
 'use strict';
 
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _react = require('react');
 
@@ -93,7 +93,7 @@ var Filters = function (_Component) {
       var sortAttributes = attributes.filter(function (attribute) {
         return attribute.sort;
       });
-      var result = undefined;
+      var result = void 0;
       if (sortAttributes.length > 0) {
         result = _react2.default.createElement(_Sort2.default, { attributes: sortAttributes, value: sort,
           onChange: this._onChangeSort });
@@ -124,7 +124,7 @@ var Filters = function (_Component) {
         return _this3._renderFilter(attribute);
       });
 
-      var sort = undefined;
+      var sort = void 0;
       if (this.props.sort) {
         sort = this._renderSort();
       }
@@ -132,7 +132,7 @@ var Filters = function (_Component) {
       var selectedFilterCount = Object.keys(values).length;
       var icon = _react2.default.createElement(_Filter2.default, { colorIndex: selectedFilterCount ? 'brand' : undefined });
 
-      var result = undefined;
+      var result = void 0;
       if (inline) {
         result = _react2.default.createElement(
           _Box2.default,
@@ -151,7 +151,7 @@ var Filters = function (_Component) {
           _react2.default.createElement(
             _Box2.default,
             { direction: 'column',
-              pad: { horizontal: 'medium', vertical: 'medium', between: 'medium' },
+              pad: { horizontal: 'large', vertical: 'medium', between: 'medium' },
               className: classNames.join(' ') },
             filters,
             sort
@@ -167,6 +167,7 @@ var Filters = function (_Component) {
 }(_react.Component);
 
 exports.default = Filters;
+
 
 Filters.propTypes = {
   attributes: _react.PropTypes.arrayOf(_react.PropTypes.shape({

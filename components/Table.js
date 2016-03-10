@@ -1,10 +1,10 @@
 'use strict';
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _react = require('react');
 
@@ -58,6 +58,7 @@ var IndexTableRow = function (_Component) {
       var onClick = _props.onClick;
       var attributes = _props.attributes;
 
+
       var cells = attributes.map(function (attribute, index) {
         return _react2.default.createElement(
           'td',
@@ -106,7 +107,7 @@ var IndexTable = function (_Component2) {
   }, {
     key: '_simplifyAttributes',
     value: function _simplifyAttributes(attributes) {
-      var result = undefined;
+      var result = void 0;
       if (attributes) {
         result = attributes.filter(function (attribute) {
           return !attribute.hidden;
@@ -126,7 +127,7 @@ var IndexTable = function (_Component2) {
       var selection = _props2.selection;
       var itemComponent = _props2.itemComponent;
 
-      var onClick = undefined;
+      var onClick = void 0;
       if (this.props.onSelect) {
         onClick = this._onClickRow.bind(this, item.uri);
       }
@@ -134,7 +135,7 @@ var IndexTable = function (_Component2) {
       if (selection && item.uri === selection) {
         selected = true;
       }
-      var row = undefined;
+      var row = void 0;
       if (itemComponent) {
         var _Component3 = itemComponent;
         row = _react2.default.createElement(_Component3, { key: item.uri, item: item, onClick: onClick,
@@ -196,8 +197,8 @@ var IndexTable = function (_Component2) {
         );
       }
 
-      var rows = undefined;
-      var selectionIndex = undefined;
+      var rows = void 0;
+      var selectionIndex = void 0;
       if (result && result.items) {
         rows = result.items.map(function (item, index) {
           if (selection && item.uri === selection) {
@@ -207,7 +208,7 @@ var IndexTable = function (_Component2) {
         });
       }
 
-      var onMore = undefined;
+      var onMore = void 0;
       if (result && result.count < result.total) {
         onMore = this.props.onMore;
       }
@@ -233,6 +234,7 @@ var IndexTable = function (_Component2) {
 }(_react.Component);
 
 exports.default = IndexTable;
+
 
 IndexTable.propTypes = {
   attributes: _PropTypes2.default.attributes,

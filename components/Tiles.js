@@ -1,10 +1,10 @@
 'use strict';
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _react = require('react');
 
@@ -62,7 +62,7 @@ var IndexTile = function (_Component) {
       var onClick = _props.onClick;
       var attributes = _props.attributes;
 
-      var statusValue = undefined;
+      var statusValue = void 0;
       var headerValues = [];
       var values = [];
       var footerValues = [];
@@ -81,7 +81,7 @@ var IndexTile = function (_Component) {
         }
       }, this);
 
-      var header = undefined;
+      var header = void 0;
       if (headerValues.length > 0) {
         header = _react2.default.createElement(
           'h4',
@@ -90,7 +90,7 @@ var IndexTile = function (_Component) {
         );
       }
 
-      var footer = undefined;
+      var footer = void 0;
       if (footerValues.length > 0) {
         footer = _react2.default.createElement(
           _Footer2.default,
@@ -156,7 +156,7 @@ var IndexTiles = function (_Component2) {
       var selection = _props2.selection;
       var itemComponent = _props2.itemComponent;
 
-      var onClick = undefined;
+      var onClick = void 0;
       if (this.props.onSelect) {
         onClick = this._onClickTile.bind(this, item.uri);
       }
@@ -164,7 +164,7 @@ var IndexTiles = function (_Component2) {
       if (selection && item.uri === selection) {
         selected = true;
       }
-      var tile = undefined;
+      var tile = void 0;
       if (itemComponent) {
         var _Component3 = itemComponent;
         tile = _react2.default.createElement(_Component3, { key: item.uri, item: item, onClick: onClick,
@@ -262,8 +262,8 @@ var IndexTiles = function (_Component2) {
       var result = _props4.result;
       var selection = _props4.selection;
 
-      var tiles = undefined;
-      var selectionIndex = undefined;
+      var tiles = void 0;
+      var selectionIndex = void 0;
       if (result && result.items) {
         tiles = result.items.map(function (item, index) {
           if (selection && item.uri === selection) {
@@ -295,7 +295,7 @@ var IndexTiles = function (_Component2) {
         classes.push(this.props.className);
       }
 
-      var onMore = undefined;
+      var onMore = void 0;
       if (result && result.count < result.total) {
         onMore = this.props.onMore;
       }
@@ -312,6 +312,7 @@ var IndexTiles = function (_Component2) {
 }(_react.Component);
 
 exports.default = IndexTiles;
+
 
 IndexTiles.propTypes = {
   attributes: _PropTypes2.default.attributes,

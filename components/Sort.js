@@ -1,12 +1,12 @@
 'use strict';
 
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _react = require('react');
 
@@ -128,18 +128,12 @@ var Sort = function (_Component) {
           _react2.default.createElement(
             'span',
             null,
-            _react2.default.createElement(
-              _Button2.default,
-              { type: 'icon',
-                onClick: this._onChangeDirection.bind(this, 'asc') },
-              _react2.default.createElement(_LinkDown2.default, { colorIndex: 'asc' === this.state.direction ? 'brand' : undefined })
-            ),
-            _react2.default.createElement(
-              _Button2.default,
-              { type: 'icon',
-                onClick: this._onChangeDirection.bind(this, 'desc') },
-              _react2.default.createElement(_LinkUp2.default, { colorIndex: 'desc' === this.state.direction ? 'brand' : undefined })
-            )
+            _react2.default.createElement(_Button2.default, {
+              icon: _react2.default.createElement(_LinkDown2.default, { colorIndex: 'asc' === this.state.direction ? 'brand' : undefined }),
+              onClick: this._onChangeDirection.bind(this, 'asc') }),
+            _react2.default.createElement(_Button2.default, {
+              icon: _react2.default.createElement(_LinkUp2.default, { colorIndex: 'desc' === this.state.direction ? 'brand' : undefined }),
+              onClick: this._onChangeDirection.bind(this, 'desc') })
           )
         )
       );
@@ -150,6 +144,7 @@ var Sort = function (_Component) {
 }(_react.Component);
 
 exports.default = Sort;
+
 
 Sort.propTypes = {
   attributes: _react.PropTypes.arrayOf(_react.PropTypes.shape({

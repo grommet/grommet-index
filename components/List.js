@@ -1,10 +1,10 @@
 'use strict';
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _react = require('react');
 
@@ -55,10 +55,10 @@ var IndexListItem = function (_Component) {
       var onClick = _props.onClick;
       var attributes = _props.attributes;
 
-      var status = undefined,
-          primary = undefined,
-          secondary = undefined,
-          separator = undefined;
+      var status = void 0,
+          primary = void 0,
+          secondary = void 0,
+          separator = void 0;
 
       attributes.forEach(function (attribute) {
         if ('status' === attribute.name) {
@@ -121,7 +121,7 @@ var IndexList = function (_Component2) {
       var selection = _props2.selection;
       var itemComponent = _props2.itemComponent;
 
-      var onClick = undefined;
+      var onClick = void 0;
       if (this.props.onSelect) {
         onClick = this._onClickItem.bind(this, item.uri);
       }
@@ -129,7 +129,7 @@ var IndexList = function (_Component2) {
       if (selection && item.uri === selection) {
         selected = true;
       }
-      var listItem = undefined;
+      var listItem = void 0;
       if (itemComponent) {
         var _Component3 = itemComponent;
         listItem = _react2.default.createElement(_Component3, { key: item.uri, item: item, index: index, onClick: onClick,
@@ -154,8 +154,8 @@ var IndexList = function (_Component2) {
         classes.push(this.props.className);
       }
 
-      var listItems = undefined;
-      var selectionIndex = undefined;
+      var listItems = void 0;
+      var selectionIndex = void 0;
       if (result && result.items) {
         listItems = result.items.map(function (item, index) {
           if (selection && item.uri === selection) {
@@ -165,7 +165,7 @@ var IndexList = function (_Component2) {
         });
       }
 
-      var onMore = undefined;
+      var onMore = void 0;
       if (result && result.count < result.total) {
         onMore = this.props.onMore;
       }
@@ -185,6 +185,7 @@ var IndexList = function (_Component2) {
 }(_react.Component);
 
 exports.default = IndexList;
+
 
 IndexList.propTypes = {
   attributes: _PropTypes2.default.attributes,
