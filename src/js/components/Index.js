@@ -2,6 +2,7 @@
 
 import React, { Component, PropTypes } from 'react';
 import Box from 'grommet/components/Box';
+import Responsive from 'grommet/utils/Responsive';
 import IndexPropTypes from '../utils/PropTypes';
 import IndexTable from './Table';
 import IndexTiles from './Tiles';
@@ -17,6 +18,24 @@ const VIEW_COMPONENT = {
 };
 
 export default class Index extends Component {
+
+  constructor () {
+    super();
+    this._onResponsive = this._onResponsive.bind(this);
+    this.state = { responsiveSize: 'medium' };
+  }
+
+  componentDidMount () {
+    this._responsive = Responsive.start(this._onResponsive);
+  }
+
+  componentWillUnmount () {
+    this._responsive.stop();
+  }
+
+  _onResponsive (small) {
+    this.setState({ responsiveSize: (small ? 'small' : 'medium') });
+  }
 
   render () {
     const { result, notifications } = this.props;
@@ -60,7 +79,15 @@ export default class Index extends Component {
       }
     }
 
-    const ViewComponent = VIEW_COMPONENT[this.props.view];
+    let view = this.props.view;
+    let itemComponent = this.props.itemComponent;
+    if (typeof view === 'object') {
+      view = view[this.state.responsiveSize];
+    }
+    if (typeof itemComponent === 'object') {
+      itemComponent = itemComponent[this.state.responsiveSize];
+    }
+    const ViewComponent = VIEW_COMPONENT[view];
 
     return (
       <div className={classes.join(' ')}>
@@ -82,7 +109,7 @@ export default class Index extends Component {
               attributes={this.props.attributes}
               fill={this.props.fill}
               flush={this.props.flush}
-              itemComponent={this.props.itemComponent}
+              itemComponent={itemComponent}
               result={this.props.result}
               sections={this.props.sections}
               selection={this.props.selection}
@@ -109,8 +136,11 @@ Index.propTypes = {
   fixed: PropTypes.bool,
   flush: PropTypes.bool, // for Tiles
   itemComponent: PropTypes.oneOfType([
-    PropTypes.object,
-    PropTypes.func
+    PropTypes.func,
+    PropTypes.shape({
+      medium: PropTypes.func,
+      small: PropTypes.func
+    })
   ]),
   label: PropTypes.string,
   navControl: PropTypes.node,
@@ -128,7 +158,13 @@ Index.propTypes = {
   ]),
   size: PropTypes.oneOf(['small', 'medium', 'large']),
   sort: PropTypes.string,
-  view: PropTypes.oneOf(["table", "tiles", "list"])
+  view: PropTypes.oneOfType([
+    PropTypes.oneOf(["table", "tiles", "list"]),
+    PropTypes.shape({
+      medium: PropTypes.oneOf(["table", "tiles", "list"]),
+      small: PropTypes.oneOf(["table", "tiles", "list"])
+    })
+  ])
 };
 
 Index.defaultProps = {
