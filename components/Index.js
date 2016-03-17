@@ -4,6 +4,8 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _react = require('react');
@@ -13,6 +15,10 @@ var _react2 = _interopRequireDefault(_react);
 var _Box = require('grommet/components/Box');
 
 var _Box2 = _interopRequireDefault(_Box);
+
+var _Responsive = require('grommet/utils/Responsive');
+
+var _Responsive2 = _interopRequireDefault(_Responsive);
 
 var _PropTypes = require('../utils/PropTypes');
 
@@ -56,10 +62,29 @@ var Index = function (_Component) {
   function Index() {
     _classCallCheck(this, Index);
 
-    return _possibleConstructorReturn(this, Object.getPrototypeOf(Index).apply(this, arguments));
+    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Index).call(this));
+
+    _this._onResponsive = _this._onResponsive.bind(_this);
+    _this.state = { responsiveSize: 'medium' };
+    return _this;
   }
 
   _createClass(Index, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      this._responsive = _Responsive2.default.start(this._onResponsive);
+    }
+  }, {
+    key: 'componentWillUnmount',
+    value: function componentWillUnmount() {
+      this._responsive.stop();
+    }
+  }, {
+    key: '_onResponsive',
+    value: function _onResponsive(small) {
+      this.setState({ responsiveSize: small ? 'small' : 'medium' });
+    }
+  }, {
     key: 'render',
     value: function render() {
       var _props = this.props;
@@ -110,7 +135,15 @@ var Index = function (_Component) {
         }
       }
 
-      var ViewComponent = VIEW_COMPONENT[this.props.view];
+      var view = this.props.view;
+      var itemComponent = this.props.itemComponent;
+      if ((typeof view === 'undefined' ? 'undefined' : _typeof(view)) === 'object') {
+        view = view[this.state.responsiveSize];
+      }
+      if ((typeof itemComponent === 'undefined' ? 'undefined' : _typeof(itemComponent)) === 'object') {
+        itemComponent = itemComponent[this.state.responsiveSize];
+      }
+      var ViewComponent = VIEW_COMPONENT[view];
 
       return _react2.default.createElement(
         'div',
@@ -137,7 +170,7 @@ var Index = function (_Component) {
               attributes: this.props.attributes,
               fill: this.props.fill,
               flush: this.props.flush,
-              itemComponent: this.props.itemComponent,
+              itemComponent: itemComponent,
               result: this.props.result,
               sections: this.props.sections,
               selection: this.props.selection,
@@ -167,7 +200,10 @@ Index.propTypes = {
   filter: _react.PropTypes.object, // { name: [value, ...] }
   fixed: _react.PropTypes.bool,
   flush: _react.PropTypes.bool, // for Tiles
-  itemComponent: _react.PropTypes.oneOfType([_react.PropTypes.object, _react.PropTypes.func]),
+  itemComponent: _react.PropTypes.oneOfType([_react.PropTypes.func, _react.PropTypes.shape({
+    medium: _react.PropTypes.func,
+    small: _react.PropTypes.func
+  })]),
   label: _react.PropTypes.string,
   navControl: _react.PropTypes.node,
   notifications: _react.PropTypes.node,
@@ -182,7 +218,10 @@ Index.propTypes = {
   _react.PropTypes.arrayOf(_react.PropTypes.string)]),
   size: _react.PropTypes.oneOf(['small', 'medium', 'large']),
   sort: _react.PropTypes.string,
-  view: _react.PropTypes.oneOf(["table", "tiles", "list"])
+  view: _react.PropTypes.oneOfType([_react.PropTypes.oneOf(["table", "tiles", "list"]), _react.PropTypes.shape({
+    medium: _react.PropTypes.oneOf(["table", "tiles", "list"]),
+    small: _react.PropTypes.oneOf(["table", "tiles", "list"])
+  })])
 };
 
 Index.defaultProps = {
