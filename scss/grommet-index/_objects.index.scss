@@ -4,11 +4,9 @@
   min-width: $sidebar-width;
   max-width: 100%;
   overflow: auto;
-  border-right: 1px solid $strong-border-color;
 
   &__container {
     position: relative;
-    //padding-bottom: $inuit-base-spacing-unit;
   }
 
   &__items {

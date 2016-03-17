@@ -129,7 +129,7 @@ var IndexHeader = function (_Component) {
         _react2.default.createElement(
           _Box2.default,
           { className: CLASS_ROOT + '__controls flex', direction: 'row',
-            align: 'center', responsive: false },
+            align: 'center', justify: 'end', responsive: false },
           _react2.default.createElement(_Search2.default, { className: CLASS_ROOT + '__search flex',
             inline: true,
             placeHolder: placeHolder,
