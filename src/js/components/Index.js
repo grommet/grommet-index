@@ -8,6 +8,7 @@ import IndexTable from './Table';
 import IndexTiles from './Tiles';
 import IndexList from './List';
 import IndexHeader from './Header';
+import Intl from 'grommet/utils/Intl';
 
 const CLASS_ROOT = 'index';
 
@@ -65,7 +66,7 @@ export default class Index extends Component {
           addControl = this.props.addControl;
         }
       } else if (result.total === 0) {
-        emptyMessage = "No matches";
+        emptyMessage = Intl.getMessage(this.context.intl, 'No matches');
       }
       if (emptyMessage) {
         empty = (
@@ -172,4 +173,8 @@ Index.defaultProps = {
   fixed: true,
   flush: true,
   view: "tiles"
+};
+
+Index.contextTypes = {
+  intl: PropTypes.object
 };

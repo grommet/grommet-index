@@ -1,13 +1,13 @@
 // (C) Copyright 2014-2015 Hewlett Packard Enterprise Development LP
 
 import React, { Component, PropTypes } from 'react';
-import pick from 'lodash/object/pick';
-import keys from 'lodash/object/keys';
 import Header from 'grommet/components/Header';
 import Button from 'grommet/components/Button';
 import Box from 'grommet/components/Box';
 import AscIcon from 'grommet/components/icons/base/LinkDown';
 import DescIcon from 'grommet/components/icons/base/LinkUp';
+import Intl from 'grommet/utils/Intl';
+import Props from 'grommet/utils/Props';
 
 const CLASS_ROOT = "index-sort";
 
@@ -43,7 +43,7 @@ export default class Sort extends Component {
 
   render () {
     const { attributes } = this.props;
-    var other = pick(this.props, keys(Box.propTypes));
+    let boxProps = Props.pick(this.props, Object.keys(Box.propTypes));
     let classNames = [CLASS_ROOT];
     if (this.props.className) {
       classNames.push(this.props.className);
@@ -58,9 +58,11 @@ export default class Sort extends Component {
         );
       });
 
+    let title = Intl.getMessage(this.context.intl, 'Sort');
+
     return (
-      <Box {...other} className={classNames.join(' ')}>
-        <Header size="small">Sort</Header>
+      <Box {...boxProps} className={classNames.join(' ')}>
+        <Header size="small">{title}</Header>
         <Box direction="row" justify="between" align="center">
           <select ref="sort" value={this.state.name} className="flex"
             onChange={this._onChange}>
@@ -91,4 +93,8 @@ Sort.propTypes = {
 
 Sort.defaultProps = {
   value: ''
+};
+
+Sort.contextTypes = {
+  intl: PropTypes.object
 };
