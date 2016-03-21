@@ -32,6 +32,10 @@ var _Sort = require('./Sort');
 
 var _Sort2 = _interopRequireDefault(_Sort);
 
+var _Intl = require('grommet/utils/Intl');
+
+var _Intl2 = _interopRequireDefault(_Intl);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -143,10 +147,11 @@ var Filters = function (_Component) {
         );
       } else {
         classNames.push(CLASS_ROOT + '__drop');
+        var a11yTitle = _Intl2.default.getMessage(this.context.intl, 'Filter');
         result = _react2.default.createElement(
           _Menu2.default,
           { className: CLASS_ROOT + "__menu", icon: icon,
-            dropAlign: { right: 'right' }, a11yTitle: 'Filter',
+            dropAlign: { right: 'right' }, a11yTitle: a11yTitle,
             direction: 'column', closeOnClick: false },
           _react2.default.createElement(
             _Box2.default,

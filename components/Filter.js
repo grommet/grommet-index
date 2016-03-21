@@ -12,14 +12,6 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _pick = require('lodash/object/pick');
-
-var _pick2 = _interopRequireDefault(_pick);
-
-var _keys = require('lodash/object/keys');
-
-var _keys2 = _interopRequireDefault(_keys);
-
 var _CheckBox = require('grommet/components/CheckBox');
 
 var _CheckBox2 = _interopRequireDefault(_CheckBox);
@@ -52,6 +44,14 @@ var _CaretUp = require('grommet/components/icons/base/CaretUp');
 
 var _CaretUp2 = _interopRequireDefault(_CaretUp);
 
+var _FormattedMessage = require('grommet/components/FormattedMessage');
+
+var _FormattedMessage2 = _interopRequireDefault(_FormattedMessage);
+
+var _Props = require('grommet/utils/Props');
+
+var _Props2 = _interopRequireDefault(_Props);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -60,7 +60,7 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } // (C) Copyright 2014-2015 Hewlett Packard Enterprise Development LP
 
-var CLASS_ROOT = "index-filter";
+var CLASS_ROOT = 'index-filter';
 
 var Filter = function (_Component) {
   _inherits(Filter, _Component);
@@ -141,8 +141,9 @@ var Filter = function (_Component) {
       });
 
       if (all) {
+        var label = _react2.default.createElement(_FormattedMessage2.default, { id: 'All', defaultMessage: 'All' });
         checkBoxes.unshift(_react2.default.createElement(Type, { key: name + '-all',
-          id: name + '-all', label: 'All', checked: values.length === 0,
+          id: name + '-all', label: label, checked: values.length === 0,
           onChange: this._onChangeAll }));
       }
       return _react2.default.createElement(
@@ -162,7 +163,7 @@ var Filter = function (_Component) {
       var summary = void 0;
       if (values.length === 0) {
         if (all) {
-          summary = 'All';
+          summary = _react2.default.createElement(_FormattedMessage2.default, { id: 'All', defaultMessage: 'All' });
         }
       } else if (values.length === 1) {
         summary = choices.filter(function (choice) {
@@ -171,7 +172,11 @@ var Filter = function (_Component) {
           return choice.label;
         });
       } else {
-        summary = values.length + ' values';
+        summary = _react2.default.createElement(_FormattedMessage2.default, {
+          id: 'FilterSummary',
+          defaultMessage: '{count, number} values',
+          count: values.length
+        });
       }
       return _react2.default.createElement(
         'label',
@@ -191,7 +196,7 @@ var Filter = function (_Component) {
       var inline = _props3.inline;
       var active = this.state.active;
 
-      var other = (0, _pick2.default)(this.props, (0, _keys2.default)(_Box2.default.propTypes));
+      var boxProps = _Props2.default.pick(this.props, Object.keys(_Box2.default.propTypes));
 
       var header = _react2.default.createElement(
         _Heading2.default,
@@ -229,7 +234,7 @@ var Filter = function (_Component) {
 
       return _react2.default.createElement(
         _Box2.default,
-        _extends({}, other, { pad: _extends({}, other.pad, { between: 'small' }) }),
+        _extends({}, boxProps, { pad: _extends({}, boxProps.pad, { between: 'small' }) }),
         header,
         choices
       );

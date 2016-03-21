@@ -40,6 +40,10 @@ var _Header = require('./Header');
 
 var _Header2 = _interopRequireDefault(_Header);
 
+var _Intl = require('grommet/utils/Intl');
+
+var _Intl2 = _interopRequireDefault(_Intl);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -117,7 +121,7 @@ var Index = function (_Component) {
             addControl = this.props.addControl;
           }
         } else if (result.total === 0) {
-          emptyMessage = "No matches";
+          emptyMessage = _Intl2.default.getMessage(this.context.intl, 'No matches');
         }
         if (emptyMessage) {
           empty = _react2.default.createElement(
@@ -229,5 +233,9 @@ Index.defaultProps = {
   fixed: true,
   flush: true,
   view: "tiles"
+};
+
+Index.contextTypes = {
+  intl: _react.PropTypes.object
 };
 module.exports = exports['default'];

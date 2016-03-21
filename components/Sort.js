@@ -12,14 +12,6 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _pick = require('lodash/object/pick');
-
-var _pick2 = _interopRequireDefault(_pick);
-
-var _keys = require('lodash/object/keys');
-
-var _keys2 = _interopRequireDefault(_keys);
-
 var _Header = require('grommet/components/Header');
 
 var _Header2 = _interopRequireDefault(_Header);
@@ -39,6 +31,14 @@ var _LinkDown2 = _interopRequireDefault(_LinkDown);
 var _LinkUp = require('grommet/components/icons/base/LinkUp');
 
 var _LinkUp2 = _interopRequireDefault(_LinkUp);
+
+var _Intl = require('grommet/utils/Intl');
+
+var _Intl2 = _interopRequireDefault(_Intl);
+
+var _Props = require('grommet/utils/Props');
+
+var _Props2 = _interopRequireDefault(_Props);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -94,7 +94,7 @@ var Sort = function (_Component) {
     value: function render() {
       var attributes = this.props.attributes;
 
-      var other = (0, _pick2.default)(this.props, (0, _keys2.default)(_Box2.default.propTypes));
+      var boxProps = _Props2.default.pick(this.props, Object.keys(_Box2.default.propTypes));
       var classNames = [CLASS_ROOT];
       if (this.props.className) {
         classNames.push(this.props.className);
@@ -108,13 +108,15 @@ var Sort = function (_Component) {
         );
       });
 
+      var title = _Intl2.default.getMessage(this.context.intl, 'Sort');
+
       return _react2.default.createElement(
         _Box2.default,
-        _extends({}, other, { className: classNames.join(' ') }),
+        _extends({}, boxProps, { className: classNames.join(' ') }),
         _react2.default.createElement(
           _Header2.default,
           { size: 'small' },
-          'Sort'
+          title
         ),
         _react2.default.createElement(
           _Box2.default,
@@ -157,5 +159,9 @@ Sort.propTypes = {
 
 Sort.defaultProps = {
   value: ''
+};
+
+Sort.contextTypes = {
+  intl: _react.PropTypes.object
 };
 module.exports = exports['default'];
