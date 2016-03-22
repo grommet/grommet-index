@@ -10,6 +10,14 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+var _debounce = require('debounce');
+
+var _debounce2 = _interopRequireDefault(_debounce);
+
+var _classnames2 = require('classnames');
+
+var _classnames3 = _interopRequireDefault(_classnames2);
+
 var _Header = require('grommet/components/Header');
 
 var _Header2 = _interopRequireDefault(_Header);
@@ -40,6 +48,8 @@ var _Intl2 = _interopRequireDefault(_Intl);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
@@ -56,7 +66,7 @@ var IndexHeader = function (_Component) {
 
     var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(IndexHeader).call(this));
 
-    _this._onChangeSearch = _this._onChangeSearch.bind(_this);
+    _this._onChangeSearch = (0, _debounce2.default)(_this._onChangeSearch.bind(_this), 300);
     return _this;
   }
 
@@ -72,26 +82,17 @@ var IndexHeader = function (_Component) {
       var attributes = _props.attributes;
       var query = _props.query;
 
+      var searchText = query ? query.toString() : '';
       var result = this.props.result || {};
-      var classes = [CLASS_ROOT];
-      if (this.props.className) {
-        classes.push(this.props.className);
-      }
 
-      var searchText = '';
-      if (query) {
-        searchText = query.toString();
-      }
+      var classes = (0, _classnames3.default)(CLASS_ROOT, this.props.className);
+      var countClasses = (0, _classnames3.default)(CLASS_ROOT + '__count', _defineProperty({}, CLASS_ROOT + '__count--active', result.unfilteredTotal > result.total));
 
-      var countClasses = [CLASS_ROOT + '__count'];
-      if (result.unfilteredTotal > result.total) {
-        countClasses.push(CLASS_ROOT + '__count--active');
-      }
+      var filterOrSortAttributes = attributes.filter(function (a) {
+        return a.filter || a.sort;
+      });
 
       var filters = void 0;
-      var filterOrSortAttributes = attributes.filter(function (attribute) {
-        return attribute.filter || attribute.sort;
-      });
       if (filterOrSortAttributes.length > 0) {
         filters = _react2.default.createElement(
           'div',
@@ -107,7 +108,7 @@ var IndexHeader = function (_Component) {
           ),
           _react2.default.createElement(
             'span',
-            { className: countClasses.join(' ') },
+            { className: countClasses },
             result.total
           )
         );
@@ -117,7 +118,7 @@ var IndexHeader = function (_Component) {
 
       return _react2.default.createElement(
         _Header2.default,
-        { className: classes.join(' '),
+        { className: classes,
           pad: { horizontal: 'medium', between: 'small' },
           fixed: this.props.fixed, size: 'large' },
         this.props.navControl,
@@ -133,7 +134,7 @@ var IndexHeader = function (_Component) {
           _react2.default.createElement(_Search2.default, { className: CLASS_ROOT + '__search flex',
             inline: true,
             placeHolder: placeHolder,
-            value: searchText,
+            defaultValue: searchText,
             onChange: this._onChangeSearch }),
           filters,
           this.props.addControl
