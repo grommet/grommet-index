@@ -1,6 +1,8 @@
 // (C) Copyright 2014-2015 Hewlett Packard Enterprise Development LP
 
 import React, { Component, PropTypes } from 'react';
+import debounce from 'debounce';
+import classnames from 'classnames';
 import Header from 'grommet/components/Header';
 import Search from 'grommet/components/Search';
 import Box from 'grommet/components/Box';
@@ -15,7 +17,7 @@ export default class IndexHeader extends Component {
 
   constructor () {
     super();
-    this._onChangeSearch = this._onChangeSearch.bind(this);
+    this._onChangeSearch = debounce(this._onChangeSearch.bind(this), 300);
   }
 
   _onChangeSearch (text) {
@@ -24,27 +26,17 @@ export default class IndexHeader extends Component {
 
   render () {
     const { attributes, query } = this.props;
+    const searchText = query ? query.toString() : '';
     const result = this.props.result || {};
-    let classes = [CLASS_ROOT];
-    if (this.props.className) {
-      classes.push(this.props.className);
-    }
 
-    let searchText = '';
-    if (query) {
-      searchText = query.toString();
-    }
+    const classes = classnames(CLASS_ROOT, this.props.className);
+    const countClasses = classnames(`${CLASS_ROOT}__count`, {
+      [`${CLASS_ROOT}__count--active`]: result.unfilteredTotal > result.total
+    });
 
-    let countClasses = [`${CLASS_ROOT}__count`];
-    if (result.unfilteredTotal > result.total) {
-      countClasses.push(`${CLASS_ROOT}__count--active`);
-    }
+    const filterOrSortAttributes = attributes.filter(a => a.filter || a.sort);
 
     let filters;
-    const filterOrSortAttributes = attributes
-      .filter(attribute => {
-        return attribute.filter || attribute.sort;
-      });
     if (filterOrSortAttributes.length > 0) {
       filters = (
         <div className={`${CLASS_ROOT}__filters no-flex`}>
@@ -55,17 +47,17 @@ export default class IndexHeader extends Component {
           <span className={`${CLASS_ROOT}__total`}>
             {result.unfilteredTotal}
           </span>
-          <span className={countClasses.join(' ')}>
+          <span className={countClasses}>
             {result.total}
           </span>
         </div>
       );
     }
 
-    let placeHolder = Intl.getMessage(this.context.intl, 'Search');
+    const placeHolder = Intl.getMessage(this.context.intl, 'Search');
 
     return (
-      <Header className={classes.join(' ')}
+      <Header className={classes}
         pad={{horizontal: 'medium', between: 'small'}}
         fixed={this.props.fixed} size="large">
         {this.props.navControl}
@@ -75,7 +67,7 @@ export default class IndexHeader extends Component {
           <Search className={`${CLASS_ROOT}__search flex`}
             inline={true}
             placeHolder={placeHolder}
-            value={searchText}
+            defaultValue={searchText}
             onChange={this._onChangeSearch} />
           {filters}
           {this.props.addControl}
