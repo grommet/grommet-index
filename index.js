@@ -6,156 +6,72 @@ Object.defineProperty(exports, "__esModule", {
 
 var _Aggregate = require('./components/Aggregate');
 
-Object.keys(_Aggregate).forEach(function (key) {
-  if (key === "default") return;
-  Object.defineProperty(exports, key, {
-    enumerable: true,
-    get: function get() {
-      return _Aggregate[key];
-    }
-  });
-});
+var _Aggregate2 = _interopRequireDefault(_Aggregate);
 
 var _Attribute = require('./components/Attribute');
 
-Object.keys(_Attribute).forEach(function (key) {
-  if (key === "default") return;
-  Object.defineProperty(exports, key, {
-    enumerable: true,
-    get: function get() {
-      return _Attribute[key];
-    }
-  });
-});
+var _Attribute2 = _interopRequireDefault(_Attribute);
 
 var _Filter = require('./components/Filter');
 
-Object.keys(_Filter).forEach(function (key) {
-  if (key === "default") return;
-  Object.defineProperty(exports, key, {
-    enumerable: true,
-    get: function get() {
-      return _Filter[key];
-    }
-  });
-});
+var _Filter2 = _interopRequireDefault(_Filter);
 
 var _Filters = require('./components/Filters');
 
-Object.keys(_Filters).forEach(function (key) {
-  if (key === "default") return;
-  Object.defineProperty(exports, key, {
-    enumerable: true,
-    get: function get() {
-      return _Filters[key];
-    }
-  });
-});
+var _Filters2 = _interopRequireDefault(_Filters);
 
 var _Header = require('./components/Header');
 
-Object.keys(_Header).forEach(function (key) {
-  if (key === "default") return;
-  Object.defineProperty(exports, key, {
-    enumerable: true,
-    get: function get() {
-      return _Header[key];
-    }
-  });
-});
+var _Header2 = _interopRequireDefault(_Header);
 
 var _History = require('./components/History');
 
-Object.keys(_History).forEach(function (key) {
-  if (key === "default") return;
-  Object.defineProperty(exports, key, {
-    enumerable: true,
-    get: function get() {
-      return _History[key];
-    }
-  });
-});
+var _History2 = _interopRequireDefault(_History);
 
 var _Index = require('./components/Index');
 
-Object.keys(_Index).forEach(function (key) {
-  if (key === "default") return;
-  Object.defineProperty(exports, key, {
-    enumerable: true,
-    get: function get() {
-      return _Index[key];
-    }
-  });
-});
+var _Index2 = _interopRequireDefault(_Index);
 
 var _List = require('./components/List');
 
-Object.keys(_List).forEach(function (key) {
-  if (key === "default") return;
-  Object.defineProperty(exports, key, {
-    enumerable: true,
-    get: function get() {
-      return _List[key];
-    }
-  });
-});
+var _List2 = _interopRequireDefault(_List);
 
 var _Table = require('./components/Table');
 
-Object.keys(_Table).forEach(function (key) {
-  if (key === "default") return;
-  Object.defineProperty(exports, key, {
-    enumerable: true,
-    get: function get() {
-      return _Table[key];
-    }
-  });
-});
+var _Table2 = _interopRequireDefault(_Table);
 
 var _Tiles = require('./components/Tiles');
 
-Object.keys(_Tiles).forEach(function (key) {
-  if (key === "default") return;
-  Object.defineProperty(exports, key, {
-    enumerable: true,
-    get: function get() {
-      return _Tiles[key];
-    }
-  });
-});
+var _Tiles2 = _interopRequireDefault(_Tiles);
 
 var _Timestamp = require('./components/Timestamp');
 
-Object.keys(_Timestamp).forEach(function (key) {
-  if (key === "default") return;
-  Object.defineProperty(exports, key, {
-    enumerable: true,
-    get: function get() {
-      return _Timestamp[key];
-    }
-  });
-});
+var _Timestamp2 = _interopRequireDefault(_Timestamp);
 
 var _PropTypes = require('./utils/PropTypes');
 
-Object.keys(_PropTypes).forEach(function (key) {
-  if (key === "default") return;
-  Object.defineProperty(exports, key, {
-    enumerable: true,
-    get: function get() {
-      return _PropTypes[key];
-    }
-  });
-});
+var _PropTypes2 = _interopRequireDefault(_PropTypes);
 
 var _Query = require('./utils/Query');
 
-Object.keys(_Query).forEach(function (key) {
-  if (key === "default") return;
-  Object.defineProperty(exports, key, {
-    enumerable: true,
-    get: function get() {
-      return _Query[key];
-    }
-  });
-});
+var _Query2 = _interopRequireDefault(_Query);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = {
+  Aggregate: _Aggregate2.default,
+  Attribute: _Attribute2.default,
+  Filter: _Filter2.default,
+  Filters: _Filters2.default,
+  Header: _Header2.default,
+  History: _History2.default,
+  Index: _Index2.default,
+  List: _List2.default,
+  Table: _Table2.default,
+  Tiles: _Tiles2.default,
+  Timestamp: _Timestamp2.default,
+  PropTypes: _PropTypes2.default,
+  Query: _Query2.default
+}; // (C) Copyright 2014-2015 Hewlett Packard Enterprise Development LP
+
+module.exports = exports['default'];
