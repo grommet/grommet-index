@@ -51,6 +51,7 @@ var opts = {
     },
     externals: {
       'react': 'React',
+      'react-dom': 'ReactDOM',
       'grommet': 'grommet'
     }
   },
