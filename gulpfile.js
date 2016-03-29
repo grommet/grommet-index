@@ -4,6 +4,9 @@ var gulpTasks = require('grommet/utils/gulp/gulp-tasks');
 var git = require('gulp-git');
 var del = require('del');
 var mkdirp = require('mkdirp');
+var sass = require('gulp-sass');
+var rename = require('gulp-rename');
+var minifyCss = require('gulp-cssnano');
 
 var opts = {
   dist: path.resolve(__dirname, 'dist'),
@@ -51,8 +54,19 @@ var opts = {
       'grommet': 'grommet'
     }
   },
-  scsslint: true
+  scsslint: true,
+  distPreprocess: ['dist-css']
 };
+
+gulp.task('dist-css', function() {
+  return gulp.src('src/scss/grommet-index/index.scss')
+    .pipe(sass({
+      includePaths: [path.resolve(__dirname, './node_modules')]
+    }))
+    .pipe(rename('grommet-index.min.css'))
+    .pipe(minifyCss())
+    .pipe(gulp.dest('dist/'));
+});
 
 gulp.task('release:createTmp', function(done) {
   del.sync(['./tmp']);
