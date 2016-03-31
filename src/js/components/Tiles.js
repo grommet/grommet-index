@@ -7,6 +7,7 @@ import Footer from 'grommet/components/Footer';
 import Box from 'grommet/components/Box';
 import Attribute from './Attribute';
 import IndexPropTypes from '../utils/PropTypes';
+import BulkOperations from './BulkOperations';
 
 const CLASS_ROOT = 'index-tiles';
 
@@ -111,7 +112,7 @@ export default class IndexTiles extends Component {
   }
 
   _renderSections (classes, onMore) {
-    const { result, selection, sort } = this.props;
+    const { result, selection, sort, bulkOperationsComponent } = this.props;
     const parts = sort.split(':');
     const attributeName = parts[0];
     const direction = parts[1];
@@ -166,7 +167,10 @@ export default class IndexTiles extends Component {
           sections.push(
             <div key={section.label} className={`${CLASS_ROOT}__section`}>
               <label>{section.label}</label>
-              {content}
+              <Box direction="row" pad={{between: 'small'}}>
+                {content}
+                <BulkOperations content={bulkOperationsComponent}/>
+              </Box>
             </div>
           );
         } else {
@@ -183,7 +187,7 @@ export default class IndexTiles extends Component {
   }
 
   _renderTiles (classes, onMore) {
-    const { result, selection } = this.props;
+    const { result, selection, bulkOperationsComponent } = this.props;
     let tiles;
     let selectionIndex;
     if (result && result.items) {
@@ -196,13 +200,16 @@ export default class IndexTiles extends Component {
     }
 
     return (
-      <Tiles className={classes.join(' ')} onMore={onMore}
-        flush={this.props.flush} fill={this.props.fill}
-        selectable={this.props.onSelect ? true : false}
-        selected={selectionIndex}
-        size={this.props.size}>
-        {tiles}
-      </Tiles>
+      <Box direction="row"  pad={{between: 'small'}}>
+        <Tiles className={classes.join(' ')} onMore={onMore}
+          flush={this.props.flush} fill={this.props.fill}
+          selectable={this.props.onSelect ? true : false}
+          selected={selectionIndex}
+          size={this.props.size}>
+          {tiles}
+        </Tiles>
+        <BulkOperations content={bulkOperationsComponent}/>
+      </Box>
     );
   }
 
@@ -231,6 +238,7 @@ IndexTiles.propTypes = {
   attributes: IndexPropTypes.attributes,
   fill: PropTypes.bool,
   flush: PropTypes.bool,
+  bulkOperationsComponent: PropTypes.element,
   itemComponent: PropTypes.oneOfType([
     PropTypes.object,
     PropTypes.func

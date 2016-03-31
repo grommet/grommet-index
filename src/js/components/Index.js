@@ -111,6 +111,7 @@ export default class Index extends Component {
               fill={this.props.fill}
               flush={this.props.flush}
               itemComponent={itemComponent}
+              bulkOperationsComponent={this.props.bulkOperationsComponent}
               result={this.props.result}
               sections={this.props.sections}
               selection={this.props.selection}
@@ -136,6 +137,7 @@ Index.propTypes = {
   filter: PropTypes.object, // { name: [value, ...] }
   fixed: PropTypes.bool,
   flush: PropTypes.bool, // for Tiles
+  bulkOperationsComponent: PropTypes.element,
   itemComponent: PropTypes.oneOfType([
     PropTypes.func,
     PropTypes.shape({
