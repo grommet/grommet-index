@@ -137,7 +137,7 @@ Index.propTypes = {
   filter: PropTypes.object, // { name: [value, ...] }
   fixed: PropTypes.bool,
   flush: PropTypes.bool, // for Tiles
-  bulkOperationsComponent: PropTypes.element,
+  bulkOperationsComponent: PropTypes.func,
   itemComponent: PropTypes.oneOfType([
     PropTypes.func,
     PropTypes.shape({

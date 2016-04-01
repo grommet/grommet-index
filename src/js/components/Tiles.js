@@ -8,6 +8,7 @@ import Box from 'grommet/components/Box';
 import Attribute from './Attribute';
 import IndexPropTypes from '../utils/PropTypes';
 import BulkOperations from './BulkOperations';
+import Menu from 'grommet/components/Menu';
 
 const CLASS_ROOT = 'index-tiles';
 
@@ -169,7 +170,7 @@ export default class IndexTiles extends Component {
               <label>{section.label}</label>
               <Box direction="row" pad={{between: 'small'}}>
                 {content}
-                <BulkOperations content={bulkOperationsComponent}/>
+                <BulkOperations items={items} content={bulkOperationsComponent}/>
               </Box>
             </div>
           );
@@ -199,6 +200,12 @@ export default class IndexTiles extends Component {
       }, this);
     }
 
+    let bulkOperationsContent;
+
+    if (bulkOperationsComponent) {
+      bulkOperationsContent = <BulkOperations items={result.items} component={bulkOperationsComponent}/>
+    }
+
     return (
       <Box direction="row"  pad={{between: 'small'}}>
         <Tiles className={classes.join(' ')} onMore={onMore}
@@ -208,7 +215,7 @@ export default class IndexTiles extends Component {
           size={this.props.size}>
           {tiles}
         </Tiles>
-        <BulkOperations content={bulkOperationsComponent}/>
+        {bulkOperationsContent}
       </Box>
     );
   }
@@ -238,7 +245,7 @@ IndexTiles.propTypes = {
   attributes: IndexPropTypes.attributes,
   fill: PropTypes.bool,
   flush: PropTypes.bool,
-  bulkOperationsComponent: PropTypes.element,
+  bulkOperationsComponent: PropTypes.func,
   itemComponent: PropTypes.oneOfType([
     PropTypes.object,
     PropTypes.func
