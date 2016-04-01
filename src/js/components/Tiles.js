@@ -127,32 +127,27 @@ export default class IndexTiles extends Component {
         sectionValue = sectionValue.getTime();
       }
       let tiles = [];
+      let sectionItems = [];
 
-      while (items.length > 0) {
-        const item = items[0];
-        let itemValue = (item.hasOwnProperty(attributeName) ?
-          item[attributeName] : item.attributes[attributeName]);
-        if (itemValue instanceof Date) {
-          itemValue = itemValue.getTime();
-        }
+      items.forEach(item => {
+        let itemValue = item[attributeName];
+
         if (undefined === sectionValue ||
           ('asc' === direction && itemValue < sectionValue) ||
           ('desc' === direction && itemValue > sectionValue)) {
           // add it
-          items.shift();
           if (selection && item.uri === selection) {
             selectionIndex = tiles.length;
           }
+          sectionItems.push(item);
           tiles.push(this._renderTile(item));
-        } else {
-          // done
-          break;
         }
-      }
+      });
+
 
       if (tiles.length > 0) {
         // only use onMore for last section
-        let content = (
+        let sectionTiles = (
           <Tiles key={section.label}
             onMore={items.length === 0 ? onMore : undefined}
             flush={this.props.flush} fill={this.props.fill}
@@ -163,19 +158,29 @@ export default class IndexTiles extends Component {
           </Tiles>
         );
 
+        let bulkOperationsContent;
+        let sectionContent = sectionTiles;
+
+        if (bulkOperationsComponent) {
+          bulkOperationsContent = <BulkOperations items={sectionItems} component={bulkOperationsComponent}/>;
+          sectionContent = (
+            <Box key={section.label} direction="row" pad={{between: 'small'}}>
+              {sectionTiles}
+              {bulkOperationsContent}
+            </Box>
+          );
+        }
+
         if (sections.length !== 0 || items.length !== 0) {
           // more than one section, add label
           sections.push(
             <div key={section.label} className={`${CLASS_ROOT}__section`}>
               <label>{section.label}</label>
-              <Box direction="row" pad={{between: 'small'}}>
-                {content}
-                <BulkOperations items={items} content={bulkOperationsComponent}/>
-              </Box>
+              {sectionContent}
             </div>
           );
         } else {
-          sections.push(content);
+          sections.push(sectionContent);
         }
       }
     });
