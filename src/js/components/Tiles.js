@@ -24,7 +24,7 @@ class IndexTile extends Component {
     attributes.forEach(function (attribute) {
       var value = (
         <Attribute key={attribute.name}
-          item={item} attribute={attribute} />
+                   item={item} attribute={attribute} />
       );
       if ('status' === attribute.name) {
         statusValue = value;
@@ -53,10 +53,10 @@ class IndexTile extends Component {
 
     return (
       <Tile key={item.uri} align="start"
-        pad={{horizontal: "medium", vertical: "small"}}
-        direction="row" responsive={false}
-        onClick={onClick} selected={selected}
-        a11yTitle={`Open ${headerValues}`}>
+            pad={{horizontal: "medium", vertical: "small"}}
+            direction="row" responsive={false}
+            onClick={onClick} selected={selected}
+            a11yTitle={`Open ${headerValues}`}>
         {statusValue}
         <Box key="contents" direction="column">
           {header}
@@ -101,12 +101,12 @@ export default class IndexTiles extends Component {
       const Component = itemComponent;
       tile = (
         <Component key={item.uri} item={item} onClick={onClick}
-          selected={selected} />
+                   selected={selected} />
       );
     } else {
       tile = (
         <IndexTile key={item.uri} item={item} onClick={onClick}
-          selected={selected} attributes={this.props.attributes} />
+                   selected={selected} attributes={this.props.attributes} />
       );
     }
     return tile;
@@ -149,11 +149,11 @@ export default class IndexTiles extends Component {
         // only use onMore for last section
         let sectionTiles = (
           <Tiles key={section.label}
-            onMore={items.length === 0 ? onMore : undefined}
-            flush={this.props.flush} fill={this.props.fill}
-            selectable={this.props.onSelect ? true : false}
-            selected={selectionIndex}
-            size={this.props.size}>
+                 onMore={items.length === 0 ? onMore : undefined}
+                 flush={this.props.flush} fill={this.props.fill}
+                 selectable={this.props.onSelect ? true : false}
+                 selected={selectionIndex}
+                 size={this.props.size}>
             {tiles}
           </Tiles>
         );
@@ -164,7 +164,7 @@ export default class IndexTiles extends Component {
         if (bulkOperationsComponent) {
           bulkOperationsContent = <BulkOperations items={sectionItems} component={bulkOperationsComponent}/>;
           sectionContent = (
-            <Box key={section.label} direction="row" pad={{between: 'small'}}>
+            <Box key={section.label} direction="row" pad={{between: 'small'}} responsive={false}>
               {sectionTiles}
               {bulkOperationsContent}
             </Box>
@@ -214,10 +214,10 @@ export default class IndexTiles extends Component {
     return (
       <Box direction="row"  pad={{between: 'small'}}>
         <Tiles className={classes.join(' ')} onMore={onMore}
-          flush={this.props.flush} fill={this.props.fill}
-          selectable={this.props.onSelect ? true : false}
-          selected={selectionIndex}
-          size={this.props.size}>
+               flush={this.props.flush} fill={this.props.fill}
+               selectable={this.props.onSelect ? true : false}
+               selected={selectionIndex}
+               size={this.props.size}>
           {tiles}
         </Tiles>
         {bulkOperationsContent}
@@ -267,3 +267,4 @@ IndexTiles.propTypes = {
   ]),
   size: PropTypes.oneOf(['small', 'medium', 'large'])
 };
+
