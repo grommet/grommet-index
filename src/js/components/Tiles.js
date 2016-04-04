@@ -128,21 +128,28 @@ export default class IndexTiles extends Component {
       let tiles = [];
       let sectionItems = [];
 
-      items.forEach(item => {
-        let itemValue = item[attributeName];
-
+      while (items.length > 0) {
+        const item = items[0];
+        let itemValue = (item.hasOwnProperty(attributeName) ?
+          item[attributeName] : item.attributes[attributeName]);
+        if (itemValue instanceof Date) {
+          itemValue = itemValue.getTime();
+        }
         if (undefined === sectionValue ||
           ('asc' === direction && itemValue < sectionValue) ||
           ('desc' === direction && itemValue > sectionValue)) {
           // add it
+          items.shift();
           if (selection && item.uri === selection) {
             selectionIndex = tiles.length;
           }
           sectionItems.push(item);
           tiles.push(this._renderTile(item));
+        } else {
+          // done
+          break;
         }
-      });
-
+      }
 
       if (tiles.length > 0) {
         // only use onMore for last section
