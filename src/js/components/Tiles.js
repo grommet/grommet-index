@@ -218,7 +218,7 @@ export default class IndexTiles extends Component {
     }
 
     return (
-      <Box direction="row"  pad={{between: 'small'}}>
+      <Box direction="row"  pad={{between: 'small'}} responsive={false}>
         <Tiles className={classes.join(' ')} onMore={onMore}
                flush={this.props.flush} fill={this.props.fill}
                selectable={this.props.onSelect ? true : false}
