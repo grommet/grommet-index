@@ -218,12 +218,12 @@ export default class IndexTiles extends Component {
     }
 
     return (
-      <Box direction="row"  pad={{between: 'small'}} responsive={false}>
+      <Box direction="row" pad={{between: 'small'}} responsive={false}>
         <Tiles className={classes.join(' ')} onMore={onMore}
-               flush={this.props.flush} fill={this.props.fill}
-               selectable={this.props.onSelect ? true : false}
-               selected={selectionIndex}
-               size={this.props.size}>
+          flush={this.props.flush} fill={this.props.fill}
+          selectable={this.props.onSelect ? true : false}
+          selected={selectionIndex}
+          size={this.props.size}>
           {tiles}
         </Tiles>
         {bulkOperationsContent}
@@ -254,9 +254,9 @@ export default class IndexTiles extends Component {
 
 IndexTiles.propTypes = {
   attributes: IndexPropTypes.attributes,
+  bulkOperationsComponent: PropTypes.func,
   fill: PropTypes.bool,
   flush: PropTypes.bool,
-  bulkOperationsComponent: PropTypes.func,
   itemComponent: PropTypes.oneOfType([
     PropTypes.object,
     PropTypes.func

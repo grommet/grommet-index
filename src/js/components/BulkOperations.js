@@ -16,6 +16,6 @@ export default function BulkOperations({component, items}) {
 };
 
 BulkOperations.propTypes = {
-  items: PropTypes.array,
-  component: PropTypes.func.isRequired
+  component: PropTypes.func.isRequired,
+  items: PropTypes.array
 };

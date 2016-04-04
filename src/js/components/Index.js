@@ -131,13 +131,13 @@ export default class Index extends Component {
 Index.propTypes = {
   addControl: PropTypes.node,
   attributes: IndexPropTypes.attributes,
+  bulkOperationsComponent: PropTypes.func,
   emptyMessage: PropTypes.string,
   emptyAddControl: PropTypes.node,
   fill: PropTypes.bool, // for Tiles
   filter: PropTypes.object, // { name: [value, ...] }
   fixed: PropTypes.bool,
   flush: PropTypes.bool, // for Tiles
-  bulkOperationsComponent: PropTypes.func,
   itemComponent: PropTypes.oneOfType([
     PropTypes.func,
     PropTypes.shape({
