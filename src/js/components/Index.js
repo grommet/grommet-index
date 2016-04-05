@@ -111,7 +111,6 @@ export default class Index extends Component {
               fill={this.props.fill}
               flush={this.props.flush}
               itemComponent={itemComponent}
-              bulkOperationsComponent={this.props.bulkOperationsComponent}
               result={this.props.result}
               sections={this.props.sections}
               selection={this.props.selection}
@@ -131,7 +130,6 @@ export default class Index extends Component {
 Index.propTypes = {
   addControl: PropTypes.node,
   attributes: IndexPropTypes.attributes,
-  bulkOperationsComponent: PropTypes.func,
   emptyMessage: PropTypes.string,
   emptyAddControl: PropTypes.node,
   fill: PropTypes.bool, // for Tiles
