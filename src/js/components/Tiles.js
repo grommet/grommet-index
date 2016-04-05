@@ -7,6 +7,7 @@ import Footer from 'grommet/components/Footer';
 import Box from 'grommet/components/Box';
 import Attribute from './Attribute';
 import IndexPropTypes from '../utils/PropTypes';
+import BulkOperations from './BulkOperations';
 
 const CLASS_ROOT = 'index-tiles';
 
@@ -111,7 +112,7 @@ export default class IndexTiles extends Component {
   }
 
   _renderSections (classes, onMore) {
-    const { result, selection, sort } = this.props;
+    const { result, selection, sort, bulkOperationsComponent } = this.props;
     const parts = sort.split(':');
     const attributeName = parts[0];
     const direction = parts[1];
@@ -125,6 +126,7 @@ export default class IndexTiles extends Component {
         sectionValue = sectionValue.getTime();
       }
       let tiles = [];
+      let sectionItems = [];
 
       while (items.length > 0) {
         const item = items[0];
@@ -141,6 +143,7 @@ export default class IndexTiles extends Component {
           if (selection && item.uri === selection) {
             selectionIndex = tiles.length;
           }
+          sectionItems.push(item);
           tiles.push(this._renderTile(item));
         } else {
           // done
@@ -150,7 +153,7 @@ export default class IndexTiles extends Component {
 
       if (tiles.length > 0) {
         // only use onMore for last section
-        let content = (
+        let sectionTiles = (
           <Tiles key={section.label}
             onMore={items.length === 0 ? onMore : undefined}
             flush={this.props.flush} fill={this.props.fill}
@@ -161,16 +164,29 @@ export default class IndexTiles extends Component {
           </Tiles>
         );
 
+        let bulkOperationsContent;
+        let sectionContent = sectionTiles;
+
+        if (bulkOperationsComponent) {
+          bulkOperationsContent = <BulkOperations items={sectionItems} component={bulkOperationsComponent}/>;
+          sectionContent = (
+            <Box key={section.label} direction="row" pad={{between: 'small'}} responsive={false}>
+              {sectionTiles}
+              {bulkOperationsContent}
+            </Box>
+          );
+        }
+
         if (sections.length !== 0 || items.length !== 0) {
           // more than one section, add label
           sections.push(
             <div key={section.label} className={`${CLASS_ROOT}__section`}>
               <label>{section.label}</label>
-              {content}
+              {sectionContent}
             </div>
           );
         } else {
-          sections.push(content);
+          sections.push(sectionContent);
         }
       }
     });
@@ -183,7 +199,7 @@ export default class IndexTiles extends Component {
   }
 
   _renderTiles (classes, onMore) {
-    const { result, selection } = this.props;
+    const { result, selection, bulkOperationsComponent } = this.props;
     let tiles;
     let selectionIndex;
     if (result && result.items) {
@@ -195,14 +211,23 @@ export default class IndexTiles extends Component {
       }, this);
     }
 
+    let bulkOperationsContent;
+
+    if (bulkOperationsComponent) {
+      bulkOperationsContent = <BulkOperations items={result.items} component={bulkOperationsComponent}/>;
+    }
+
     return (
-      <Tiles className={classes.join(' ')} onMore={onMore}
-        flush={this.props.flush} fill={this.props.fill}
-        selectable={this.props.onSelect ? true : false}
-        selected={selectionIndex}
-        size={this.props.size}>
-        {tiles}
-      </Tiles>
+      <Box direction="row" pad={{between: 'small'}} responsive={false}>
+        <Tiles className={classes.join(' ')} onMore={onMore}
+          flush={this.props.flush} fill={this.props.fill}
+          selectable={this.props.onSelect ? true : false}
+          selected={selectionIndex}
+          size={this.props.size}>
+          {tiles}
+        </Tiles>
+        {bulkOperationsContent}
+      </Box>
     );
   }
 
@@ -229,6 +254,7 @@ export default class IndexTiles extends Component {
 
 IndexTiles.propTypes = {
   attributes: IndexPropTypes.attributes,
+  bulkOperationsComponent: PropTypes.func,
   fill: PropTypes.bool,
   flush: PropTypes.bool,
   itemComponent: PropTypes.oneOfType([
@@ -247,3 +273,4 @@ IndexTiles.propTypes = {
   ]),
   size: PropTypes.oneOf(['small', 'medium', 'large'])
 };
+
