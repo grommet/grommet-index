@@ -34,10 +34,6 @@ var _PropTypes = require('../utils/PropTypes');
 
 var _PropTypes2 = _interopRequireDefault(_PropTypes);
 
-var _BulkOperations = require('./BulkOperations');
-
-var _BulkOperations2 = _interopRequireDefault(_BulkOperations);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -188,7 +184,6 @@ var IndexTiles = function (_Component2) {
       var result = _props3.result;
       var selection = _props3.selection;
       var sort = _props3.sort;
-      var bulkOperationsComponent = _props3.bulkOperationsComponent;
 
       var parts = sort.split(':');
       var attributeName = parts[0];
@@ -203,7 +198,6 @@ var IndexTiles = function (_Component2) {
           sectionValue = sectionValue.getTime();
         }
         var tiles = [];
-        var sectionItems = [];
 
         while (items.length > 0) {
           var item = items[0];
@@ -217,7 +211,6 @@ var IndexTiles = function (_Component2) {
             if (selection && item.uri === selection) {
               selectionIndex = tiles.length;
             }
-            sectionItems.push(item);
             tiles.push(_this3._renderTile(item));
           } else {
             // done
@@ -227,7 +220,7 @@ var IndexTiles = function (_Component2) {
 
         if (tiles.length > 0) {
           // only use onMore for last section
-          var sectionTiles = _react2.default.createElement(
+          var content = _react2.default.createElement(
             _Tiles2.default,
             { key: section.label,
               onMore: items.length === 0 ? onMore : undefined,
@@ -237,19 +230,6 @@ var IndexTiles = function (_Component2) {
               size: _this3.props.size },
             tiles
           );
-
-          var bulkOperationsContent = void 0;
-          var sectionContent = sectionTiles;
-
-          if (bulkOperationsComponent) {
-            bulkOperationsContent = _react2.default.createElement(_BulkOperations2.default, { items: sectionItems, component: bulkOperationsComponent });
-            sectionContent = _react2.default.createElement(
-              _Box2.default,
-              { key: section.label, direction: 'row', pad: { between: 'small' }, responsive: false },
-              sectionTiles,
-              bulkOperationsContent
-            );
-          }
 
           if (sections.length !== 0 || items.length !== 0) {
             // more than one section, add label
@@ -261,10 +241,10 @@ var IndexTiles = function (_Component2) {
                 null,
                 section.label
               ),
-              sectionContent
+              content
             ));
           } else {
-            sections.push(sectionContent);
+            sections.push(content);
           }
         }
       });
@@ -281,7 +261,6 @@ var IndexTiles = function (_Component2) {
       var _props4 = this.props;
       var result = _props4.result;
       var selection = _props4.selection;
-      var bulkOperationsComponent = _props4.bulkOperationsComponent;
 
       var tiles = void 0;
       var selectionIndex = void 0;
@@ -294,25 +273,14 @@ var IndexTiles = function (_Component2) {
         }, this);
       }
 
-      var bulkOperationsContent = void 0;
-
-      if (bulkOperationsComponent) {
-        bulkOperationsContent = _react2.default.createElement(_BulkOperations2.default, { items: result.items, component: bulkOperationsComponent });
-      }
-
       return _react2.default.createElement(
-        _Box2.default,
-        { direction: 'row', pad: { between: 'small' }, responsive: false },
-        _react2.default.createElement(
-          _Tiles2.default,
-          { className: classes.join(' '), onMore: onMore,
-            flush: this.props.flush, fill: this.props.fill,
-            selectable: this.props.onSelect ? true : false,
-            selected: selectionIndex,
-            size: this.props.size },
-          tiles
-        ),
-        bulkOperationsContent
+        _Tiles2.default,
+        { className: classes.join(' '), onMore: onMore,
+          flush: this.props.flush, fill: this.props.fill,
+          selectable: this.props.onSelect ? true : false,
+          selected: selectionIndex,
+          size: this.props.size },
+        tiles
       );
     }
   }, {
@@ -348,7 +316,6 @@ exports.default = IndexTiles;
 
 IndexTiles.propTypes = {
   attributes: _PropTypes2.default.attributes,
-  bulkOperationsComponent: _react.PropTypes.func,
   fill: _react.PropTypes.bool,
   flush: _react.PropTypes.bool,
   itemComponent: _react.PropTypes.oneOfType([_react.PropTypes.object, _react.PropTypes.func]),

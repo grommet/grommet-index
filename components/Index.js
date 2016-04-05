@@ -175,7 +175,6 @@ var Index = function (_Component) {
               fill: this.props.fill,
               flush: this.props.flush,
               itemComponent: itemComponent,
-              bulkOperationsComponent: this.props.bulkOperationsComponent,
               result: this.props.result,
               sections: this.props.sections,
               selection: this.props.selection,
@@ -199,7 +198,6 @@ exports.default = Index;
 Index.propTypes = {
   addControl: _react.PropTypes.node,
   attributes: _PropTypes2.default.attributes,
-  bulkOperationsComponent: _react.PropTypes.func,
   emptyMessage: _react.PropTypes.string,
   emptyAddControl: _react.PropTypes.node,
   fill: _react.PropTypes.bool, // for Tiles
