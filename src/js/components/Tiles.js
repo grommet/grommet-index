@@ -3,6 +3,7 @@
 import React, { Component, PropTypes } from 'react';
 import Tiles from 'grommet/components/Tiles';
 import Tile from 'grommet/components/Tile';
+import Header from 'grommet/components/Header';
 import Footer from 'grommet/components/Footer';
 import Box from 'grommet/components/Box';
 import Attribute from './Attribute';
@@ -111,7 +112,7 @@ export default class IndexTiles extends Component {
   }
 
   _renderSections (classes, onMore) {
-    const { result, selection, sort } = this.props;
+    const { result, selection, sort, actionsComponent } = this.props;
     const parts = sort.split(':');
     const attributeName = parts[0];
     const direction = parts[1];
@@ -125,6 +126,7 @@ export default class IndexTiles extends Component {
         sectionValue = sectionValue.getTime();
       }
       let tiles = [];
+      let sectionItems = [];
 
       while (items.length > 0) {
         const item = items[0];
@@ -142,6 +144,7 @@ export default class IndexTiles extends Component {
             selectionIndex = tiles.length;
           }
           tiles.push(this._renderTile(item));
+          sectionItems.push(item);
         } else {
           // done
           break;
@@ -161,11 +164,20 @@ export default class IndexTiles extends Component {
           </Tiles>
         );
 
+        let Actions;
+
+        if (actionsComponent) {
+          Actions = actionsComponent;
+        }
+
         if (sections.length !== 0 || items.length !== 0) {
           // more than one section, add label
           sections.push(
             <div key={section.label} className={`${CLASS_ROOT}__section`}>
-              <label>{section.label}</label>
+              <Header size="small" justify="between" responsive={false} separator="top" pad={{horizontal: 'small'}}>
+                <label>{section.label}</label>
+                {Actions && <Actions sectionValue={sectionValue} direction={direction} loadedItems={sectionItems} />}
+              </Header>
               {content}
             </div>
           );
@@ -183,7 +195,7 @@ export default class IndexTiles extends Component {
   }
 
   _renderTiles (classes, onMore) {
-    const { result, selection } = this.props;
+    const { result, selection, actionsComponent } = this.props;
     let tiles;
     let selectionIndex;
     if (result && result.items) {
@@ -195,14 +207,25 @@ export default class IndexTiles extends Component {
       }, this);
     }
 
+    let Actions;
+
+    if (actionsComponent) {
+      Actions = actionsComponent;
+    }
+
     return (
-      <Tiles className={classes.join(' ')} onMore={onMore}
-        flush={this.props.flush} fill={this.props.fill}
-        selectable={this.props.onSelect ? true : false}
-        selected={selectionIndex}
-        size={this.props.size}>
-        {tiles}
-      </Tiles>
+      <div>
+        <Header size="small" justify="end" responsive={false} pad={{horizontal: 'small'}}>
+          {Actions && <Actions loadedItems={result.items}/>}
+        </Header>
+        <Tiles className={classes.join(' ')} onMore={onMore}
+          flush={this.props.flush} fill={this.props.fill}
+          selectable={this.props.onSelect ? true : false}
+          selected={selectionIndex}
+          size={this.props.size}>
+          {tiles}
+        </Tiles>
+      </div>
     );
   }
 
@@ -228,6 +251,7 @@ export default class IndexTiles extends Component {
 }
 
 IndexTiles.propTypes = {
+  actionsComponent: PropTypes.func,
   attributes: IndexPropTypes.attributes,
   fill: PropTypes.bool,
   flush: PropTypes.bool,

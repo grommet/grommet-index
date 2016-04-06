@@ -4,9 +4,8 @@
 
   &__section label {
     display: block;
-    padding: halve($inuit-base-spacing-unit) $inuit-base-spacing-unit 0;
-    border-top: 1px solid $border-color;
     color: $secondary-text-color;
+    font-size: $inuit-base-font-size;
   }
 
   &.tiles--flush {
