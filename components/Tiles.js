@@ -205,7 +205,7 @@ var IndexTiles = function (_Component2) {
           if (itemValue instanceof Date) {
             itemValue = itemValue.getTime();
           }
-          if (undefined === sectionValue || 'asc' === direction && itemValue < sectionValue || 'desc' === direction && itemValue > sectionValue) {
+          if (undefined === sectionValue || 'asc' === direction && itemValue <= sectionValue || 'desc' === direction && itemValue >= sectionValue) {
             // add it
             items.shift();
             if (selection && item.uri === selection) {
