@@ -134,8 +134,8 @@ export default class IndexTiles extends Component {
           itemValue = itemValue.getTime();
         }
         if (undefined === sectionValue ||
-          ('asc' === direction && itemValue < sectionValue) ||
-          ('desc' === direction && itemValue > sectionValue)) {
+          ('asc' === direction && itemValue <= sectionValue) ||
+          ('desc' === direction && itemValue >= sectionValue)) {
           // add it
           items.shift();
           if (selection && item.uri === selection) {
