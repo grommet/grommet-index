@@ -107,7 +107,7 @@ export default class Index extends Component {
           {notifications}
           <div ref="items" className={`${CLASS_ROOT}__items`}>
             <ViewComponent
-              actionsComponent={this.props.actionsComponent}
+              actions={this.props.actions}
               attributes={this.props.attributes}
               fill={this.props.fill}
               flush={this.props.flush}
@@ -129,7 +129,7 @@ export default class Index extends Component {
 }
 
 Index.propTypes = {
-  actionsComponent: PropTypes.func,
+  actions: PropTypes.element,
   addControl: PropTypes.node,
   attributes: IndexPropTypes.attributes,
   emptyMessage: PropTypes.string,

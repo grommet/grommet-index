@@ -112,7 +112,7 @@ export default class IndexTiles extends Component {
   }
 
   _renderSections (classes, onMore) {
-    const { result, selection, sort, actionsComponent } = this.props;
+    const { result, selection, sort } = this.props;
     const parts = sort.split(':');
     const attributeName = parts[0];
     const direction = parts[1];
@@ -127,6 +127,7 @@ export default class IndexTiles extends Component {
       }
       let tiles = [];
       let sectionItems = [];
+      const actions = section.actions;
 
       while (items.length > 0) {
         const item = items[0];
@@ -164,19 +165,13 @@ export default class IndexTiles extends Component {
           </Tiles>
         );
 
-        let Actions;
-
-        if (actionsComponent) {
-          Actions = actionsComponent;
-        }
-
         if (sections.length !== 0 || items.length !== 0) {
           // more than one section, add label
           sections.push(
             <div key={section.label} className={`${CLASS_ROOT}__section`}>
               <Header size="small" justify="between" responsive={false} separator="top" pad={{horizontal: 'small'}}>
                 <label>{section.label}</label>
-                {Actions && <Actions sectionValue={sectionValue} direction={direction} loadedItems={sectionItems} />}
+                {actions}
               </Header>
               {content}
             </div>
@@ -195,7 +190,7 @@ export default class IndexTiles extends Component {
   }
 
   _renderTiles (classes, onMore) {
-    const { result, selection, actionsComponent } = this.props;
+    const { result, selection, actions } = this.props;
     let tiles;
     let selectionIndex;
     if (result && result.items) {
@@ -207,17 +202,13 @@ export default class IndexTiles extends Component {
       }, this);
     }
 
-    let Actions;
-
-    if (actionsComponent) {
-      Actions = actionsComponent;
-    }
-
     return (
       <div>
-        <Header size="small" justify="end" responsive={false} pad={{horizontal: 'small'}}>
-          {Actions && <Actions loadedItems={result.items}/>}
-        </Header>
+        {
+          actions && <Header size="small" justify="end" responsive={false} pad={{horizontal: 'small'}}>
+            {actions}
+          </Header>
+        }
         <Tiles className={classes.join(' ')} onMore={onMore}
           flush={this.props.flush} fill={this.props.fill}
           selectable={this.props.onSelect ? true : false}
@@ -251,7 +242,7 @@ export default class IndexTiles extends Component {
 }
 
 IndexTiles.propTypes = {
-  actionsComponent: PropTypes.func,
+  actions: PropTypes.element,
   attributes: IndexPropTypes.attributes,
   fill: PropTypes.bool,
   flush: PropTypes.bool,
