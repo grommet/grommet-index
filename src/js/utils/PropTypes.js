@@ -36,6 +36,14 @@ export default {
     start: PropTypes.number,
     count: PropTypes.number.isRequired,
     items: PropTypes.arrayOf(PropTypes.object).isRequired,
-    error: PropTypes.string
+    error: PropTypes.string,
+    sections: PropTypes.arrayOf(PropTypes.shape({
+      actions: PropTypes.node,
+      count: PropTypes.number.isRequired,
+      label: PropTypes.node.isRequired,
+      items: PropTypes.arrayOf(PropTypes.object).isRequired,
+      start: PropTypes.number,
+      total: PropTypes.number
+    }).isRequired)
   })
 };
