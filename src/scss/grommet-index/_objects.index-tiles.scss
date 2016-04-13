@@ -5,7 +5,7 @@
   &__section label {
     display: block;
     color: $secondary-text-color;
-    font-size: $inuit-base-font-size;
+    @include inuit-font-size($inuit-base-font-size);
   }
 
   &.tiles--flush {

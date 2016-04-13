@@ -126,7 +126,6 @@ export default class IndexTiles extends Component {
         sectionValue = sectionValue.getTime();
       }
       let tiles = [];
-      let sectionItems = [];
       const actions = section.actions;
 
       while (items.length > 0) {
@@ -145,7 +144,6 @@ export default class IndexTiles extends Component {
             selectionIndex = tiles.length;
           }
           tiles.push(this._renderTile(item));
-          sectionItems.push(item);
         } else {
           // done
           break;
@@ -201,14 +199,19 @@ export default class IndexTiles extends Component {
         return this._renderTile(item);
       }, this);
     }
+    
+    let header;
+    if (actions) {
+      header = (
+        <Header size="small" justify="end" responsive={false} pad={{horizontal: 'small'}}>
+          {actions}
+        </Header>
+      );
+    }
 
     return (
       <div>
-        {
-          actions && <Header size="small" justify="end" responsive={false} pad={{horizontal: 'small'}}>
-            {actions}
-          </Header>
-        }
+        {header}
         <Tiles className={classes.join(' ')} onMore={onMore}
           flush={this.props.flush} fill={this.props.fill}
           selectable={this.props.onSelect ? true : false}
@@ -253,6 +256,7 @@ IndexTiles.propTypes = {
   onSelect: PropTypes.func,
   result: IndexPropTypes.result,
   sections: PropTypes.arrayOf(PropTypes.shape({
+    actions: PropTypes.element,
     label: PropTypes.string,
     value: PropTypes.any
   })),
