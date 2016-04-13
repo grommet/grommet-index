@@ -1,6 +1,6 @@
 {
   "name": "grommet-index",
-  "version": "0.3.3",
+  "version": "0.3.4",
   "main": "src/js/index.js",
   "description": "Grommet UI and example server for searching, filtering, and displaying mass quantities of items.",
   "authors": [
@@ -25,7 +25,7 @@
   "dependencies": {
     "classnames": "^2.2.3",
     "debounce": "^1.0.0",
-    "grommet": "https://github.com/grommet/grommet/tarball/stable"
+    "grommet": "^0.5.5"
   },
   "devDependencies": {
     "babel-plugin-add-module-exports": "^0.1.2",
