@@ -112,79 +112,33 @@ export default class IndexTiles extends Component {
   }
 
   _renderSections (classes, onMore) {
-    const { result, selection, sort } = this.props;
-    const parts = sort.split(':');
-    const attributeName = parts[0];
-    const direction = parts[1];
-    let sections = [];
-    let items = result.items.slice(0);
-    this.props.sections.forEach((section) => {
+    const { result } = this.props;
+    const sections = [];
 
-      let selectionIndex = undefined;
-      let sectionValue = section.value;
-      if (sectionValue instanceof Date) {
-        sectionValue = sectionValue.getTime();
-      }
-      let tiles = [];
-      const actions = section.actions;
-
-      while (items.length > 0) {
-        const item = items[0];
-        let itemValue = (item.hasOwnProperty(attributeName) ?
-          item[attributeName] : item.attributes[attributeName]);
-        if (itemValue instanceof Date) {
-          itemValue = itemValue.getTime();
-        }
-        if (undefined === sectionValue ||
-          ('asc' === direction && itemValue <= sectionValue) ||
-          ('desc' === direction && itemValue >= sectionValue)) {
-          // add it
-          items.shift();
-          if (selection && item.uri === selection) {
-            selectionIndex = tiles.length;
-          }
-          tiles.push(this._renderTile(item));
-        } else {
-          // done
-          break;
-        }
-      }
+    result.sections.forEach((section, i) => {
+      const { actions, items } = section;
+      const tiles = items.map(item=>{
+        return this._renderTile(item);
+      });
 
       if (tiles.length > 0) {
         // only use onMore for last section
         let content = (
           <Tiles key={section.label}
-            onMore={items.length === 0 ? onMore : undefined}
+            onMore={i === result.sections.length - 1 ? onMore : undefined}
             flush={this.props.flush} fill={this.props.fill}
             selectable={this.props.onSelect ? true : false}
-            selected={selectionIndex}
             size={this.props.size}>
             {tiles}
           </Tiles>
         );
 
-        let label;
-        let justify = 'end';
-        let header;
-
-        if (sections.length !== 0 || items.length !== 0) {
-          // more than one section, add label
-          label = <label>{section.label}</label>;
-          justify = 'between';
-        }
-
-        if (label || actions) {
-          header = (
-            <Header size="small" justify={justify} responsive={false} separator="top" pad={{horizontal: 'small'}}>
-              {label}
-              {actions}
-            </Header>
-          );
-        }
-
         sections.push(
           <div key={section.label} className={`${CLASS_ROOT}__section`}>
-            {header}
+            <Header size="small" justify="between" responsive={false} separator="top" pad={{horizontal: 'small'}}>
+              <label>{section.label}</label>;
+              {actions}
+            </Header>
             {content}
           </div>
         );
@@ -235,8 +189,9 @@ export default class IndexTiles extends Component {
   }
 
   render () {
-    const { result, sort } = this.props;
+    const { result } = this.props;
     let classes = [CLASS_ROOT];
+
     if (this.props.className) {
       classes.push(this.props.className);
     }
@@ -246,7 +201,7 @@ export default class IndexTiles extends Component {
       onMore = this.props.onMore;
     }
 
-    if (this.props.sections && sort && result && result.items) {
+    if (result.sections) {
       return this._renderSections(classes, onMore);
     } else {
       return this._renderTiles(classes, onMore);
