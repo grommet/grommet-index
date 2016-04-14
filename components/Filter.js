@@ -215,6 +215,7 @@ var Filter = function (_Component) {
         header = _react2.default.createElement(
           _Box2.default,
           { direction: 'row', justify: 'between', align: 'center',
+            responsive: false,
             className: CLASS_ROOT + '__header',
             onClick: this._onToggleActive },
           _react2.default.createElement(
