@@ -18,6 +18,10 @@ var _Tile = require('grommet/components/Tile');
 
 var _Tile2 = _interopRequireDefault(_Tile);
 
+var _Header = require('grommet/components/Header');
+
+var _Header2 = _interopRequireDefault(_Header);
+
 var _Footer = require('grommet/components/Footer');
 
 var _Footer2 = _interopRequireDefault(_Footer);
@@ -198,6 +202,7 @@ var IndexTiles = function (_Component2) {
           sectionValue = sectionValue.getTime();
         }
         var tiles = [];
+        var actions = section.actions;
 
         while (items.length > 0) {
           var item = items[0];
@@ -237,9 +242,14 @@ var IndexTiles = function (_Component2) {
               'div',
               { key: section.label, className: CLASS_ROOT + '__section' },
               _react2.default.createElement(
-                'label',
-                null,
-                section.label
+                _Header2.default,
+                { size: 'small', justify: 'between', responsive: false, separator: 'top', pad: { horizontal: 'small' } },
+                _react2.default.createElement(
+                  'label',
+                  null,
+                  section.label
+                ),
+                actions
               ),
               content
             ));
@@ -261,6 +271,7 @@ var IndexTiles = function (_Component2) {
       var _props4 = this.props;
       var result = _props4.result;
       var selection = _props4.selection;
+      var actions = _props4.actions;
 
       var tiles = void 0;
       var selectionIndex = void 0;
@@ -273,14 +284,28 @@ var IndexTiles = function (_Component2) {
         }, this);
       }
 
+      var header = void 0;
+      if (actions) {
+        header = _react2.default.createElement(
+          _Header2.default,
+          { size: 'small', justify: 'end', responsive: false, pad: { horizontal: 'small' } },
+          actions
+        );
+      }
+
       return _react2.default.createElement(
-        _Tiles2.default,
-        { className: classes.join(' '), onMore: onMore,
-          flush: this.props.flush, fill: this.props.fill,
-          selectable: this.props.onSelect ? true : false,
-          selected: selectionIndex,
-          size: this.props.size },
-        tiles
+        'div',
+        null,
+        header,
+        _react2.default.createElement(
+          _Tiles2.default,
+          { className: classes.join(' '), onMore: onMore,
+            flush: this.props.flush, fill: this.props.fill,
+            selectable: this.props.onSelect ? true : false,
+            selected: selectionIndex,
+            size: this.props.size },
+          tiles
+        )
       );
     }
   }, {
@@ -315,6 +340,7 @@ exports.default = IndexTiles;
 
 
 IndexTiles.propTypes = {
+  actions: _react.PropTypes.element,
   attributes: _PropTypes2.default.attributes,
   fill: _react.PropTypes.bool,
   flush: _react.PropTypes.bool,
@@ -322,6 +348,7 @@ IndexTiles.propTypes = {
   onSelect: _react.PropTypes.func,
   result: _PropTypes2.default.result,
   sections: _react.PropTypes.arrayOf(_react.PropTypes.shape({
+    actions: _react.PropTypes.element,
     label: _react.PropTypes.string,
     value: _react.PropTypes.any
   })),

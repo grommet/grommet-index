@@ -171,6 +171,7 @@ var Index = function (_Component) {
             'div',
             { ref: 'items', className: CLASS_ROOT + '__items' },
             _react2.default.createElement(ViewComponent, {
+              actions: this.props.actions,
               attributes: this.props.attributes,
               fill: this.props.fill,
               flush: this.props.flush,
@@ -196,6 +197,7 @@ exports.default = Index;
 
 
 Index.propTypes = {
+  actions: _react.PropTypes.element,
   addControl: _react.PropTypes.node,
   attributes: _PropTypes2.default.attributes,
   emptyMessage: _react.PropTypes.string,
