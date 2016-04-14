@@ -128,6 +128,7 @@ export default class Filter extends Component {
 
       header = (
         <Box direction="row" justify="between" align="center"
+          responsive={false}
           className={`${CLASS_ROOT}__header`}
           onClick={this._onToggleActive}>
           <div>
