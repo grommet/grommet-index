@@ -3,6 +3,7 @@
 import React, { Component, PropTypes } from 'react';
 import Tiles from 'grommet/components/Tiles';
 import Tile from 'grommet/components/Tile';
+import Header from 'grommet/components/Header';
 import Footer from 'grommet/components/Footer';
 import Box from 'grommet/components/Box';
 import Attribute from './Attribute';
@@ -125,6 +126,7 @@ export default class IndexTiles extends Component {
         sectionValue = sectionValue.getTime();
       }
       let tiles = [];
+      const actions = section.actions;
 
       while (items.length > 0) {
         const item = items[0];
@@ -165,7 +167,10 @@ export default class IndexTiles extends Component {
           // more than one section, add label
           sections.push(
             <div key={section.label} className={`${CLASS_ROOT}__section`}>
-              <label>{section.label}</label>
+              <Header size="small" justify="between" responsive={false} separator="top" pad={{horizontal: 'small'}}>
+                <label>{section.label}</label>
+                {actions}
+              </Header>
               {content}
             </div>
           );
@@ -183,7 +188,7 @@ export default class IndexTiles extends Component {
   }
 
   _renderTiles (classes, onMore) {
-    const { result, selection } = this.props;
+    const { result, selection, actions } = this.props;
     let tiles;
     let selectionIndex;
     if (result && result.items) {
@@ -194,15 +199,27 @@ export default class IndexTiles extends Component {
         return this._renderTile(item);
       }, this);
     }
+    
+    let header;
+    if (actions) {
+      header = (
+        <Header size="small" justify="end" responsive={false} pad={{horizontal: 'small'}}>
+          {actions}
+        </Header>
+      );
+    }
 
     return (
-      <Tiles className={classes.join(' ')} onMore={onMore}
-        flush={this.props.flush} fill={this.props.fill}
-        selectable={this.props.onSelect ? true : false}
-        selected={selectionIndex}
-        size={this.props.size}>
-        {tiles}
-      </Tiles>
+      <div>
+        {header}
+        <Tiles className={classes.join(' ')} onMore={onMore}
+          flush={this.props.flush} fill={this.props.fill}
+          selectable={this.props.onSelect ? true : false}
+          selected={selectionIndex}
+          size={this.props.size}>
+          {tiles}
+        </Tiles>
+      </div>
     );
   }
 
@@ -228,6 +245,7 @@ export default class IndexTiles extends Component {
 }
 
 IndexTiles.propTypes = {
+  actions: PropTypes.element,
   attributes: IndexPropTypes.attributes,
   fill: PropTypes.bool,
   flush: PropTypes.bool,
@@ -238,6 +256,7 @@ IndexTiles.propTypes = {
   onSelect: PropTypes.func,
   result: IndexPropTypes.result,
   sections: PropTypes.arrayOf(PropTypes.shape({
+    actions: PropTypes.element,
     label: PropTypes.string,
     value: PropTypes.any
   })),
