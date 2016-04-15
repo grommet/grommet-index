@@ -163,20 +163,31 @@ export default class IndexTiles extends Component {
           </Tiles>
         );
 
+        let label;
+        let justify = 'end';
+        let header;
+
         if (sections.length !== 0 || items.length !== 0) {
           // more than one section, add label
-          sections.push(
-            <div key={section.label} className={`${CLASS_ROOT}__section`}>
-              <Header size="small" justify="between" responsive={false} separator="top" pad={{horizontal: 'small'}}>
-                <label>{section.label}</label>
-                {actions}
-              </Header>
-              {content}
-            </div>
-          );
-        } else {
-          sections.push(content);
+          label = <label>{section.label}</label>;
+          justify = 'between';
         }
+
+        if (label || actions) {
+          header = (
+            <Header size="small" justify={justify} responsive={false} separator="top" pad={{horizontal: 'small'}}>
+              {label}
+              {actions}
+            </Header>
+          );
+        }
+
+        sections.push(
+          <div key={section.label} className={`${CLASS_ROOT}__section`}>
+            {header}
+            {content}
+          </div>
+        );
       }
     });
 
@@ -191,24 +202,24 @@ export default class IndexTiles extends Component {
     const { result, selection, actions } = this.props;
     let tiles;
     let selectionIndex;
-    if (result && result.items) {
+    let header;
+    if (result && result.items.length) {
       tiles = result.items.map(function (item, index) {
         if (selection && item.uri === selection) {
           selectionIndex = index;
         }
         return this._renderTile(item);
       }, this);
+
+      if (actions) {
+        header = (
+          <Header size="small" justify="end" responsive={false} pad={{horizontal: 'small'}}>
+            {actions}
+          </Header>
+        );
+      }
     }
     
-    let header;
-    if (actions) {
-      header = (
-        <Header size="small" justify="end" responsive={false} pad={{horizontal: 'small'}}>
-          {actions}
-        </Header>
-      );
-    }
-
     return (
       <div>
         {header}
