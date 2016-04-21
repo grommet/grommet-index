@@ -236,26 +236,35 @@ var IndexTiles = function (_Component2) {
             tiles
           );
 
+          var label = void 0;
+          var justify = 'end';
+          var header = void 0;
+
           if (sections.length !== 0 || items.length !== 0) {
             // more than one section, add label
-            sections.push(_react2.default.createElement(
-              'div',
-              { key: section.label, className: CLASS_ROOT + '__section' },
-              _react2.default.createElement(
-                _Header2.default,
-                { size: 'small', justify: 'between', responsive: false, separator: 'top', pad: { horizontal: 'small' } },
-                _react2.default.createElement(
-                  'label',
-                  null,
-                  section.label
-                ),
-                actions
-              ),
-              content
-            ));
-          } else {
-            sections.push(content);
+            label = _react2.default.createElement(
+              'label',
+              null,
+              section.label
+            );
+            justify = 'between';
           }
+
+          if (label || actions) {
+            header = _react2.default.createElement(
+              _Header2.default,
+              { size: 'small', justify: justify, responsive: false, separator: 'top', pad: { horizontal: 'small' } },
+              label,
+              actions
+            );
+          }
+
+          sections.push(_react2.default.createElement(
+            'div',
+            { key: section.label, className: CLASS_ROOT + '__section' },
+            header,
+            content
+          ));
         }
       });
 
@@ -275,22 +284,22 @@ var IndexTiles = function (_Component2) {
 
       var tiles = void 0;
       var selectionIndex = void 0;
-      if (result && result.items) {
+      var header = void 0;
+      if (result && result.items.length) {
         tiles = result.items.map(function (item, index) {
           if (selection && item.uri === selection) {
             selectionIndex = index;
           }
           return this._renderTile(item);
         }, this);
-      }
 
-      var header = void 0;
-      if (actions) {
-        header = _react2.default.createElement(
-          _Header2.default,
-          { size: 'small', justify: 'end', responsive: false, pad: { horizontal: 'small' } },
-          actions
-        );
+        if (actions) {
+          header = _react2.default.createElement(
+            _Header2.default,
+            { size: 'small', justify: 'end', responsive: false, pad: { horizontal: 'small' } },
+            actions
+          );
+        }
       }
 
       return _react2.default.createElement(
