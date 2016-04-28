@@ -26,7 +26,7 @@ export default {
   attribute: attribute,
   attributes: PropTypes.arrayOf(attribute),
   query: PropTypes.object,
-  result: PropTypes.shape({
+  data: PropTypes.shape({
     total: PropTypes.number.isRequired,
     unfilteredTotal: PropTypes.number,
     start: PropTypes.number,

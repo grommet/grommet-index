@@ -86,7 +86,7 @@ export default class IndexList extends Component {
   }
 
   render () {
-    const { result, selection } = this.props;
+    const { data, selection } = this.props;
     let classes = [CLASS_ROOT];
     if (this.props.className) {
       classes.push(this.props.className);
@@ -94,8 +94,8 @@ export default class IndexList extends Component {
 
     let listItems;
     let selectionIndex;
-    if (result && result.items) {
-      listItems = result.items.map((item, index) => {
+    if (data && data.items) {
+      listItems = data.items.map((item, index) => {
         if (selection && item.uri === selection) {
           selectionIndex = index;
         }
@@ -104,7 +104,7 @@ export default class IndexList extends Component {
     }
 
     let onMore;
-    if (result && result.count < result.total) {
+    if (data && data.count < data.total) {
       onMore = this.props.onMore;
     }
 
@@ -126,7 +126,7 @@ IndexList.propTypes = {
     PropTypes.func
   ]),
   onSelect: PropTypes.func,
-  result: IndexPropTypes.result,
+  data: IndexPropTypes.data,
   selection: PropTypes.oneOfType([
     PropTypes.string, // uri
     PropTypes.arrayOf(PropTypes.string)

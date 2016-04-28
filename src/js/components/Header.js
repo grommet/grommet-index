@@ -27,11 +27,11 @@ export default class IndexHeader extends Component {
   render () {
     const { attributes, query } = this.props;
     const searchText = query ? query.toString() : '';
-    const result = this.props.result || {};
+    const data = this.props.data || {};
 
     const classes = classnames(CLASS_ROOT, this.props.className);
     const countClasses = classnames(`${CLASS_ROOT}__count`, {
-      [`${CLASS_ROOT}__count--active`]: result.unfilteredTotal > result.total
+      [`${CLASS_ROOT}__count--active`]: data.unfilteredTotal > data.total
     });
 
     const filterOrSortAttributes = attributes.filter(a => a.filter || a.sort);
@@ -45,10 +45,10 @@ export default class IndexHeader extends Component {
             onChange={this.props.onFilter}
             onSort={this.props.onSort} />
           <span className={`${CLASS_ROOT}__total`}>
-            {result.unfilteredTotal}
+            {data.unfilteredTotal}
           </span>
           <span className={countClasses}>
-            {result.total}
+            {data.total}
           </span>
         </div>
       );
@@ -89,7 +89,7 @@ IndexHeader.propTypes = {
   onQuery: PropTypes.func, // (query)
   onSort: PropTypes.func, // (sort)
   query: PropTypes.object, // Query
-  result: IndexPropTypes.result,
+  data: IndexPropTypes.data,
   sort: PropTypes.string
 };
 
