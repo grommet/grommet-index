@@ -112,85 +112,125 @@ export default class IndexTiles extends Component {
   }
 
   _renderSections (classes, onMore) {
-    const { result, selection, sort } = this.props;
+    const { data, selection, sort } = this.props;
     const parts = sort.split(':');
     const attributeName = parts[0];
     const direction = parts[1];
+
     let sections = [];
-    let items = result.items.slice(0);
-    this.props.sections.forEach((section) => {
 
-      let selectionIndex = undefined;
-      let sectionValue = section.value;
-      if (sectionValue instanceof Date) {
-        sectionValue = sectionValue.getTime();
-      }
-      let tiles = [];
-      const actions = section.actions;
+    if (data.sections) {
+      data.sections.forEach((section, i) => {
+        const { actions, items, label } = section;
+        const tiles = items.map(item => {
+          return this._renderTile(item);
+        });
 
-      while (items.length > 0) {
-        const item = items[0];
-        let itemValue = (item.hasOwnProperty(attributeName) ?
-          item[attributeName] : item.attributes[attributeName]);
-        if (itemValue instanceof Date) {
-          itemValue = itemValue.getTime();
-        }
-        if (undefined === sectionValue ||
-          ('asc' === direction && itemValue <= sectionValue) ||
-          ('desc' === direction && itemValue >= sectionValue)) {
-          // add it
-          items.shift();
-          if (selection && item.uri === selection) {
-            selectionIndex = tiles.length;
-          }
-          tiles.push(this._renderTile(item));
-        } else {
-          // done
-          break;
-        }
-      }
+        if (tiles.length > 0) {
+          // only use onMore for last section
+          let content = (
+            <Tiles key={label}
+              onMore={i === data.sections.length - 1 ? onMore : undefined}
+              flush={this.props.flush} fill={this.props.fill}
+              selectable={this.props.onSelect ? true : false}
+              size={this.props.size}>
+              {tiles}
+            </Tiles>
+          );
 
-      if (tiles.length > 0) {
-        // only use onMore for last section
-        let content = (
-          <Tiles key={section.label}
-            onMore={items.length === 0 ? onMore : undefined}
-            flush={this.props.flush} fill={this.props.fill}
-            selectable={this.props.onSelect ? true : false}
-            selected={selectionIndex}
-            size={this.props.size}>
-            {tiles}
-          </Tiles>
-        );
-
-        let label;
-        let justify = 'end';
-        let header;
-
-        if (sections.length !== 0 || items.length !== 0) {
-          // more than one section, add label
-          label = <label>{section.label}</label>;
-          justify = 'between';
-        }
-
-        if (label || actions) {
-          header = (
-            <Header size="small" justify={justify} responsive={false} separator="top" pad={{horizontal: 'small'}}>
-              {label}
-              {actions}
-            </Header>
+          sections.push(
+            <div key={label} className={`${CLASS_ROOT}__section`}>
+              <Header size="small" justify="between" responsive={false} separator="top" pad={{horizontal: 'small'}}>
+                <label>{label}</label>
+                {actions}
+              </Header>
+              {content}
+            </div>
           );
         }
+      });
+    } else if (this.props.sections) {
+      console.warn('Putting sections in attributes has been deprecated ' +
+        'and will be removed in a future release. Sections should be ' +
+        'part of the data object');
+      
+      let items = data.items.slice(0);
 
-        sections.push(
-          <div key={section.label} className={`${CLASS_ROOT}__section`}>
-            {header}
-            {content}
-          </div>
-        );
-      }
-    });
+      this.props.sections.forEach((section) => {
 
+        let selectionIndex = undefined;
+        let sectionValue = section.value;
+        if (sectionValue instanceof Date) {
+          sectionValue = sectionValue.getTime();
+        }
+        let tiles = [];
+        const actions = section.actions;
+
+        while (items.length > 0) {
+          const item = items[0];
+          let itemValue = (item.hasOwnProperty(attributeName) ?
+            item[attributeName] : item.attributes[attributeName]);
+          if (itemValue instanceof Date) {
+            itemValue = itemValue.getTime();
+          }
+
+          if (undefined === sectionValue ||
+            ('asc' === direction && itemValue <= sectionValue) ||
+            ('desc' === direction && itemValue >= sectionValue)) {
+              // add it
+            items.shift();
+            if (selection && item.uri === selection) {
+              selectionIndex = tiles.length;
+            }
+            tiles.push(this._renderTile(item));
+          } else {
+            // done
+            break;
+          }
+        }
+
+        if (tiles.length > 0) {
+        // only use onMore for last section
+          let content = (
+            <Tiles key={section.label}
+              onMore={items.length === 0 ? onMore : undefined}
+              flush={this.props.flush} fill={this.props.fill}
+              selectable={this.props.onSelect ? true : false}
+              selected={selectionIndex}
+              size={this.props.size}>
+              {tiles}
+            </Tiles>
+          );
+
+          let label;
+          let justify = 'end';
+          let header;
+
+          if (sections.length !== 0 || items.length !== 0) {
+            // more than one section, add label
+            label = <label>{section.label}</label>;
+            justify = 'between';
+          }
+
+          if (label || actions) {
+            header = (
+              <Header size="small" justify={justify} responsive={false} separator="top" pad={{horizontal: 'small'}}>
+               {label}
+               {actions}
+              </Header>
+            );
+          }
+
+          sections.push(
+            <div key={section.label} className={`${CLASS_ROOT}__section`}>
+              {header}
+              {content}
+            </div>
+          );
+        }
+      });
+    }
+    
     return (
       <div className={classes.join(' ')}>
         {sections}
@@ -199,12 +239,12 @@ export default class IndexTiles extends Component {
   }
 
   _renderTiles (classes, onMore) {
-    const { result, selection, actions } = this.props;
+    const { data, selection, actions } = this.props;
     let tiles;
     let selectionIndex;
     let header;
-    if (result && result.items.length) {
-      tiles = result.items.map(function (item, index) {
+    if (data && data.items.length) {
+      tiles = data.items.map(function (item, index) {
         if (selection && item.uri === selection) {
           selectionIndex = index;
         }
@@ -235,18 +275,19 @@ export default class IndexTiles extends Component {
   }
 
   render () {
-    const { result, sort } = this.props;
+    const { data, sort } = this.props;
     let classes = [CLASS_ROOT];
+
     if (this.props.className) {
       classes.push(this.props.className);
     }
 
     let onMore;
-    if (result && result.count < result.total) {
+    if (data && data.count < data.total) {
       onMore = this.props.onMore;
     }
 
-    if (this.props.sections && sort && result && result.items) {
+    if (data.sections || (this.props.sections && sort && data && data.items)) {
       return this._renderSections(classes, onMore);
     } else {
       return this._renderTiles(classes, onMore);
@@ -265,7 +306,7 @@ IndexTiles.propTypes = {
     PropTypes.func
   ]),
   onSelect: PropTypes.func,
-  result: IndexPropTypes.result,
+  data: IndexPropTypes.data,
   sections: PropTypes.arrayOf(PropTypes.shape({
     actions: PropTypes.element,
     label: PropTypes.string,

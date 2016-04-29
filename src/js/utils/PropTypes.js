@@ -17,11 +17,7 @@ let attribute = PropTypes.shape({
   render: PropTypes.func,
   size: PropTypes.string,
   sort: PropTypes.shape({
-    direction: PropTypes.string,
-    sections: PropTypes.arrayOf(PropTypes.shape({
-      label: PropTypes.string,
-      value: PropTypes.any
-    }))
+    direction: PropTypes.string
   }),
   timestamp: PropTypes.bool
 });
@@ -30,12 +26,20 @@ export default {
   attribute: attribute,
   attributes: PropTypes.arrayOf(attribute),
   query: PropTypes.object,
-  result: PropTypes.shape({
+  data: PropTypes.shape({
     total: PropTypes.number.isRequired,
     unfilteredTotal: PropTypes.number,
     start: PropTypes.number,
     count: PropTypes.number.isRequired,
-    items: PropTypes.arrayOf(PropTypes.object).isRequired,
-    error: PropTypes.string
+    items: PropTypes.arrayOf(PropTypes.object),
+    error: PropTypes.string,
+    sections: PropTypes.arrayOf(PropTypes.shape({
+      actions: PropTypes.node,
+      count: PropTypes.number.isRequired,
+      label: PropTypes.node.isRequired,
+      items: PropTypes.arrayOf(PropTypes.object).isRequired,
+      start: PropTypes.number,
+      total: PropTypes.number
+    }).isRequired)
   })
 };

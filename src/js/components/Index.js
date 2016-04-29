@@ -40,32 +40,40 @@ export default class Index extends Component {
 
   render () {
     const { result, notifications } = this.props;
+    let { data } = this.props;
+
+    if (result) {
+      console.warn('\'result\' prop has been renamed to \'data.\'' +
+        ' Support for \'result\' will be removed in a future release.');
+      data = result;
+    }
+
     var classes = [CLASS_ROOT];
     if (this.props.className) {
       classes.push(this.props.className);
     }
 
     let error;
-    if (result && result.error) {
+    if (data && data.error) {
       error = (
         <div className={`${CLASS_ROOT}__error`}>
-          {this.props.result.error}
+          {result.error}
         </div>
       );
     }
 
     let empty;
-    if (result) {
+    if (data) {
       let emptyMessage;
       let addControl;
-      if (result.unfilteredTotal === 0) {
+      if (data.unfilteredTotal === 0) {
         emptyMessage = this.props.emptyMessage;
         if (this.props.emptyAddControl) {
           addControl = this.props.emptyAddControl;
         } else {
           addControl = this.props.addControl;
         }
-      } else if (result.total === 0) {
+      } else if (data.total === 0) {
         emptyMessage = Intl.getMessage(this.context.intl, 'No matches');
       }
       if (emptyMessage) {
@@ -99,7 +107,7 @@ export default class Index extends Component {
             filter={this.props.filter} onFilter={this.props.onFilter}
             query={this.props.query} onQuery={this.props.onQuery}
             sort={this.props.sort} onSort={this.props.onSort}
-            result={result}
+            data={data}
             fixed={this.props.fixed}
             addControl={this.props.addControl}
             navControl={this.props.navControl} />
@@ -112,7 +120,7 @@ export default class Index extends Component {
               fill={this.props.fill}
               flush={this.props.flush}
               itemComponent={itemComponent}
-              result={this.props.result}
+              data={data}
               sections={this.props.sections}
               selection={this.props.selection}
               size={this.props.size}
@@ -132,6 +140,7 @@ Index.propTypes = {
   actions: PropTypes.element,
   addControl: PropTypes.node,
   attributes: IndexPropTypes.attributes,
+  data: IndexPropTypes.data,
   emptyMessage: PropTypes.string,
   emptyAddControl: PropTypes.node,
   fill: PropTypes.bool, // for Tiles
@@ -154,7 +163,6 @@ Index.propTypes = {
   onSelect: PropTypes.func,
   onSort: PropTypes.func, // (sort)
   query: PropTypes.object, // Query
-  result: IndexPropTypes.result,
   selection: PropTypes.oneOfType([
     PropTypes.string, // uri
     PropTypes.arrayOf(PropTypes.string)

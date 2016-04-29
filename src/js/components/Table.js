@@ -89,7 +89,7 @@ export default class IndexTable extends Component {
   }
 
   render () {
-    const { result, selection } = this.props;
+    const { data, selection } = this.props;
     const { attributes } = this.state;
     let classes = [CLASS_ROOT];
     if (this.props.className) {
@@ -128,8 +128,8 @@ export default class IndexTable extends Component {
 
     let rows;
     let selectionIndex;
-    if (result && result.items) {
-      rows = result.items.map((item, index) => {
+    if (data && data.items) {
+      rows = data.items.map((item, index) => {
         if (selection && item.uri === selection) {
           selectionIndex = index;
         }
@@ -138,7 +138,7 @@ export default class IndexTable extends Component {
     }
 
     let onMore;
-    if (result && result.count < result.total) {
+    if (data && data.count < data.total) {
       onMore = this.props.onMore;
     }
 
@@ -164,7 +164,7 @@ IndexTable.propTypes = {
   ]),
   onMore: PropTypes.func,
   onSelect: PropTypes.func,
-  result: IndexPropTypes.result,
+  data: IndexPropTypes.data,
   selection: PropTypes.oneOfType([
     PropTypes.string, // uri
     PropTypes.arrayOf(PropTypes.string)
