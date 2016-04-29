@@ -146,7 +146,7 @@ var IndexList = function (_Component2) {
       var _this3 = this;
 
       var _props3 = this.props;
-      var result = _props3.result;
+      var data = _props3.data;
       var selection = _props3.selection;
 
       var classes = [CLASS_ROOT];
@@ -156,8 +156,8 @@ var IndexList = function (_Component2) {
 
       var listItems = void 0;
       var selectionIndex = void 0;
-      if (result && result.items) {
-        listItems = result.items.map(function (item, index) {
+      if (data && data.items) {
+        listItems = data.items.map(function (item, index) {
           if (selection && item.uri === selection) {
             selectionIndex = index;
           }
@@ -166,7 +166,7 @@ var IndexList = function (_Component2) {
       }
 
       var onMore = void 0;
-      if (result && result.count < result.total) {
+      if (data && data.count < data.total) {
         onMore = this.props.onMore;
       }
 
@@ -191,7 +191,7 @@ IndexList.propTypes = {
   attributes: _PropTypes2.default.attributes,
   itemComponent: _react.PropTypes.oneOfType([_react.PropTypes.object, _react.PropTypes.func]),
   onSelect: _react.PropTypes.func,
-  result: _PropTypes2.default.result,
+  data: _PropTypes2.default.data,
   selection: _react.PropTypes.oneOfType([_react.PropTypes.string, // uri
   _react.PropTypes.arrayOf(_react.PropTypes.string)])
 };

@@ -94,6 +94,13 @@ var Index = function (_Component) {
       var _props = this.props;
       var result = _props.result;
       var notifications = _props.notifications;
+      var data = this.props.data;
+
+
+      if (result) {
+        console.warn('\'result\' prop has been renamed to \'data.\'' + ' Support for \'result\' will be removed in a future release.');
+        data = result;
+      }
 
       var classes = [CLASS_ROOT];
       if (this.props.className) {
@@ -101,26 +108,26 @@ var Index = function (_Component) {
       }
 
       var error = void 0;
-      if (result && result.error) {
+      if (data && data.error) {
         error = _react2.default.createElement(
           'div',
           { className: CLASS_ROOT + '__error' },
-          this.props.result.error
+          result.error
         );
       }
 
       var empty = void 0;
-      if (result) {
+      if (data) {
         var emptyMessage = void 0;
         var addControl = void 0;
-        if (result.unfilteredTotal === 0) {
+        if (data.unfilteredTotal === 0) {
           emptyMessage = this.props.emptyMessage;
           if (this.props.emptyAddControl) {
             addControl = this.props.emptyAddControl;
           } else {
             addControl = this.props.addControl;
           }
-        } else if (result.total === 0) {
+        } else if (data.total === 0) {
           emptyMessage = _Intl2.default.getMessage(this.context.intl, 'No matches');
         }
         if (emptyMessage) {
@@ -161,7 +168,7 @@ var Index = function (_Component) {
             filter: this.props.filter, onFilter: this.props.onFilter,
             query: this.props.query, onQuery: this.props.onQuery,
             sort: this.props.sort, onSort: this.props.onSort,
-            result: result,
+            data: data,
             fixed: this.props.fixed,
             addControl: this.props.addControl,
             navControl: this.props.navControl }),
@@ -176,7 +183,7 @@ var Index = function (_Component) {
               fill: this.props.fill,
               flush: this.props.flush,
               itemComponent: itemComponent,
-              result: this.props.result,
+              data: data,
               sections: this.props.sections,
               selection: this.props.selection,
               size: this.props.size,
@@ -200,6 +207,7 @@ Index.propTypes = {
   actions: _react.PropTypes.element,
   addControl: _react.PropTypes.node,
   attributes: _PropTypes2.default.attributes,
+  data: _PropTypes2.default.data,
   emptyMessage: _react.PropTypes.string,
   emptyAddControl: _react.PropTypes.node,
   fill: _react.PropTypes.bool, // for Tiles
@@ -219,7 +227,6 @@ Index.propTypes = {
   onSelect: _react.PropTypes.func,
   onSort: _react.PropTypes.func, // (sort)
   query: _react.PropTypes.object, // Query
-  result: _PropTypes2.default.result,
   selection: _react.PropTypes.oneOfType([_react.PropTypes.string, // uri
   _react.PropTypes.arrayOf(_react.PropTypes.string)]),
   size: _react.PropTypes.oneOf(['small', 'medium', 'large']),

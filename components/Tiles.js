@@ -185,88 +185,137 @@ var IndexTiles = function (_Component2) {
       var _this3 = this;
 
       var _props3 = this.props;
-      var result = _props3.result;
+      var data = _props3.data;
       var selection = _props3.selection;
       var sort = _props3.sort;
 
       var parts = sort.split(':');
       var attributeName = parts[0];
       var direction = parts[1];
+
       var sections = [];
-      var items = result.items.slice(0);
-      this.props.sections.forEach(function (section) {
 
-        var selectionIndex = undefined;
-        var sectionValue = section.value;
-        if (sectionValue instanceof Date) {
-          sectionValue = sectionValue.getTime();
-        }
-        var tiles = [];
-        var actions = section.actions;
+      if (data.sections) {
+        data.sections.forEach(function (section, i) {
+          var actions = section.actions;
+          var items = section.items;
+          var label = section.label;
 
-        while (items.length > 0) {
-          var item = items[0];
-          var itemValue = item.hasOwnProperty(attributeName) ? item[attributeName] : item.attributes[attributeName];
-          if (itemValue instanceof Date) {
-            itemValue = itemValue.getTime();
+          var tiles = items.map(function (item) {
+            return _this3._renderTile(item);
+          });
+
+          if (tiles.length > 0) {
+            // only use onMore for last section
+            var content = _react2.default.createElement(
+              _Tiles2.default,
+              { key: label,
+                onMore: i === data.sections.length - 1 ? onMore : undefined,
+                flush: _this3.props.flush, fill: _this3.props.fill,
+                selectable: _this3.props.onSelect ? true : false,
+                size: _this3.props.size },
+              tiles
+            );
+
+            sections.push(_react2.default.createElement(
+              'div',
+              { key: label, className: CLASS_ROOT + '__section' },
+              _react2.default.createElement(
+                _Header2.default,
+                { size: 'small', justify: 'between', responsive: false, separator: 'top', pad: { horizontal: 'small' } },
+                _react2.default.createElement(
+                  'label',
+                  null,
+                  label
+                ),
+                actions
+              ),
+              content
+            ));
           }
-          if (undefined === sectionValue || 'asc' === direction && itemValue <= sectionValue || 'desc' === direction && itemValue >= sectionValue) {
-            // add it
-            items.shift();
-            if (selection && item.uri === selection) {
-              selectionIndex = tiles.length;
+        });
+      } else if (this.props.sections) {
+        (function () {
+          console.warn('Putting sections in attributes has been deprecated ' + 'and will be removed in a future release. Sections should be ' + 'part of the data object');
+
+          var items = data.items.slice(0);
+
+          _this3.props.sections.forEach(function (section) {
+
+            var selectionIndex = undefined;
+            var sectionValue = section.value;
+            if (sectionValue instanceof Date) {
+              sectionValue = sectionValue.getTime();
             }
-            tiles.push(_this3._renderTile(item));
-          } else {
-            // done
-            break;
-          }
-        }
+            var tiles = [];
+            var actions = section.actions;
 
-        if (tiles.length > 0) {
-          // only use onMore for last section
-          var content = _react2.default.createElement(
-            _Tiles2.default,
-            { key: section.label,
-              onMore: items.length === 0 ? onMore : undefined,
-              flush: _this3.props.flush, fill: _this3.props.fill,
-              selectable: _this3.props.onSelect ? true : false,
-              selected: selectionIndex,
-              size: _this3.props.size },
-            tiles
-          );
+            while (items.length > 0) {
+              var item = items[0];
+              var itemValue = item.hasOwnProperty(attributeName) ? item[attributeName] : item.attributes[attributeName];
+              if (itemValue instanceof Date) {
+                itemValue = itemValue.getTime();
+              }
 
-          var label = void 0;
-          var justify = 'end';
-          var header = void 0;
+              if (undefined === sectionValue || 'asc' === direction && itemValue <= sectionValue || 'desc' === direction && itemValue >= sectionValue) {
+                // add it
+                items.shift();
+                if (selection && item.uri === selection) {
+                  selectionIndex = tiles.length;
+                }
+                tiles.push(_this3._renderTile(item));
+              } else {
+                // done
+                break;
+              }
+            }
 
-          if (sections.length !== 0 || items.length !== 0) {
-            // more than one section, add label
-            label = _react2.default.createElement(
-              'label',
-              null,
-              section.label
-            );
-            justify = 'between';
-          }
+            if (tiles.length > 0) {
+              // only use onMore for last section
+              var content = _react2.default.createElement(
+                _Tiles2.default,
+                { key: section.label,
+                  onMore: items.length === 0 ? onMore : undefined,
+                  flush: _this3.props.flush, fill: _this3.props.fill,
+                  selectable: _this3.props.onSelect ? true : false,
+                  selected: selectionIndex,
+                  size: _this3.props.size },
+                tiles
+              );
 
-          if (label || actions) {
-            header = _react2.default.createElement(
-              _Header2.default,
-              { size: 'small', justify: justify, responsive: false, separator: 'top', pad: { horizontal: 'small' } },
-              label,
-              actions
-            );
-          }
+              var label = void 0;
+              var justify = 'end';
+              var header = void 0;
 
-          sections.push(_react2.default.createElement(
-            'div',
-            { key: section.label, className: CLASS_ROOT + '__section' },
-            header,
-            content
-          ));
-        }
-      });
+              if (sections.length !== 0 || items.length !== 0) {
+                // more than one section, add label
+                label = _react2.default.createElement(
+                  'label',
+                  null,
+                  section.label
+                );
+                justify = 'between';
+              }
+
+              if (label || actions) {
+                header = _react2.default.createElement(
+                  _Header2.default,
+                  { size: 'small', justify: justify, responsive: false, separator: 'top', pad: { horizontal: 'small' } },
+                  label,
+                  actions
+                );
+              }
+
+              sections.push(_react2.default.createElement(
+                'div',
+                { key: section.label, className: CLASS_ROOT + '__section' },
+                header,
+                content
+              ));
+            }
+          });
+        })();
+      }
 
       return _react2.default.createElement(
         'div',
@@ -278,15 +327,15 @@ var IndexTiles = function (_Component2) {
     key: '_renderTiles',
     value: function _renderTiles(classes, onMore) {
       var _props4 = this.props;
-      var result = _props4.result;
+      var data = _props4.data;
       var selection = _props4.selection;
       var actions = _props4.actions;
 
       var tiles = void 0;
       var selectionIndex = void 0;
       var header = void 0;
-      if (result && result.items.length) {
-        tiles = result.items.map(function (item, index) {
+      if (data && data.items.length) {
+        tiles = data.items.map(function (item, index) {
           if (selection && item.uri === selection) {
             selectionIndex = index;
           }
@@ -321,20 +370,21 @@ var IndexTiles = function (_Component2) {
     key: 'render',
     value: function render() {
       var _props5 = this.props;
-      var result = _props5.result;
+      var data = _props5.data;
       var sort = _props5.sort;
 
       var classes = [CLASS_ROOT];
+
       if (this.props.className) {
         classes.push(this.props.className);
       }
 
       var onMore = void 0;
-      if (result && result.count < result.total) {
+      if (data && data.count < data.total) {
         onMore = this.props.onMore;
       }
 
-      if (this.props.sections && sort && result && result.items) {
+      if (data.sections || this.props.sections && sort && data && data.items) {
         return this._renderSections(classes, onMore);
       } else {
         return this._renderTiles(classes, onMore);
@@ -355,7 +405,7 @@ IndexTiles.propTypes = {
   flush: _react.PropTypes.bool,
   itemComponent: _react.PropTypes.oneOfType([_react.PropTypes.object, _react.PropTypes.func]),
   onSelect: _react.PropTypes.func,
-  result: _PropTypes2.default.result,
+  data: _PropTypes2.default.data,
   sections: _react.PropTypes.arrayOf(_react.PropTypes.shape({
     actions: _react.PropTypes.element,
     label: _react.PropTypes.string,

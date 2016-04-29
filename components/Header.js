@@ -83,10 +83,10 @@ var IndexHeader = function (_Component) {
       var query = _props.query;
 
       var searchText = query ? query.toString() : '';
-      var result = this.props.result || {};
+      var data = this.props.data || {};
 
       var classes = (0, _classnames3.default)(CLASS_ROOT, this.props.className);
-      var countClasses = (0, _classnames3.default)(CLASS_ROOT + '__count', _defineProperty({}, CLASS_ROOT + '__count--active', result.unfilteredTotal > result.total));
+      var countClasses = (0, _classnames3.default)(CLASS_ROOT + '__count', _defineProperty({}, CLASS_ROOT + '__count--active', data.unfilteredTotal > data.total));
 
       var filterOrSortAttributes = attributes.filter(function (a) {
         return a.filter || a.sort;
@@ -104,12 +104,12 @@ var IndexHeader = function (_Component) {
           _react2.default.createElement(
             'span',
             { className: CLASS_ROOT + '__total' },
-            result.unfilteredTotal
+            data.unfilteredTotal
           ),
           _react2.default.createElement(
             'span',
             { className: countClasses },
-            result.total
+            data.total
           )
         );
       }
@@ -160,7 +160,7 @@ IndexHeader.propTypes = {
   onQuery: _react.PropTypes.func, // (query)
   onSort: _react.PropTypes.func, // (sort)
   query: _react.PropTypes.object, // Query
-  result: _PropTypes2.default.result,
+  data: _PropTypes2.default.data,
   sort: _react.PropTypes.string
 };
 

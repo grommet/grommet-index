@@ -21,11 +21,7 @@ var attribute = _react.PropTypes.shape({
   render: _react.PropTypes.func,
   size: _react.PropTypes.string,
   sort: _react.PropTypes.shape({
-    direction: _react.PropTypes.string,
-    sections: _react.PropTypes.arrayOf(_react.PropTypes.shape({
-      label: _react.PropTypes.string,
-      value: _react.PropTypes.any
-    }))
+    direction: _react.PropTypes.string
   }),
   timestamp: _react.PropTypes.bool
 }); // (C) Copyright 2014-2015 Hewlett Packard Enterprise Development LP
@@ -34,13 +30,21 @@ exports.default = {
   attribute: attribute,
   attributes: _react.PropTypes.arrayOf(attribute),
   query: _react.PropTypes.object,
-  result: _react.PropTypes.shape({
+  data: _react.PropTypes.shape({
     total: _react.PropTypes.number.isRequired,
     unfilteredTotal: _react.PropTypes.number,
     start: _react.PropTypes.number,
     count: _react.PropTypes.number.isRequired,
-    items: _react.PropTypes.arrayOf(_react.PropTypes.object).isRequired,
-    error: _react.PropTypes.string
+    items: _react.PropTypes.arrayOf(_react.PropTypes.object),
+    error: _react.PropTypes.string,
+    sections: _react.PropTypes.arrayOf(_react.PropTypes.shape({
+      actions: _react.PropTypes.node,
+      count: _react.PropTypes.number.isRequired,
+      label: _react.PropTypes.node.isRequired,
+      items: _react.PropTypes.arrayOf(_react.PropTypes.object).isRequired,
+      start: _react.PropTypes.number,
+      total: _react.PropTypes.number
+    }).isRequired)
   })
 };
 module.exports = exports['default'];
