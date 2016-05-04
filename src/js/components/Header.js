@@ -20,8 +20,8 @@ export default class IndexHeader extends Component {
     this._onChangeSearch = debounce(this._onChangeSearch.bind(this), 300);
   }
 
-  _onChangeSearch (text) {
-    this.props.onQuery(new IndexQuery(text));
+  _onChangeSearch (event) {
+    this.props.onQuery(new IndexQuery(event.target.value));
   }
 
   render () {
@@ -68,7 +68,7 @@ export default class IndexHeader extends Component {
             inline={true}
             placeHolder={placeHolder}
             defaultValue={searchText}
-            onChange={this._onChangeSearch} />
+            onDOMChange={this._onChangeSearch} />
           {filters}
           {this.props.addControl}
         </Box>
