@@ -384,7 +384,7 @@ var IndexTiles = function (_Component2) {
         onMore = this.props.onMore;
       }
 
-      if (data.sections || this.props.sections && sort && data && data.items) {
+      if (data && data.sections || this.props.sections && sort && data && data.items) {
         return this._renderSections(classes, onMore);
       } else {
         return this._renderTiles(classes, onMore);
