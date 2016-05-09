@@ -74,7 +74,7 @@ var Filter = function (_Component) {
     _this._onChangeAll = _this._onChangeAll.bind(_this);
     _this._onToggleActive = _this._onToggleActive.bind(_this);
 
-    _this.state = {};
+    _this.state = { active: _this.props.active };
     return _this;
   }
 
@@ -256,6 +256,7 @@ Filter.propTypes = {
   }), _react.PropTypes.string])).isRequired,
   exclusive: _react.PropTypes.bool,
   inline: _react.PropTypes.bool,
+  active: _react.PropTypes.bool,
   label: _react.PropTypes.string,
   name: _react.PropTypes.string,
   onChange: _react.PropTypes.func, // (values)
@@ -266,6 +267,7 @@ Filter.propTypes = {
 Filter.defaultProps = {
   all: true,
   inline: true,
+  active: false,
   values: []
 };
 module.exports = exports['default'];
