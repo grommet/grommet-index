@@ -104,6 +104,7 @@ export default class Index extends Component {
           <IndexHeader className={`${CLASS_ROOT}__header`}
             label={this.props.label}
             attributes={this.props.attributes}
+            filterDirection={this.props.filterDirection}
             filter={this.props.filter} onFilter={this.props.onFilter}
             query={this.props.query} onQuery={this.props.onQuery}
             sort={this.props.sort} onSort={this.props.onSort}
@@ -145,6 +146,7 @@ Index.propTypes = {
   emptyAddControl: PropTypes.node,
   fill: PropTypes.bool, // for Tiles
   filter: PropTypes.object, // { name: [value, ...] }
+  filterDirection: PropTypes.oneOf(['row', 'column']),
   fixed: PropTypes.bool,
   flush: PropTypes.bool, // for Tiles
   itemComponent: PropTypes.oneOfType([
@@ -180,6 +182,7 @@ Index.propTypes = {
 
 Index.defaultProps = {
   attributes: [{name: 'name', label: 'Name', index: 0}],
+  filterDirection: 'column',
   fixed: true,
   flush: true,
   view: "tiles"
