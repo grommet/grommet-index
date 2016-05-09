@@ -153,7 +153,7 @@ export default class IndexTiles extends Component {
       console.warn('Putting sections in attributes has been deprecated ' +
         'and will be removed in a future release. Sections should be ' +
         'part of the data object');
-      
+
       let items = data.items.slice(0);
 
       this.props.sections.forEach((section) => {
@@ -230,7 +230,7 @@ export default class IndexTiles extends Component {
         }
       });
     }
-    
+
     return (
       <div className={classes.join(' ')}>
         {sections}
@@ -259,7 +259,7 @@ export default class IndexTiles extends Component {
         );
       }
     }
-    
+
     return (
       <div>
         {header}
@@ -287,7 +287,8 @@ export default class IndexTiles extends Component {
       onMore = this.props.onMore;
     }
 
-    if (data.sections || (this.props.sections && sort && data && data.items)) {
+    if ((data && data.sections)
+      || (this.props.sections && sort && data && data.items)) {
       return this._renderSections(classes, onMore);
     } else {
       return this._renderTiles(classes, onMore);
