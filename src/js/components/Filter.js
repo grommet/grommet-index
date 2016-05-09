@@ -23,7 +23,7 @@ export default class Filter extends Component {
     this._onChangeAll = this._onChangeAll.bind(this);
     this._onToggleActive = this._onToggleActive.bind(this);
 
-    this.state = {};
+    this.state = {active: this.props.active};
   }
 
   _onChange (value) {
@@ -165,6 +165,7 @@ Filter.propTypes = {
   ])).isRequired,
   exclusive: PropTypes.bool,
   inline: PropTypes.bool,
+  active: PropTypes.bool,
   label: PropTypes.string,
   name: PropTypes.string,
   onChange: PropTypes.func, // (values)
@@ -175,5 +176,6 @@ Filter.propTypes = {
 Filter.defaultProps = {
   all: true,
   inline: true,
+  active: false,
   values: []
 };
