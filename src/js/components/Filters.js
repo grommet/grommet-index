@@ -57,7 +57,7 @@ export default class Filters extends Component {
   }
 
   render () {
-    const { direction, attributes, inline, values } = this.props;
+    const { attributes, direction, inline, values } = this.props;
     let classNames = [CLASS_ROOT];
     if (inline) {
       classNames.push(`${CLASS_ROOT}--inline`);
