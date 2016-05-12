@@ -47,6 +47,7 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } // (C) Copyright 2014-2015 Hewlett Packard Enterprise Development LP
 
 var CLASS_ROOT = 'index-tiles';
+var warnedAboutPropsSections = false;
 
 var IndexTile = function (_Component) {
   _inherits(IndexTile, _Component);
@@ -236,7 +237,11 @@ var IndexTiles = function (_Component2) {
         });
       } else if (this.props.sections) {
         (function () {
-          console.warn('Putting sections in attributes has been deprecated ' + 'and will be removed in a future release. Sections should be ' + 'part of the data object');
+
+          if (!warnedAboutPropsSections) {
+            console.warn('Putting sections in attributes has been deprecated ' + 'and will be removed in a future release. Sections should be ' + 'part of the data object');
+            warnedAboutPropsSections = true;
+          }
 
           var items = data.items.slice(0);
 
