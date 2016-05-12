@@ -10,6 +10,7 @@ import Attribute from './Attribute';
 import IndexPropTypes from '../utils/PropTypes';
 
 const CLASS_ROOT = 'index-tiles';
+let warnedAboutPropsSections = false;
 
 class IndexTile extends Component {
 
@@ -150,9 +151,13 @@ export default class IndexTiles extends Component {
         }
       });
     } else if (this.props.sections) {
-      console.warn('Putting sections in attributes has been deprecated ' +
-        'and will be removed in a future release. Sections should be ' +
-        'part of the data object');
+
+      if (! warnedAboutPropsSections) {
+        console.warn('Putting sections in attributes has been deprecated ' +
+          'and will be removed in a future release. Sections should be ' +
+          'part of the data object');
+        warnedAboutPropsSections = true;
+      }
 
       let items = data.items.slice(0);
 
