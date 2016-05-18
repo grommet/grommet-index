@@ -15,7 +15,7 @@ let warnedAboutPropsSections = false;
 class IndexTile extends Component {
 
   render () {
-    let { item, selected, onClick, attributes } = this.props;
+    let { item, onClick, attributes } = this.props;
     let statusValue;
     let headerValues = [];
     let values = [];
@@ -55,7 +55,7 @@ class IndexTile extends Component {
       <Tile key={item.uri} align="start"
         pad={{horizontal: "medium", vertical: "small"}}
         direction="row" responsive={false}
-        onClick={onClick} selected={selected}
+        onClick={onClick}
         a11yTitle={`Open ${headerValues}`}>
         {statusValue}
         <Box key="contents" direction="column">
@@ -87,26 +87,21 @@ export default class IndexTiles extends Component {
   }
 
   _renderTile (item) {
-    const { selection, itemComponent } = this.props;
+    const { itemComponent } = this.props;
     let onClick;
     if (this.props.onSelect) {
       onClick = this._onClickTile.bind(this, item.uri);
-    }
-    let selected = false;
-    if (selection && item.uri === selection) {
-      selected = true;
     }
     let tile;
     if (itemComponent) {
       const Component = itemComponent;
       tile = (
-        <Component key={item.uri} item={item} onClick={onClick}
-          selected={selected} />
+        <Component key={item.uri} item={item} onClick={onClick} />
       );
     } else {
       tile = (
         <IndexTile key={item.uri} item={item} onClick={onClick}
-          selected={selected} attributes={this.props.attributes} />
+          attributes={this.props.attributes} />
       );
     }
     return tile;
