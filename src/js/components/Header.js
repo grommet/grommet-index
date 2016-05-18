@@ -41,6 +41,7 @@ export default class IndexHeader extends Component {
       filters = (
         <div className={`${CLASS_ROOT}__filters no-flex`}>
           <Filters attributes={filterOrSortAttributes}
+            direction={this.props.filterDirection}
             values={this.props.filter} sort={this.props.sort}
             onChange={this.props.onFilter}
             onSort={this.props.onSort} />
@@ -82,6 +83,7 @@ IndexHeader.propTypes = {
   addControl: PropTypes.node,
   attributes: IndexPropTypes.attributes.isRequired,
   filter: PropTypes.object, // { name: [value, ...] }
+  filterDirection: PropTypes.oneOf(['row', 'column']),
   fixed: PropTypes.bool,
   label: PropTypes.string.isRequired,
   navControl: PropTypes.node,
@@ -94,5 +96,6 @@ IndexHeader.propTypes = {
 };
 
 IndexHeader.contextTypes = {
-  intl: PropTypes.object
+  intl: PropTypes.object,
+  filterDirection: 'column'
 };

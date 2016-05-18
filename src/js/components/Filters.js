@@ -57,7 +57,7 @@ export default class Filters extends Component {
   }
 
   render () {
-    const { attributes, inline, values } = this.props;
+    const { attributes, direction, inline, values } = this.props;
     let classNames = [CLASS_ROOT];
     if (inline) {
       classNames.push(`${CLASS_ROOT}--inline`);
@@ -83,7 +83,7 @@ export default class Filters extends Component {
     let result;
     if (inline) {
       result = (
-        <Box direction="column" pad={{between: 'medium'}}
+        <Box direction={direction} pad={{between: 'medium'}}
           className={classNames.join(' ')}>
           {filters}
           {sort}
@@ -96,7 +96,7 @@ export default class Filters extends Component {
         <Menu className={CLASS_ROOT + "__menu"} icon={icon}
           dropAlign={{right: 'right'}} a11yTitle={a11yTitle}
           direction="column" closeOnClick={false}>
-          <Box direction="column"
+          <Box direction={direction}
             pad={{horizontal: 'large', vertical: 'medium', between: 'medium'}}
             className={classNames.join(' ')}>
             {filters}
@@ -131,6 +131,7 @@ Filters.propTypes = {
     }),
     status: PropTypes.bool
   })).isRequired,
+  direction: PropTypes.oneOf(['row', 'column']),
   inline: PropTypes.bool,
   onChange: PropTypes.func, // (values)
   onSort: PropTypes.func, // (sort)
@@ -139,6 +140,7 @@ Filters.propTypes = {
 };
 
 Filters.defaultProps = {
+  direction: "column",
   values: {}
 };
 
