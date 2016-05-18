@@ -51,7 +51,6 @@ var IndexListItem = function (_Component) {
       var _props = this.props;
       var item = _props.item;
       var index = _props.index;
-      var selected = _props.selected;
       var onClick = _props.onClick;
       var attributes = _props.attributes;
 
@@ -79,7 +78,7 @@ var IndexListItem = function (_Component) {
         { key: item.uri, className: CLASS_ROOT + '-item',
           direction: 'row', responsive: false, separator: separator,
           pad: { horizontal: 'medium', vertical: 'small', between: 'medium' },
-          onClick: onClick, selected: selected },
+          onClick: onClick },
         status,
         primary,
         secondary
@@ -117,26 +116,19 @@ var IndexList = function (_Component2) {
   }, {
     key: '_renderListItem',
     value: function _renderListItem(item, index) {
-      var _props2 = this.props;
-      var selection = _props2.selection;
-      var itemComponent = _props2.itemComponent;
+      var itemComponent = this.props.itemComponent;
 
       var onClick = void 0;
       if (this.props.onSelect) {
         onClick = this._onClickItem.bind(this, item.uri);
       }
-      var selected = false;
-      if (selection && item.uri === selection) {
-        selected = true;
-      }
       var listItem = void 0;
       if (itemComponent) {
         var _Component3 = itemComponent;
-        listItem = _react2.default.createElement(_Component3, { key: item.uri, item: item, index: index, onClick: onClick,
-          selected: selected });
+        listItem = _react2.default.createElement(_Component3, { key: item.uri, item: item, index: index, onClick: onClick });
       } else {
         listItem = _react2.default.createElement(IndexListItem, { key: item.uri, item: item, index: index, onClick: onClick,
-          selected: selected, attributes: this.props.attributes });
+          attributes: this.props.attributes });
       }
       return listItem;
     }
@@ -145,9 +137,9 @@ var IndexList = function (_Component2) {
     value: function render() {
       var _this3 = this;
 
-      var _props3 = this.props;
-      var data = _props3.data;
-      var selection = _props3.selection;
+      var _props2 = this.props;
+      var data = _props2.data;
+      var selection = _props2.selection;
 
       var classes = [CLASS_ROOT];
       if (this.props.className) {

@@ -63,7 +63,6 @@ var IndexTile = function (_Component) {
     value: function render() {
       var _props = this.props;
       var item = _props.item;
-      var selected = _props.selected;
       var onClick = _props.onClick;
       var attributes = _props.attributes;
 
@@ -113,7 +112,7 @@ var IndexTile = function (_Component) {
         { key: item.uri, align: 'start',
           pad: { horizontal: "medium", vertical: "small" },
           direction: 'row', responsive: false,
-          onClick: onClick, selected: selected,
+          onClick: onClick,
           a11yTitle: 'Open ' + headerValues },
         statusValue,
         _react2.default.createElement(
@@ -157,26 +156,19 @@ var IndexTiles = function (_Component2) {
   }, {
     key: '_renderTile',
     value: function _renderTile(item) {
-      var _props2 = this.props;
-      var selection = _props2.selection;
-      var itemComponent = _props2.itemComponent;
+      var itemComponent = this.props.itemComponent;
 
       var onClick = void 0;
       if (this.props.onSelect) {
         onClick = this._onClickTile.bind(this, item.uri);
       }
-      var selected = false;
-      if (selection && item.uri === selection) {
-        selected = true;
-      }
       var tile = void 0;
       if (itemComponent) {
         var _Component3 = itemComponent;
-        tile = _react2.default.createElement(_Component3, { key: item.uri, item: item, onClick: onClick,
-          selected: selected });
+        tile = _react2.default.createElement(_Component3, { key: item.uri, item: item, onClick: onClick });
       } else {
         tile = _react2.default.createElement(IndexTile, { key: item.uri, item: item, onClick: onClick,
-          selected: selected, attributes: this.props.attributes });
+          attributes: this.props.attributes });
       }
       return tile;
     }
@@ -185,10 +177,10 @@ var IndexTiles = function (_Component2) {
     value: function _renderSections(classes, onMore) {
       var _this3 = this;
 
-      var _props3 = this.props;
-      var data = _props3.data;
-      var selection = _props3.selection;
-      var sort = _props3.sort;
+      var _props2 = this.props;
+      var data = _props2.data;
+      var selection = _props2.selection;
+      var sort = _props2.sort;
 
       var parts = sort.split(':');
       var attributeName = parts[0];
@@ -331,10 +323,10 @@ var IndexTiles = function (_Component2) {
   }, {
     key: '_renderTiles',
     value: function _renderTiles(classes, onMore) {
-      var _props4 = this.props;
-      var data = _props4.data;
-      var selection = _props4.selection;
-      var actions = _props4.actions;
+      var _props3 = this.props;
+      var data = _props3.data;
+      var selection = _props3.selection;
+      var actions = _props3.actions;
 
       var tiles = void 0;
       var selectionIndex = void 0;
@@ -374,9 +366,9 @@ var IndexTiles = function (_Component2) {
   }, {
     key: 'render',
     value: function render() {
-      var _props5 = this.props;
-      var data = _props5.data;
-      var sort = _props5.sort;
+      var _props4 = this.props;
+      var data = _props4.data;
+      var sort = _props4.sort;
 
       var classes = [CLASS_ROOT];
 

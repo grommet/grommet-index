@@ -54,7 +54,6 @@ var IndexTableRow = function (_Component) {
     value: function render() {
       var _props = this.props;
       var item = _props.item;
-      var selected = _props.selected;
       var onClick = _props.onClick;
       var attributes = _props.attributes;
 
@@ -70,7 +69,7 @@ var IndexTableRow = function (_Component) {
       return _react2.default.createElement(
         _TableRow2.default,
         { key: item.uri,
-          onClick: onClick, selected: selected },
+          onClick: onClick },
         cells
       );
     }
@@ -123,26 +122,19 @@ var IndexTable = function (_Component2) {
   }, {
     key: '_renderRow',
     value: function _renderRow(item) {
-      var _props2 = this.props;
-      var selection = _props2.selection;
-      var itemComponent = _props2.itemComponent;
+      var itemComponent = this.props.itemComponent;
 
       var onClick = void 0;
       if (this.props.onSelect) {
         onClick = this._onClickRow.bind(this, item.uri);
       }
-      var selected = false;
-      if (selection && item.uri === selection) {
-        selected = true;
-      }
       var row = void 0;
       if (itemComponent) {
         var _Component3 = itemComponent;
-        row = _react2.default.createElement(_Component3, { key: item.uri, item: item, onClick: onClick,
-          selected: selected });
+        row = _react2.default.createElement(_Component3, { key: item.uri, item: item, onClick: onClick });
       } else {
         row = _react2.default.createElement(IndexTableRow, { key: item.uri, item: item, onClick: onClick,
-          selected: selected, attributes: this.props.attributes });
+          attributes: this.props.attributes });
       }
       return row;
     }
@@ -151,9 +143,9 @@ var IndexTable = function (_Component2) {
     value: function render() {
       var _this3 = this;
 
-      var _props3 = this.props;
-      var data = _props3.data;
-      var selection = _props3.selection;
+      var _props2 = this.props;
+      var data = _props2.data;
+      var selection = _props2.selection;
       var attributes = this.state.attributes;
 
       var classes = [CLASS_ROOT];
@@ -218,7 +210,7 @@ var IndexTable = function (_Component2) {
         { className: classes.join(' '),
           selectable: this.props.onSelect ? true : false,
           scrollable: this.props.scrollable,
-          selection: selectionIndex,
+          selected: selectionIndex,
           onMore: onMore },
         header,
         _react2.default.createElement(
