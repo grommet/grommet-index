@@ -141,7 +141,7 @@ export default class IndexTable extends Component {
       <Table className={classes.join(' ')}
         selectable={this.props.onSelect ? true : false}
         scrollable={this.props.scrollable}
-        selection={selectionIndex}
+        selected={selectionIndex}
         onMore={onMore}>
         {header}
         <tbody>{rows}</tbody>
