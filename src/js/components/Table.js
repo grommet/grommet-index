@@ -12,7 +12,7 @@ const CLASS_ROOT = 'index-table';
 class IndexTableRow extends Component {
 
   render () {
-    let { item, selected, onClick, attributes } = this.props;
+    let { item, onClick, attributes } = this.props;
 
     let cells = attributes.map(function (attribute, index) {
       return (
@@ -24,7 +24,7 @@ class IndexTableRow extends Component {
 
     return (
       <TableRow key={item.uri}
-        onClick={onClick} selected={selected}>
+        onClick={onClick}>
         {cells}
       </TableRow>
     );
@@ -63,26 +63,21 @@ export default class IndexTable extends Component {
   }
 
   _renderRow (item) {
-    const { selection, itemComponent } = this.props;
+    const { itemComponent } = this.props;
     let onClick;
     if (this.props.onSelect) {
       onClick = this._onClickRow.bind(this, item.uri);
-    }
-    let selected = false;
-    if (selection && item.uri === selection) {
-      selected = true;
     }
     let row;
     if (itemComponent) {
       const Component = itemComponent;
       row = (
-        <Component key={item.uri} item={item} onClick={onClick}
-          selected={selected} />
+        <Component key={item.uri} item={item} onClick={onClick} />
       );
     } else {
       row = (
         <IndexTableRow key={item.uri} item={item} onClick={onClick}
-          selected={selected} attributes={this.props.attributes} />
+          attributes={this.props.attributes} />
       );
     }
     return row;
