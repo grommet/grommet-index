@@ -165,6 +165,7 @@ var Index = function (_Component) {
           _react2.default.createElement(_Header2.default, { className: CLASS_ROOT + '__header',
             label: this.props.label,
             attributes: this.props.attributes,
+            filterDirection: this.props.filterDirection,
             filter: this.props.filter, onFilter: this.props.onFilter,
             query: this.props.query, onQuery: this.props.onQuery,
             sort: this.props.sort, onSort: this.props.onSort,
@@ -212,6 +213,7 @@ Index.propTypes = {
   emptyAddControl: _react.PropTypes.node,
   fill: _react.PropTypes.bool, // for Tiles
   filter: _react.PropTypes.object, // { name: [value, ...] }
+  filterDirection: _react.PropTypes.oneOf(['row', 'column']),
   fixed: _react.PropTypes.bool,
   flush: _react.PropTypes.bool, // for Tiles
   itemComponent: _react.PropTypes.oneOfType([_react.PropTypes.func, _react.PropTypes.shape({
@@ -239,6 +241,7 @@ Index.propTypes = {
 
 Index.defaultProps = {
   attributes: [{ name: 'name', label: 'Name', index: 0 }],
+  filterDirection: 'column',
   fixed: true,
   flush: true,
   view: "tiles"

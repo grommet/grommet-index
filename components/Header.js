@@ -98,6 +98,7 @@ var IndexHeader = function (_Component) {
           'div',
           { className: CLASS_ROOT + '__filters no-flex' },
           _react2.default.createElement(_Filters2.default, { attributes: filterOrSortAttributes,
+            direction: this.props.filterDirection,
             values: this.props.filter, sort: this.props.sort,
             onChange: this.props.onFilter,
             onSort: this.props.onSort }),
@@ -153,6 +154,7 @@ IndexHeader.propTypes = {
   addControl: _react.PropTypes.node,
   attributes: _PropTypes2.default.attributes.isRequired,
   filter: _react.PropTypes.object, // { name: [value, ...] }
+  filterDirection: _react.PropTypes.oneOf(['row', 'column']),
   fixed: _react.PropTypes.bool,
   label: _react.PropTypes.string.isRequired,
   navControl: _react.PropTypes.node,
@@ -165,6 +167,7 @@ IndexHeader.propTypes = {
 };
 
 IndexHeader.contextTypes = {
-  intl: _react.PropTypes.object
+  intl: _react.PropTypes.object,
+  filterDirection: 'column'
 };
 module.exports = exports['default'];

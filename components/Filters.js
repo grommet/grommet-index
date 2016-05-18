@@ -111,6 +111,7 @@ var Filters = function (_Component) {
 
       var _props2 = this.props;
       var attributes = _props2.attributes;
+      var direction = _props2.direction;
       var inline = _props2.inline;
       var values = _props2.values;
 
@@ -140,7 +141,7 @@ var Filters = function (_Component) {
       if (inline) {
         result = _react2.default.createElement(
           _Box2.default,
-          { direction: 'column', pad: { between: 'medium' },
+          { direction: direction, pad: { between: 'medium' },
             className: classNames.join(' ') },
           filters,
           sort
@@ -155,7 +156,7 @@ var Filters = function (_Component) {
             direction: 'column', closeOnClick: false },
           _react2.default.createElement(
             _Box2.default,
-            { direction: 'column',
+            { direction: direction,
               pad: { horizontal: 'large', vertical: 'medium', between: 'medium' },
               className: classNames.join(' ') },
             filters,
@@ -194,6 +195,7 @@ Filters.propTypes = {
     }),
     status: _react.PropTypes.bool
   })).isRequired,
+  direction: _react.PropTypes.oneOf(['row', 'column']),
   inline: _react.PropTypes.bool,
   onChange: _react.PropTypes.func, // (values)
   onSort: _react.PropTypes.func, // (sort)
@@ -202,6 +204,7 @@ Filters.propTypes = {
 };
 
 Filters.defaultProps = {
+  direction: "column",
   values: {}
 };
 
