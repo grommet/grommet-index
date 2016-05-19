@@ -96,6 +96,9 @@ IndexHeader.propTypes = {
 };
 
 IndexHeader.contextTypes = {
-  intl: PropTypes.object,
+  intl: PropTypes.object
+};
+
+IndexHeader.defaultProps = {
   filterDirection: 'column'
 };
