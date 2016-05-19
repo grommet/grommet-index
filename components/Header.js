@@ -167,7 +167,10 @@ IndexHeader.propTypes = {
 };
 
 IndexHeader.contextTypes = {
-  intl: _react.PropTypes.object,
+  intl: _react.PropTypes.object
+};
+
+IndexHeader.defaultProps = {
   filterDirection: 'column'
 };
 module.exports = exports['default'];
