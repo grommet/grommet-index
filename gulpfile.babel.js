@@ -6,15 +6,14 @@ import del from 'del';
 import mkdirp from 'mkdirp';
 import sass from 'gulp-sass';
 import rename from 'gulp-rename';
-import minifyCss from 'gulp-cssnano';
 
 gulp.task('dist-css', () => {
   return gulp.src('src/scss/grommet-index/index.scss')
     .pipe(sass({
-      includePaths: [path.resolve(__dirname, './node_modules')]
+      includePaths: [path.resolve(__dirname, './node_modules')],
+      outputStyle: 'compressed'
     }))
     .pipe(rename('grommet-index.min.css'))
-    .pipe(minifyCss())
     .pipe(gulp.dest('dist/'));
 });
 
