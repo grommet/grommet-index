@@ -82,7 +82,7 @@ export default class Filter extends Component {
       );
     }
     return (
-      <Box direction="column" pad={{between: 'small'}}>
+      <Box direction="column" pad={{between: 'small'}} className={`${CLASS_ROOT}__body`}>
         {checkBoxes}
       </Box>
     );
