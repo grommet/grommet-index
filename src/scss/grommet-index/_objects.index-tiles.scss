@@ -8,10 +8,10 @@
     @include inuit-font-size($inuit-base-font-size);
   }
 
-  &.tiles--flush {
+  &.#{$grommet-namespace}tiles--flush {
     margin-top: 0px;
 
-    .tile {
+    .#{$grommet-namespace}tile {
       > svg {
         margin-right: $inuit-base-spacing-unit;
         flex: 0 0 auto;
