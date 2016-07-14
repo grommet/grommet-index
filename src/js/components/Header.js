@@ -25,8 +25,9 @@ export default class IndexHeader extends Component {
   }
 
   componentWillReceiveProps (nextProps) {
-    console.log('in componentWillReceiveProps: ', nextProps.query);
-    this.setState({ value: nextProps.query ? nextProps.query.toString() : '' });
+    if (this.props.query !== nextProps.query) {
+      this.setState({ value: nextProps.query ? nextProps.query.toString() : '' });
+    }
   }
 
   _onChangeSearch (event) {
