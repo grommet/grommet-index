@@ -103,8 +103,7 @@ export default class Filter extends Component {
       summary = (
         <FormattedMessage
           id="FilterSummary"
-          defaultMessage="{count, number} values"
-          count={values.length}
+          defaultMessage={`${values.length} selected values`}
         />
       );
     }
