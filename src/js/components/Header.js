@@ -17,16 +17,26 @@ export default class IndexHeader extends Component {
 
   constructor () {
     super();
-    this._onChangeSearch = debounce(this._onChangeSearch.bind(this), 300);
+    // this._onChangeSearch = debounce(this._onChangeSearch.bind(this), 300);
+    this._onChangeSearch = this._onChangeSearch.bind(this);
+    this.state = {
+      value: ''
+    };
+  }
+
+  componentWillReceiveProps (nextProps) {
+    console.log('in componentWillReceiveProps: ', nextProps.query);
+    this.setState({ value: nextProps.query ? nextProps.query.toString() : '' });
   }
 
   _onChangeSearch (event) {
-    this.props.onQuery(new IndexQuery(event.target.value));
+    const value = event.target.value;
+    this.setState({ value });
+    this.props.onQuery(new IndexQuery(value));
   }
 
   render () {
-    const { attributes, query } = this.props;
-    const searchText = query ? query.toString() : '';
+    const { attributes } = this.props;
     const data = this.props.data || {};
 
     const classes = classnames(CLASS_ROOT, this.props.className);
@@ -68,7 +78,7 @@ export default class IndexHeader extends Component {
           <Search className={`${CLASS_ROOT}__search flex`}
             inline={true}
             placeHolder={placeHolder}
-            defaultValue={searchText}
+            value={this.state.value}
             onDOMChange={this._onChangeSearch} />
           {filters}
           {this.props.addControl}
