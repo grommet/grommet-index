@@ -4,15 +4,19 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }(); // (C) Copyright 2014-2015 Hewlett Packard Enterprise Development LP
+var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
+
+var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+var _createClass2 = require('babel-runtime/helpers/createClass');
+
+var _createClass3 = _interopRequireDefault(_createClass2);
 
 var _StringConvert = require('grommet/utils/StringConvert');
 
 var _StringConvert2 = _interopRequireDefault(_StringConvert);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var TRACE_PARSING = false;
 // don't convert timestamps, MAC addresses, or WWNs to attribute:value
@@ -21,6 +25,8 @@ var TRACE_PARSING = false;
 // pattern three times, once for single quoted value, once for double quoted
 // value, and lastly with no quotes.
 // We don't build this programmatically for better performance.
+// (C) Copyright 2014-2015 Hewlett Packard Enterprise Development LP
+
 var ATTRIBUTE_PATTERN = /^[^\d:'"\s]{1}[^:'"\s]*:'[^']+'|^[^\d:'"\s]{1}[^:'"\s]*:"[^"]+"|^[^\d:'"\s]{1}[^:'"\s]*:[^'"\s]+/;
 // allow for text to contain quotes
 var TEXT_PATTERN = /^[^'"\s]+|^'[^']+'|^"[^"]+"/;
@@ -190,14 +196,14 @@ function parse(text) {
 
 var Query = function () {
   function Query(string) {
-    _classCallCheck(this, Query);
+    (0, _classCallCheck3.default)(this, Query);
 
     this.text = string || '';
     this.parsedTree = undefined;
     this.parseErrors = undefined;
   }
 
-  _createClass(Query, [{
+  (0, _createClass3.default)(Query, [{
     key: 'error',
     value: function error() {
       this.tree(); // to trigger generating it
@@ -227,7 +233,6 @@ var Query = function () {
       return this.parsedTree;
     }
   }]);
-
   return Query;
 }();
 
