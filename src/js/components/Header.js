@@ -17,8 +17,8 @@ export default class IndexHeader extends Component {
 
   constructor () {
     super();
-    // this._onChangeSearch = debounce(this._onChangeSearch.bind(this), 300);
     this._onChangeSearch = this._onChangeSearch.bind(this);
+    this._onQuery = debounce(this._onQuery.bind(this), 300);
     this.state = {
       value: ''
     };
@@ -33,6 +33,10 @@ export default class IndexHeader extends Component {
   _onChangeSearch (event) {
     const value = event.target.value;
     this.setState({ value });
+    this._onQuery(value);
+  }
+
+  _onQuery (value) {
     this.props.onQuery(new IndexQuery(value));
   }
 
