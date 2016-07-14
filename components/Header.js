@@ -82,38 +82,23 @@ var IndexHeader = function (_Component) {
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (0, _getPrototypeOf2.default)(IndexHeader).call(this));
 
-    _this._onChangeSearch = _this._onChangeSearch.bind(_this);
-    _this._onQuery = (0, _debounce2.default)(_this._onQuery.bind(_this), 300);
-    _this.state = {
-      value: ''
-    };
+    _this._onChangeSearch = (0, _debounce2.default)(_this._onChangeSearch.bind(_this), 300);
     return _this;
   }
 
   (0, _createClass3.default)(IndexHeader, [{
-    key: 'componentWillReceiveProps',
-    value: function componentWillReceiveProps(nextProps) {
-      if (this.props.query !== nextProps.query) {
-        this.setState({ value: nextProps.query ? nextProps.query.toString() : '' });
-      }
-    }
-  }, {
     key: '_onChangeSearch',
     value: function _onChangeSearch(event) {
-      var value = event.target.value;
-      this.setState({ value: value });
-      this._onQuery(value);
-    }
-  }, {
-    key: '_onQuery',
-    value: function _onQuery(value) {
-      this.props.onQuery(new _Query2.default(value));
+      this.props.onQuery(new _Query2.default(event.target.value));
     }
   }, {
     key: 'render',
     value: function render() {
-      var attributes = this.props.attributes;
+      var _props = this.props;
+      var attributes = _props.attributes;
+      var query = _props.query;
 
+      var searchText = query ? query.toString() : '';
       var data = this.props.data || {};
 
       var classes = (0, _classnames3.default)(CLASS_ROOT, this.props.className);
@@ -166,7 +151,7 @@ var IndexHeader = function (_Component) {
           _react2.default.createElement(_Search2.default, { className: CLASS_ROOT + '__search flex',
             inline: true,
             placeHolder: placeHolder,
-            value: this.state.value,
+            defaultValue: searchText,
             onDOMChange: this._onChangeSearch }),
           filters,
           this.props.addControl
