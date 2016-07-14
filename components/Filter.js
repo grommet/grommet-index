@@ -192,8 +192,7 @@ var Filter = function (_Component) {
       } else {
         summary = _react2.default.createElement(_FormattedMessage2.default, {
           id: 'FilterSummary',
-          defaultMessage: '{count, number} values',
-          count: values.length
+          defaultMessage: values.length + ' selected values'
         });
       }
       return _react2.default.createElement(
