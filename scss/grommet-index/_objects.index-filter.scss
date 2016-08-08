@@ -11,3 +11,8 @@
     border-color: $focus-border-color;
   }
 }
+
+.index-filter__body {
+  max-height: $size-xsmall;
+  overflow-y: auto;
+}
