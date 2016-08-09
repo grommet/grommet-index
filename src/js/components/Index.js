@@ -98,6 +98,17 @@ export default class Index extends Component {
     }
     const ViewComponent = VIEW_COMPONENT[view];
 
+    let instructional;
+    if (this.props.instructional) {
+      instructional = (
+        <Box className={`${CLASS_ROOT}__instructional`}
+          pad={{horizontal: 'large', vertical: 'small'}}
+          size="medium">
+          {this.props.instructional}
+        </Box>
+      );
+    }
+
     return (
       <div className={classes.join(' ')}>
         <div className={`${CLASS_ROOT}__container`}>
@@ -112,6 +123,7 @@ export default class Index extends Component {
             fixed={this.props.fixed}
             addControl={this.props.addControl}
             navControl={this.props.navControl} />
+          {instructional}
           {error}
           {notifications}
           <div ref="items" className={`${CLASS_ROOT}__items`}>
@@ -159,6 +171,7 @@ Index.propTypes = {
   label: PropTypes.string,
   navControl: PropTypes.node,
   notifications: PropTypes.node,
+  instructional: PropTypes.node,
   onFilter: PropTypes.func, // (filter)
   onMore: PropTypes.func,
   onQuery: PropTypes.func, // (query)
