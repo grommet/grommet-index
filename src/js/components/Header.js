@@ -105,7 +105,7 @@ IndexHeader.propTypes = {
   onFilter: PropTypes.func, // (filters)
   onQuery: PropTypes.func, // (query)
   onSort: PropTypes.func, // (sort)
-  query: PropTypes.object, // Query
+  query: PropTypes.instanceOf(IndexQuery), // instance of Query
   data: IndexPropTypes.data,
   sort: PropTypes.string
 };
