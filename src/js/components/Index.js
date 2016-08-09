@@ -9,6 +9,7 @@ import IndexTiles from './Tiles';
 import IndexList from './List';
 import IndexHeader from './Header';
 import Intl from 'grommet/utils/Intl';
+import { isMobile } from '../utils/helpers';
 
 const CLASS_ROOT = 'index';
 
@@ -98,6 +99,15 @@ export default class Index extends Component {
     }
     const ViewComponent = VIEW_COMPONENT[view];
 
+    let instructional;
+    if (this.props.instructional && !isMobile) {
+      instructional = (
+        <Box size="medium" pad={{horizontal: 'large', vertical: 'small'}}>
+          {this.props.instructional}
+        </Box>
+      );
+    }
+
     return (
       <div className={classes.join(' ')}>
         <div className={`${CLASS_ROOT}__container`}>
@@ -111,7 +121,9 @@ export default class Index extends Component {
             data={data}
             fixed={this.props.fixed}
             addControl={this.props.addControl}
+            instructional={this.props.instructional}
             navControl={this.props.navControl} />
+          {instructional}
           {error}
           {notifications}
           <div ref="items" className={`${CLASS_ROOT}__items`}>
@@ -159,6 +171,7 @@ Index.propTypes = {
   label: PropTypes.string,
   navControl: PropTypes.node,
   notifications: PropTypes.node,
+  instructional: PropTypes.node,
   onFilter: PropTypes.func, // (filter)
   onMore: PropTypes.func,
   onQuery: PropTypes.func, // (query)
