@@ -191,7 +191,7 @@ IndexHeader.propTypes = {
   onFilter: _react.PropTypes.func, // (filters)
   onQuery: _react.PropTypes.func, // (query)
   onSort: _react.PropTypes.func, // (sort)
-  query: _react.PropTypes.object, // Query
+  query: _react.PropTypes.instanceOf(_Query2.default), // instance of Query
   data: _PropTypes2.default.data,
   sort: _react.PropTypes.string
 };
