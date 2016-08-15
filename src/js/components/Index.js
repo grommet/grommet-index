@@ -3,19 +3,19 @@
 import React, { Component, PropTypes } from 'react';
 import classnames from 'classnames';
 import Box from 'grommet/components/Box';
+import Split from 'grommet/components/Split';
+import Header from 'grommet/components/Header';
+import Button from 'grommet/components/Button';
+import FilterIcon from 'grommet/components/icons/base/Filter';
 import Responsive from 'grommet/utils/Responsive';
+
 import IndexPropTypes from '../utils/PropTypes';
 import IndexTable from './Table';
 import IndexTiles from './Tiles';
 import IndexList from './List';
 import IndexHeader from './Header';
-import Intl from 'grommet/utils/Intl';
-import Split from 'grommet/components/Split';
-import Sidebar from 'grommet/components/Sidebar';
 import Filters from './Filters';
-import Header from 'grommet/components/Header';
-import Button from 'grommet/components/Button';
-import FilterIcon from 'grommet/components/icons/base/Filter';
+import Intl from 'grommet/utils/Intl';
 
 const CLASS_ROOT = 'index';
 
@@ -31,7 +31,7 @@ export default class Index extends Component {
     super();
     this._onResponsive = this._onResponsive.bind(this);
     this._toggleInlineFilter = this._toggleInlineFilter.bind(this);
-    this.state = { responsiveSize: 'medium', inlineFilterOpen: true };
+    this.state = { responsiveSize: 'medium' };
 
   }
 

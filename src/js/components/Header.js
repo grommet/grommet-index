@@ -44,29 +44,11 @@ export default class IndexHeader extends Component {
   }
 
   render () {
-    const { attributes, filterControl } = this.props;
-    const data = this.props.data || {};
+    const { attributes } = this.props;
 
     const classes = classnames(CLASS_ROOT, this.props.className);
-    const countClasses = classnames(`${CLASS_ROOT}__count`, {
-      [`${CLASS_ROOT}__count--active`]: data.unfilteredTotal > data.total
-    });
 
     const filterOrSortAttributes = attributes.filter(a => a.filter || a.sort);
-    let filters;
-    if (filterOrSortAttributes.length > 0 && filterControl) {
-      filters = (
-        <div className={`${CLASS_ROOT}__filters no-flex`}>
-          {filterControl}
-          <span className={`${CLASS_ROOT}__total`}>
-            {data.unfilteredTotal}
-          </span>
-          <span className={countClasses}>
-            {data.total}
-          </span>
-        </div>
-      );
-    }
 
     const placeHolder = Intl.getMessage(this.context.intl, 'Search');
 
@@ -84,7 +66,7 @@ export default class IndexHeader extends Component {
             value={this.state.value}
             onDOMChange={this._onChangeSearch} />
           {this.props.addControl}
-          {this.props.filterControl}
+          {filterOrSortAttributes.length > 0 && this.props.filterControl}
         </Box>
       </Header>
     );

@@ -108,6 +108,8 @@ export default class Filters extends Component {
       classNames.push(this.props.className);
     }
 
+    const filterOrSortAttributes = attributes.filter(a => a.filter || a.sort);
+
     const filters = attributes
       .filter(attribute => attribute.hasOwnProperty('filter'))
       .map(attribute => this._renderFilter(attribute));
@@ -118,11 +120,12 @@ export default class Filters extends Component {
     }
 
     let result;
-
-    if (inline) {
-      result = this.renderSidebar({filters, sort, classNames});
-    } else {
-      result = this.renderMenu({filters, sort, classNames});
+    if (filterOrSortAttributes.length > 0) {
+      if (inline) {
+        result = this.renderSidebar({filters, sort, classNames});
+      } else {
+        result = this.renderMenu({filters, sort, classNames});
+      }
     }
 
     return result;
