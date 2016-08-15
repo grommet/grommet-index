@@ -93,7 +93,7 @@ export default class Filters extends Component {
       classNames.push(`${CLASS_ROOT}__drop`);
       result = (
         <Box direction={direction}
-          pad={{horizontal: 'large', vertical: 'medium', between: 'medium'}}
+          pad={{horizontal: 'large', between: 'medium'}}
           className={classNames.join(' ')}>
           {filters}
           {sort}

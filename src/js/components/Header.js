@@ -11,6 +11,7 @@ import IndexPropTypes from '../utils/PropTypes';
 import IndexQuery from '../utils/Query';
 import Intl from 'grommet/utils/Intl';
 import Menu from 'grommet/components/Menu';
+import Button from 'grommet/components/Button';
 import FilterIcon from 'grommet/components/icons/base/Filter';
 
 const CLASS_ROOT = 'index-header';
@@ -47,9 +48,6 @@ export default class IndexHeader extends Component {
     const data = this.props.data || {};
 
     const classes = classnames(CLASS_ROOT, this.props.className);
-    const countClasses = classnames(`${CLASS_ROOT}__count`, {
-      [`${CLASS_ROOT}__count--active`]: data.unfilteredTotal > data.total
-    });
 
     const filterOrSortAttributes = attributes.filter(a => a.filter || a.sort);
     const selectedFilterCount = Object.keys(this.props.filter).length;
@@ -60,25 +58,28 @@ export default class IndexHeader extends Component {
 
     let filters;
     if (filterOrSortAttributes.length > 0) {
-      filters = (
-        <div className={`${CLASS_ROOT}__filters no-flex`}>
-          <Menu className={CLASS_ROOT + "__menu"} icon={icon}
-            dropAlign={{right: 'right'}} a11yTitle={a11yTitle}
-            direction="column" closeOnClick={false}>
-            <Filters attributes={filterOrSortAttributes}
-              direction={this.props.filterDirection}
-              values={this.props.filter} sort={this.props.sort}
-              onChange={this.props.onFilter}
-              onSort={this.props.onSort} />
-          </Menu>
-          <span className={`${CLASS_ROOT}__total`}>
-            {data.unfilteredTotal}
-          </span>
-          <span className={countClasses}>
-            {data.total}
-          </span>
-        </div>
+      filters = !this.props.inlineFilterOpen && (
+        <Button plain={true} onClick={this.props.toggleInlineFilter}>
+          <FilterIcon />
+        </Button>
       );
+
+      if (this.props.filterType === 'menu') {
+        filters = (
+          <div className={`${CLASS_ROOT}__filters no-flex`}>
+            <Menu className={CLASS_ROOT + "__menu"} icon={icon}
+              dropAlign={{right: 'right'}} a11yTitle={a11yTitle}
+              direction="column" closeOnClick={false}>
+              <Filters attributes={filterOrSortAttributes}
+                direction={this.props.filterDirection}
+                values={this.props.filter} sort={this.props.sort}
+                onChange={this.props.onFilter}
+                onSort={this.props.onSort} />
+            </Menu>
+            {this.props.filterCounts}
+          </div>
+        );
+      }
     }
 
     const placeHolder = Intl.getMessage(this.context.intl, 'Search');

@@ -1,6 +1,7 @@
 // (C) Copyright 2014-2015 Hewlett Packard Enterprise Development LP
 
 import React, { Component, PropTypes } from 'react';
+import classnames from 'classnames';
 import Box from 'grommet/components/Box';
 import Responsive from 'grommet/utils/Responsive';
 import IndexPropTypes from '../utils/PropTypes';
@@ -12,7 +13,9 @@ import Intl from 'grommet/utils/Intl';
 import Split from 'grommet/components/Split';
 import Sidebar from 'grommet/components/Sidebar';
 import Filters from './Filters';
-import classnames from 'classnames';
+import Header from 'grommet/components/Header';
+import Button from 'grommet/components/Button';
+import FilterIcon from 'grommet/components/icons/base/Filter';
 
 const CLASS_ROOT = 'index';
 
@@ -27,7 +30,9 @@ export default class Index extends Component {
   constructor () {
     super();
     this._onResponsive = this._onResponsive.bind(this);
-    this.state = { responsiveSize: 'medium' };
+    this._toggleInlineFilter = this._toggleInlineFilter.bind(this);
+    this.state = { responsiveSize: 'medium', inlineFilterOpen: true };
+
   }
 
   componentDidMount () {
@@ -40,6 +45,13 @@ export default class Index extends Component {
 
   _onResponsive (small) {
     this.setState({ responsiveSize: (small ? 'small' : 'medium') });
+  }
+
+  _toggleInlineFilter() {
+    console.log(this);
+    this.setState({
+      inlineFilterOpen: !this.state.inlineFilterOpen
+    });
   }
 
   render () {
@@ -105,26 +117,15 @@ export default class Index extends Component {
     const countClasses = classnames(`${CLASS_ROOT}__count`, {
       [`${CLASS_ROOT}__count--active`]: data.unfilteredTotal > data.total
     });
-    const filterOrSortAttributes = this.props.attributes.filter(a => a.filter || a.sort);
 
-    let filters;
-    if (filterOrSortAttributes.length > 0) {
-      filters = (
-        <div className={`${CLASS_ROOT}__filters no-flex`}>
-          <Filters attributes={filterOrSortAttributes}
-            direction={this.props.filterDirection}
-            values={this.props.filter} sort={this.props.sort}
-            onChange={this.props.onFilter}
-            onSort={this.props.onSort} />
-          <span className={`${CLASS_ROOT}__total`}>
-            {data.unfilteredTotal}
-          </span>
-          <span className={countClasses}>
-            {data.total}
-          </span>
-        </div>
-      );
-    }
+    const filterCounts = [
+      <span className={`${CLASS_ROOT}__total`}>
+        {data.unfilteredTotal}
+      </span>,
+      <span className={countClasses}>
+        {data.total}
+      </span>
+    ];
     return (
       <div className={classes.join(' ')}>
         <div className={`${CLASS_ROOT}__container`}>
@@ -133,6 +134,7 @@ export default class Index extends Component {
               <IndexHeader className={`${CLASS_ROOT}__header`}
                 label={this.props.label}
                 attributes={this.props.attributes}
+                filterType={this.props.filterType}
                 filterDirection={this.props.filterDirection}
                 filter={this.props.filter} onFilter={this.props.onFilter}
                 query={this.props.query} onQuery={this.props.onQuery}
@@ -140,7 +142,10 @@ export default class Index extends Component {
                 data={data}
                 fixed={this.props.fixed}
                 addControl={this.props.addControl}
-                navControl={this.props.navControl} />
+                navControl={this.props.navControl}
+                filterCounts={filterCounts}
+                toggleInlineFilter={this._toggleInlineFilter}
+                inlineFilterOpen={this.state.inlineFilterOpen} />
               {error}
               {notifications}
               <div ref="items" className={`${CLASS_ROOT}__items`}>
@@ -160,12 +165,23 @@ export default class Index extends Component {
                 {empty}
               </div>
             </div>
-            <Sidebar colorIndex="light-2">
-              <Filters
-                attributes={this.props.attributes}
-                data={data}
-                sort={this.props.sort}/>
-            </Sidebar>
+            {this.state.inlineFilterOpen &&
+              <Sidebar colorIndex="light-2">
+                <Header size="large" pad={{horizontal: 'medium'}} justify="between">
+                  Filter By
+                  <div className={`index-header__filters no-flex`}>
+                    <Button plain={true} onClick={this._toggleInlineFilter}>
+                      <FilterIcon onClick={this._toggleInlineFilter}/>
+                      {filterCounts}
+                    </Button>
+                  </div>
+                </Header>
+                <Filters
+                  attributes={this.props.attributes}
+                  data={data}
+                  sort={this.props.sort}/>
+              </Sidebar>
+            }
           </Split>
         </div>
       </div>

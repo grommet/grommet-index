@@ -31,15 +31,3 @@
     top: - halve($inuit-base-spacing-unit);
   }
 }
-
-.index-header__count {
-  display: none;
-
-  @include media-query(lap-and-up) {
-    &.index-header__count--active {
-      display: block;
-      position: absolute;
-      bottom: - halve($inuit-base-spacing-unit);
-    }
-  }
-}
