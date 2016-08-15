@@ -10,6 +10,8 @@ import Filters from './Filters';
 import IndexPropTypes from '../utils/PropTypes';
 import IndexQuery from '../utils/Query';
 import Intl from 'grommet/utils/Intl';
+import Menu from 'grommet/components/Menu';
+import FilterIcon from 'grommet/components/icons/base/Filter';
 
 const CLASS_ROOT = 'index-header';
 
@@ -50,16 +52,25 @@ export default class IndexHeader extends Component {
     });
 
     const filterOrSortAttributes = attributes.filter(a => a.filter || a.sort);
+    const selectedFilterCount = Object.keys(this.props.filter).length;
+    const icon = (
+      <FilterIcon colorIndex={selectedFilterCount ? 'brand' : undefined} />
+    );
+    let a11yTitle = Intl.getMessage(this.context.intl, 'Filter');
 
     let filters;
     if (filterOrSortAttributes.length > 0) {
       filters = (
         <div className={`${CLASS_ROOT}__filters no-flex`}>
-          <Filters attributes={filterOrSortAttributes}
-            direction={this.props.filterDirection}
-            values={this.props.filter} sort={this.props.sort}
-            onChange={this.props.onFilter}
-            onSort={this.props.onSort} />
+          <Menu className={CLASS_ROOT + "__menu"} icon={icon}
+            dropAlign={{right: 'right'}} a11yTitle={a11yTitle}
+            direction="column" closeOnClick={false}>
+            <Filters attributes={filterOrSortAttributes}
+              direction={this.props.filterDirection}
+              values={this.props.filter} sort={this.props.sort}
+              onChange={this.props.onFilter}
+              onSort={this.props.onSort} />
+          </Menu>
           <span className={`${CLASS_ROOT}__total`}>
             {data.unfilteredTotal}
           </span>

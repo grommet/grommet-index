@@ -9,6 +9,10 @@ import IndexTiles from './Tiles';
 import IndexList from './List';
 import IndexHeader from './Header';
 import Intl from 'grommet/utils/Intl';
+import Split from 'grommet/components/Split';
+import Sidebar from 'grommet/components/Sidebar';
+import Filters from './Filters';
+import classnames from 'classnames';
 
 const CLASS_ROOT = 'index';
 
@@ -98,38 +102,71 @@ export default class Index extends Component {
     }
     const ViewComponent = VIEW_COMPONENT[view];
 
+    const countClasses = classnames(`${CLASS_ROOT}__count`, {
+      [`${CLASS_ROOT}__count--active`]: data.unfilteredTotal > data.total
+    });
+    const filterOrSortAttributes = this.props.attributes.filter(a => a.filter || a.sort);
+
+    let filters;
+    if (filterOrSortAttributes.length > 0) {
+      filters = (
+        <div className={`${CLASS_ROOT}__filters no-flex`}>
+          <Filters attributes={filterOrSortAttributes}
+            direction={this.props.filterDirection}
+            values={this.props.filter} sort={this.props.sort}
+            onChange={this.props.onFilter}
+            onSort={this.props.onSort} />
+          <span className={`${CLASS_ROOT}__total`}>
+            {data.unfilteredTotal}
+          </span>
+          <span className={countClasses}>
+            {data.total}
+          </span>
+        </div>
+      );
+    }
     return (
       <div className={classes.join(' ')}>
         <div className={`${CLASS_ROOT}__container`}>
-          <IndexHeader className={`${CLASS_ROOT}__header`}
-            label={this.props.label}
-            attributes={this.props.attributes}
-            filterDirection={this.props.filterDirection}
-            filter={this.props.filter} onFilter={this.props.onFilter}
-            query={this.props.query} onQuery={this.props.onQuery}
-            sort={this.props.sort} onSort={this.props.onSort}
-            data={data}
-            fixed={this.props.fixed}
-            addControl={this.props.addControl}
-            navControl={this.props.navControl} />
-          {error}
-          {notifications}
-          <div ref="items" className={`${CLASS_ROOT}__items`}>
-            <ViewComponent
-              actions={this.props.actions}
-              attributes={this.props.attributes}
-              fill={this.props.fill}
-              flush={this.props.flush}
-              itemComponent={itemComponent}
-              data={data}
-              sections={this.props.sections}
-              selection={this.props.selection}
-              size={this.props.size}
-              sort={this.props.sort}
-              onSelect={this.props.onSelect}
-              onMore={this.props.onMore} />
-            {empty}
-          </div>
+          <Split flex="left" priority="left" fixed={true}>
+            <div>
+              <IndexHeader className={`${CLASS_ROOT}__header`}
+                label={this.props.label}
+                attributes={this.props.attributes}
+                filterDirection={this.props.filterDirection}
+                filter={this.props.filter} onFilter={this.props.onFilter}
+                query={this.props.query} onQuery={this.props.onQuery}
+                sort={this.props.sort} onSort={this.props.onSort}
+                data={data}
+                fixed={this.props.fixed}
+                addControl={this.props.addControl}
+                navControl={this.props.navControl} />
+              {error}
+              {notifications}
+              <div ref="items" className={`${CLASS_ROOT}__items`}>
+                <ViewComponent
+                  actions={this.props.actions}
+                  attributes={this.props.attributes}
+                  fill={this.props.fill}
+                  flush={this.props.flush}
+                  itemComponent={itemComponent}
+                  data={data}
+                  sections={this.props.sections}
+                  selection={this.props.selection}
+                  size={this.props.size}
+                  sort={this.props.sort}
+                  onSelect={this.props.onSelect}
+                  onMore={this.props.onMore} />
+                {empty}
+              </div>
+            </div>
+            <Sidebar colorIndex="light-2">
+              <Filters
+                attributes={this.props.attributes}
+                data={data}
+                sort={this.props.sort}/>
+            </Sidebar>
+          </Split>
         </div>
       </div>
     );
