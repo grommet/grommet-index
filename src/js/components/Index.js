@@ -48,7 +48,6 @@ export default class Index extends Component {
   }
 
   _toggleInlineFilter() {
-    console.log(this);
     this.setState({
       inlineFilterOpen: !this.state.inlineFilterOpen
     });
@@ -126,6 +125,43 @@ export default class Index extends Component {
         {data.total}
       </span>
     ];
+
+    let filterControl;
+    let filterHeading;
+    const { filtersInline } = this.props;
+    const { inlineFilterOpen } = this.state;
+
+    if (filtersInline) {
+      filterHeading = (
+        <Header size="large" pad={{horizontal: 'medium'}} justify="between">
+          {Intl.getMessage(this.context.intl, 'Filter by')}
+          <div className={`${CLASS_ROOT}__filters no-flex`}>
+            <Button plain={true} onClick={this._toggleInlineFilter}>
+              <FilterIcon onClick={this._toggleInlineFilter}/>
+              {filterCounts}
+            </Button>
+          </div>
+        </Header>
+      );
+      if (!inlineFilterOpen) {
+        filterControl = (
+          <Button plain={true} onClick={this._toggleInlineFilter}>
+            <FilterIcon/>
+          </Button>
+        );
+      }
+    } else {
+      filterControl = (
+        <div className={`${CLASS_ROOT}__filters no-flex`}>
+          <Filters
+            attributes={this.props.attributes}
+            data={data}
+            sort={this.props.sort}
+            filterCounts={filterCounts}/>
+        </div>
+      );
+    }
+
     return (
       <div className={classes.join(' ')}>
         <div className={`${CLASS_ROOT}__container`}>
@@ -144,8 +180,7 @@ export default class Index extends Component {
                 addControl={this.props.addControl}
                 navControl={this.props.navControl}
                 filterCounts={filterCounts}
-                toggleInlineFilter={this._toggleInlineFilter}
-                inlineFilterOpen={this.state.inlineFilterOpen} />
+                filterControl={filterControl} />
               {error}
               {notifications}
               <div ref="items" className={`${CLASS_ROOT}__items`}>
@@ -165,22 +200,13 @@ export default class Index extends Component {
                 {empty}
               </div>
             </div>
-            {this.state.inlineFilterOpen &&
-              <Sidebar colorIndex="light-2">
-                <Header size="large" pad={{horizontal: 'medium'}} justify="between">
-                  Filter By
-                  <div className={`index-header__filters no-flex`}>
-                    <Button plain={true} onClick={this._toggleInlineFilter}>
-                      <FilterIcon onClick={this._toggleInlineFilter}/>
-                      {filterCounts}
-                    </Button>
-                  </div>
-                </Header>
-                <Filters
-                  attributes={this.props.attributes}
-                  data={data}
-                  sort={this.props.sort}/>
-              </Sidebar>
+            {filtersInline && inlineFilterOpen &&
+              <Filters
+                headingComponent={filterHeading}
+                inline={true}
+                attributes={this.props.attributes}
+                data={data}
+                sort={this.props.sort}/>
             }
           </Split>
         </div>

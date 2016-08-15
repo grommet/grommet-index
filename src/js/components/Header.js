@@ -44,42 +44,28 @@ export default class IndexHeader extends Component {
   }
 
   render () {
-    const { attributes } = this.props;
+    const { attributes, filterControl } = this.props;
     const data = this.props.data || {};
 
     const classes = classnames(CLASS_ROOT, this.props.className);
+    const countClasses = classnames(`${CLASS_ROOT}__count`, {
+      [`${CLASS_ROOT}__count--active`]: data.unfilteredTotal > data.total
+    });
 
     const filterOrSortAttributes = attributes.filter(a => a.filter || a.sort);
-    const selectedFilterCount = Object.keys(this.props.filter).length;
-    const icon = (
-      <FilterIcon colorIndex={selectedFilterCount ? 'brand' : undefined} />
-    );
-    let a11yTitle = Intl.getMessage(this.context.intl, 'Filter');
-
     let filters;
-    if (filterOrSortAttributes.length > 0) {
-      filters = !this.props.inlineFilterOpen && (
-        <Button plain={true} onClick={this.props.toggleInlineFilter}>
-          <FilterIcon />
-        </Button>
+    if (filterOrSortAttributes.length > 0 && filterControl) {
+      filters = (
+        <div className={`${CLASS_ROOT}__filters no-flex`}>
+          {filterControl}
+          <span className={`${CLASS_ROOT}__total`}>
+            {data.unfilteredTotal}
+          </span>
+          <span className={countClasses}>
+            {data.total}
+          </span>
+        </div>
       );
-
-      if (this.props.filterType === 'menu') {
-        filters = (
-          <div className={`${CLASS_ROOT}__filters no-flex`}>
-            <Menu className={CLASS_ROOT + "__menu"} icon={icon}
-              dropAlign={{right: 'right'}} a11yTitle={a11yTitle}
-              direction="column" closeOnClick={false}>
-              <Filters attributes={filterOrSortAttributes}
-                direction={this.props.filterDirection}
-                values={this.props.filter} sort={this.props.sort}
-                onChange={this.props.onFilter}
-                onSort={this.props.onSort} />
-            </Menu>
-            {this.props.filterCounts}
-          </div>
-        );
-      }
     }
 
     const placeHolder = Intl.getMessage(this.context.intl, 'Search');
@@ -97,8 +83,8 @@ export default class IndexHeader extends Component {
             placeHolder={placeHolder}
             value={this.state.value}
             onDOMChange={this._onChangeSearch} />
-          {filters}
           {this.props.addControl}
+          {this.props.filterControl}
         </Box>
       </Header>
     );

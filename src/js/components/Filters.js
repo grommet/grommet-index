@@ -3,6 +3,7 @@
 import React, { Component, PropTypes } from 'react';
 import Menu from 'grommet/components/Menu';
 import Box from 'grommet/components/Box';
+import Sidebar from 'grommet/components/Sidebar';
 import FilterIcon from 'grommet/components/icons/base/Filter';
 import Filter from './Filter';
 import Sort from './Sort';
@@ -56,8 +57,49 @@ export default class Filters extends Component {
     return result;
   }
 
+  renderMenu ({ filters, sort, classNames }) {
+    const { values, direction } = this.props;
+
+    let a11yTitle = Intl.getMessage(this.context.intl, 'Filter');
+    const selectedFilterCount = Object.keys(values).length;
+    const icon = (
+      <FilterIcon colorIndex={selectedFilterCount ? 'brand' : undefined} />
+    );
+    return (
+      <div>
+        <Menu className={CLASS_ROOT + "__menu"} icon={icon}
+          dropAlign={{right: 'right'}} a11yTitle={a11yTitle}
+          direction="column" closeOnClick={false}>
+          <Box direction={direction}
+            pad={{horizontal: 'large', vertical: 'medium', between: 'medium'}}
+            className={classNames.join(' ')}>
+            {filters}
+            {sort}
+          </Box>
+        </Menu>
+        {this.props.filterCounts}
+      </div>
+    );
+  }
+
+  renderSidebar ({ filters, sort, classNames }) {
+    const { direction } = this.props;
+    return (
+      <Sidebar colorIndex="light-2">
+      {this.props.headingComponent}
+        <Box
+          direction={direction}
+          pad={{horizontal: 'large', vertical: 'medium', between: 'medium'}}
+          className={classNames.join(' ')}>
+          {filters}
+          {sort}
+        </Box>
+      </Sidebar>
+    );
+  }
+
   render () {
-    const { attributes, direction, inline, values } = this.props;
+    const { attributes, inline } = this.props;
     let classNames = [CLASS_ROOT];
     if (inline) {
       classNames.push(`${CLASS_ROOT}--inline`);
@@ -75,30 +117,12 @@ export default class Filters extends Component {
       sort = this._renderSort();
     }
 
-    const selectedFilterCount = Object.keys(values).length;
-    const icon = (
-      <FilterIcon colorIndex={selectedFilterCount ? 'brand' : undefined} />
-    );
-
     let result;
+
     if (inline) {
-      result = (
-        <Box direction={direction} pad={{between: 'medium'}}
-          className={classNames.join(' ')}>
-          {filters}
-          {sort}
-        </Box>
-      );
+      result = this.renderSidebar({filters, sort, classNames});
     } else {
-      classNames.push(`${CLASS_ROOT}__drop`);
-      result = (
-        <Box direction={direction}
-          pad={{horizontal: 'large', between: 'medium'}}
-          className={classNames.join(' ')}>
-          {filters}
-          {sort}
-        </Box>
-      );
+      result = this.renderMenu({filters, sort, classNames});
     }
 
     return result;
