@@ -6,13 +6,9 @@ import classnames from 'classnames';
 import Header from 'grommet/components/Header';
 import Search from 'grommet/components/Search';
 import Box from 'grommet/components/Box';
-import Filters from './Filters';
 import IndexPropTypes from '../utils/PropTypes';
 import IndexQuery from '../utils/Query';
 import Intl from 'grommet/utils/Intl';
-import Menu from 'grommet/components/Menu';
-import Button from 'grommet/components/Button';
-import FilterIcon from 'grommet/components/icons/base/Filter';
 
 const CLASS_ROOT = 'index-header';
 
