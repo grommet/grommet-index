@@ -142,7 +142,7 @@ Index.propTypes = {
   addControl: PropTypes.node,
   attributes: IndexPropTypes.attributes,
   data: IndexPropTypes.data,
-  emptyMessage: PropTypes.string,
+  emptyMessage: PropTypes.node,
   emptyAddControl: PropTypes.node,
   fill: PropTypes.bool, // for Tiles
   filter: PropTypes.object, // { name: [value, ...] }
