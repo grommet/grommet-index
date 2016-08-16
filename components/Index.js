@@ -222,7 +222,7 @@ Index.propTypes = {
   addControl: _react.PropTypes.node,
   attributes: _PropTypes2.default.attributes,
   data: _PropTypes2.default.data,
-  emptyMessage: _react.PropTypes.string,
+  emptyMessage: _react.PropTypes.node,
   emptyAddControl: _react.PropTypes.node,
   fill: _react.PropTypes.bool, // for Tiles
   filter: _react.PropTypes.object, // { name: [value, ...] }
