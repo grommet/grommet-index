@@ -62,5 +62,7 @@
     color: map-get($brand-status-colors, error);
     border-bottom: 1px solid $border-color;
   }
+
+  @include filter-counts();
 }
 

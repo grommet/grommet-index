@@ -1,6 +1,7 @@
 // (C) Copyright 2014-2015 Hewlett Packard Enterprise Development LP
 
 import React, { Component, PropTypes } from 'react';
+import classnames from 'classnames';
 import Box from 'grommet/components/Box';
 import Split from 'grommet/components/Split';
 import Button from 'grommet/components/Button';
@@ -25,12 +26,14 @@ const VIEW_COMPONENT = {
 
 export default class Index extends Component {
 
-  constructor () {
-    super();
+  constructor (props, context) {
+    super(props, context);
     this._onResponsive = this._onResponsive.bind(this);
     this._toggleInlineFilter = this._toggleInlineFilter.bind(this);
-    this.state = { responsiveSize: 'medium' };
-
+    this.state = {
+      responsiveSize: 'medium',
+      inlineFilterOpen: props.inlineFilterParams && props.inlineFilterParams.defaultOpen
+    };
   }
 
   componentDidMount () {
@@ -46,9 +49,13 @@ export default class Index extends Component {
   }
 
   _toggleInlineFilter() {
-    this.setState({
-      inlineFilterOpen: !this.state.inlineFilterOpen
-    });
+    const { inlineFilterParams } = this.props;
+    const nextState = !this.state.inlineFilterOpen;
+
+    this.setState(
+      { inlineFilterOpen: nextState },
+      () => inlineFilterParams.onToggle && inlineFilterParams.onToggle(nextState)
+    );
   }
 
   render () {
@@ -113,19 +120,36 @@ export default class Index extends Component {
 
     let filterControl;
     let { filtersInline } = this.props;
-    const { inlineFilterOpen } = this.state;
+    let { inlineFilterOpen } = this.state;
 
+    if (filtersInline) {
+      filtersInline = filtersInline && this.state.responsiveSize !== 'small';
+    }
     // mobile view doesn't get inline filter
-    filtersInline = filtersInline && this.state.responsiveSize !== 'small';
 
     if (filtersInline && !inlineFilterOpen) {
+
       // only show the filterControl if the sidebar is closed
-      const selectedFilterCount = Object.keys(this.props.filter).length;
+      const hasSelectedFilters = Object.keys(this.props.filter).reduce((acc, key) => {
+        return this.props.filter[key].length > 0;
+      }, false);
+      const countClasses = classnames(`${CLASS_ROOT}__count`, {
+        [`${CLASS_ROOT}__count--active`]: data.unfilteredTotal > data.total
+      });
+
       filterControl = (
-        <Button
-          icon={<FilterIcon colorIndex={selectedFilterCount ? 'brand' : undefined}/>}
-          plain={true}
-          onClick={this._toggleInlineFilter} />
+        <div className={`${CLASS_ROOT}__filters no-flex`}>
+          <Button
+            icon={<FilterIcon colorIndex={hasSelectedFilters ? 'brand' : undefined}/>}
+            plain={true}
+            onClick={this._toggleInlineFilter} />
+            <span className={`${CLASS_ROOT}__total`}>
+              {data.unfilteredTotal}
+            </span>
+            <span className={countClasses}>
+              {data.total}
+            </span>
+        </div>
       );
     } else if (!filtersInline) {
       filterControl = (
@@ -204,9 +228,14 @@ Index.propTypes = {
   emptyAddControl: PropTypes.node,
   fill: PropTypes.bool, // for Tiles
   filter: PropTypes.object, // { name: [value, ...] }
+  filtersInline: PropTypes.bool,
   filterDirection: PropTypes.oneOf(['row', 'column']),
   fixed: PropTypes.bool,
   flush: PropTypes.bool, // for Tiles
+  inlineFilterParams: PropTypes.shape({
+    onToggle: PropTypes.func,
+    defaultOpen: PropTypes.bool
+  }),
   itemComponent: PropTypes.oneOfType([
     PropTypes.func,
     PropTypes.shape({

@@ -81,9 +81,12 @@ export default class Filters extends Component {
 
   _renderIcon() {
     const { values } = this.props;
-    const selectedFilterCount = Object.keys(values).length;
+    const hasSelectedFilters = Object.keys(values).reduce((acc, key) => {
+      return values[key].length > 0;
+    }, false);
+
     return (
-      <FilterIcon colorIndex={selectedFilterCount ? 'brand' : undefined} />
+      <FilterIcon colorIndex={hasSelectedFilters ? 'brand' : undefined} />
     );
   }
 
