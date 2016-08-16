@@ -112,8 +112,11 @@ export default class Index extends Component {
     const ViewComponent = VIEW_COMPONENT[view];
 
     let filterControl;
-    const { filtersInline } = this.props;
+    let { filtersInline } = this.props;
     const { inlineFilterOpen } = this.state;
+
+    // mobile view doesn't get inline filter
+    filtersInline = filtersInline && window.innerWidth >= Responsive.smallSize();
 
     if (filtersInline && !inlineFilterOpen) {
       // only show the filterControl if the sidebar is closed
