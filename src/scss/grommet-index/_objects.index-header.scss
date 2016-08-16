@@ -1,33 +1,11 @@
 // (C) Copyright 2014-2016 Hewlett Packard Enterprise Development LP
 
-.index-header__controls {
-  // This is for IE11.
-  // https://connect.microsoft.com/IE/feedback/details/816293/ie11-flexbox-with-min-height-not-vertically-aligning-with-align-items-center
-  height: $large-header-height;
-}
-
-.index-header__filters {
-  position: relative; // for total and count below
-}
-
-.index-header__total,
-.index-header__count {
-  @include media-query(palm) {
-    display: none;
+.index-header {
+  &__controls {
+    // This is for IE11.
+    // https://connect.microsoft.com/IE/feedback/details/816293/ie11-flexbox-with-min-height-not-vertically-aligning-with-align-items-center
+    height: $large-header-height;
   }
 
-  @include media-query(lap-and-up) {
-    position: absolute;
-    left: $inuit-base-spacing-unit;
-    transform: translateX(-50%);
-    color: $secondary-text-color;
-    text-align: center;
-    @include inuit-font-size($label-font-size);
-  }
-}
-
-.index-header__total {
-  @include media-query(lap-and-up) {
-    top: - halve($inuit-base-spacing-unit);
-  }
+  @include filter-counts();
 }

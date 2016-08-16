@@ -1,10 +1,8 @@
 // (C) Copyright 2014-2015 Hewlett Packard Enterprise Development LP
 
 import React, { Component, PropTypes } from 'react';
-import classnames from 'classnames';
 import Box from 'grommet/components/Box';
 import Split from 'grommet/components/Split';
-import Header from 'grommet/components/Header';
 import Button from 'grommet/components/Button';
 import FilterIcon from 'grommet/components/icons/base/Filter';
 import Responsive from 'grommet/utils/Responsive';
@@ -113,52 +111,28 @@ export default class Index extends Component {
     }
     const ViewComponent = VIEW_COMPONENT[view];
 
-    const countClasses = classnames(`${CLASS_ROOT}__count`, {
-      [`${CLASS_ROOT}__count--active`]: data.unfilteredTotal > data.total
-    });
-
-    const filterCounts = [
-      <span className={`${CLASS_ROOT}__total`}>
-        {data.unfilteredTotal}
-      </span>,
-      <span className={countClasses}>
-        {data.total}
-      </span>
-    ];
-
     let filterControl;
-    let filterHeading;
     const { filtersInline } = this.props;
     const { inlineFilterOpen } = this.state;
 
-    if (filtersInline) {
-      filterHeading = (
-        <Header size="large" pad={{horizontal: 'medium'}} justify="between">
-          {Intl.getMessage(this.context.intl, 'Filter by')}
-          <div className={`${CLASS_ROOT}__filters no-flex`}>
-            <Button plain={true} onClick={this._toggleInlineFilter}>
-              <FilterIcon onClick={this._toggleInlineFilter}/>
-              {filterCounts}
-            </Button>
-          </div>
-        </Header>
-      );
-      if (!inlineFilterOpen) {
-        filterControl = (
-          <Button plain={true} onClick={this._toggleInlineFilter}>
-            <FilterIcon/>
-          </Button>
-        );
-      }
-    } else {
+    if (filtersInline && !inlineFilterOpen) {
+      // only show the filterControl if the sidebar is closed
+      const selectedFilterCount = Object.keys(this.props.filter).length;
       filterControl = (
-        <div className={`${CLASS_ROOT}__filters no-flex`}>
-          <Filters
-            attributes={this.props.attributes}
-            data={data}
-            sort={this.props.sort}
-            filterCounts={filterCounts}/>
-        </div>
+        <Button
+          icon={<FilterIcon colorIndex={selectedFilterCount ? 'brand' : undefined}/>}
+          plain={true}
+          onClick={this._toggleInlineFilter} />
+      );
+    } else if (!filtersInline) {
+      filterControl = (
+        <Filters
+          attributes={this.props.attributes}
+          data={data}
+          values={this.props.filter}
+          sort={this.props.sort}
+          onChange={this.props.onFilter}
+          onSort={this.props.onSort} />
       );
     }
 
@@ -179,7 +153,6 @@ export default class Index extends Component {
                 fixed={this.props.fixed}
                 addControl={this.props.addControl}
                 navControl={this.props.navControl}
-                filterCounts={filterCounts}
                 filterControl={filterControl} />
               {error}
               {notifications}
@@ -202,11 +175,14 @@ export default class Index extends Component {
             </div>
             {filtersInline && inlineFilterOpen &&
               <Filters
-                headingComponent={filterHeading}
                 inline={true}
                 attributes={this.props.attributes}
                 data={data}
-                sort={this.props.sort}/>
+                values={this.props.filter}
+                sort={this.props.sort}
+                onClose={this._toggleInlineFilter}
+                onChange={this.props.onFilter}
+                onSort={this.props.onSort}/>
             }
           </Split>
         </div>

@@ -1,10 +1,13 @@
 // (C) Copyright 2014-2015 Hewlett Packard Enterprise Development LP
 
 import React, { Component, PropTypes } from 'react';
+import classnames from 'classnames';
 import Menu from 'grommet/components/Menu';
 import Box from 'grommet/components/Box';
 import Sidebar from 'grommet/components/Sidebar';
 import FilterIcon from 'grommet/components/icons/base/Filter';
+import Header from 'grommet/components/Header';
+import Button from 'grommet/components/Button';
 import Filter from './Filter';
 import Sort from './Sort';
 import Intl from 'grommet/utils/Intl';
@@ -43,6 +46,25 @@ export default class Filters extends Component {
     );
   }
 
+  _renderCounts () {
+    const { data } = this.props;
+
+    const countClasses = classnames(`${CLASS_ROOT}__count`, {
+      [`${CLASS_ROOT}__count--active`]: data.unfilteredTotal > data.total
+    });
+
+    return (
+      <div>
+        <span className={`${CLASS_ROOT}__total`}>
+          {data.unfilteredTotal}
+        </span>
+        <span className={countClasses}>
+          {data.total}
+        </span>
+      </div>
+    );
+  }
+
   _renderSort () {
     const { attributes, sort } = this.props;
     // prune to just attributes that we should sort
@@ -57,16 +79,21 @@ export default class Filters extends Component {
     return result;
   }
 
-  renderMenu ({ filters, sort, classNames }) {
-    const { values, direction } = this.props;
-
-    let a11yTitle = Intl.getMessage(this.context.intl, 'Filter');
+  _renderIcon() {
+    const { values } = this.props;
     const selectedFilterCount = Object.keys(values).length;
-    const icon = (
-      <FilterIcon colorIndex={selectedFilterCount ? 'brand' : undefined} />
-    );
     return (
-      <div>
+      <FilterIcon size="large" colorIndex={selectedFilterCount ? 'brand' : undefined} />
+    );
+  }
+
+  _renderMenu ({ filters, sort, classNames }) {
+    const { direction } = this.props;
+    const a11yTitle = Intl.getMessage(this.context.intl, 'Filter');
+    const icon = this._renderIcon();
+
+    return (
+      <div className={`${CLASS_ROOT}__filters no-flex`}>
         <Menu className={CLASS_ROOT + "__menu"} icon={icon}
           dropAlign={{right: 'right'}} a11yTitle={a11yTitle}
           direction="column" closeOnClick={false}>
@@ -77,16 +104,24 @@ export default class Filters extends Component {
             {sort}
           </Box>
         </Menu>
-        {this.props.filterCounts}
+        {this._renderCounts()}
       </div>
     );
   }
 
-  renderSidebar ({ filters, sort, classNames }) {
+  _renderSidebar ({ filters, sort, classNames }) {
     const { direction } = this.props;
+    const icon = this._renderIcon();
+
     return (
       <Sidebar colorIndex="light-2">
-      {this.props.headingComponent}
+        <Header size="large" pad={{horizontal: 'medium'}} justify="between">
+          {Intl.getMessage(this.context.intl, 'Filter by')}
+          <div className={`${CLASS_ROOT}__filters no-flex`}>
+            <Button icon={icon} plain={true} onClick={this.props.onClose}/>
+            {this._renderCounts()}
+            </div>
+        </Header>
         <Box
           direction={direction}
           pad={{horizontal: 'large', vertical: 'medium', between: 'medium'}}
@@ -122,9 +157,9 @@ export default class Filters extends Component {
     let result;
     if (filterOrSortAttributes.length > 0) {
       if (inline) {
-        result = this.renderSidebar({filters, sort, classNames});
+        result = this._renderSidebar({filters, sort, classNames});
       } else {
-        result = this.renderMenu({filters, sort, classNames});
+        result = this._renderMenu({filters, sort, classNames});
       }
     }
 
