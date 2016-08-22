@@ -8,6 +8,13 @@
     position: relative;
   }
 
+  &__instructional {
+
+    @include media-query(palm) {
+      display: none;
+    }
+  }
+
   &__items {
     position: relative;
     width: 100%;
