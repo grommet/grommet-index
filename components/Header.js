@@ -4,10 +4,6 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _defineProperty2 = require('babel-runtime/helpers/defineProperty');
-
-var _defineProperty3 = _interopRequireDefault(_defineProperty2);
-
 var _getPrototypeOf = require('babel-runtime/core-js/object/get-prototype-of');
 
 var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
@@ -36,9 +32,9 @@ var _debounce = require('debounce');
 
 var _debounce2 = _interopRequireDefault(_debounce);
 
-var _classnames2 = require('classnames');
+var _classnames = require('classnames');
 
-var _classnames3 = _interopRequireDefault(_classnames2);
+var _classnames2 = _interopRequireDefault(_classnames);
 
 var _Header = require('grommet/components/Header');
 
@@ -51,10 +47,6 @@ var _Search2 = _interopRequireDefault(_Search);
 var _Box = require('grommet/components/Box');
 
 var _Box2 = _interopRequireDefault(_Box);
-
-var _Filters = require('./Filters');
-
-var _Filters2 = _interopRequireDefault(_Filters);
 
 var _PropTypes = require('../utils/PropTypes');
 
@@ -70,9 +62,7 @@ var _Intl2 = _interopRequireDefault(_Intl);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-// (C) Copyright 2014-2015 Hewlett Packard Enterprise Development LP
-
-var CLASS_ROOT = 'index-header';
+var CLASS_ROOT = 'index-header'; // (C) Copyright 2014-2015 Hewlett Packard Enterprise Development LP
 
 var IndexHeader = function (_Component) {
   (0, _inherits3.default)(IndexHeader, _Component);
@@ -114,37 +104,12 @@ var IndexHeader = function (_Component) {
     value: function render() {
       var attributes = this.props.attributes;
 
-      var data = this.props.data || {};
 
-      var classes = (0, _classnames3.default)(CLASS_ROOT, this.props.className);
-      var countClasses = (0, _classnames3.default)(CLASS_ROOT + '__count', (0, _defineProperty3.default)({}, CLASS_ROOT + '__count--active', data.unfilteredTotal > data.total));
+      var classes = (0, _classnames2.default)(CLASS_ROOT, this.props.className);
 
       var filterOrSortAttributes = attributes.filter(function (a) {
         return a.filter || a.sort;
       });
-
-      var filters = void 0;
-      if (filterOrSortAttributes.length > 0) {
-        filters = _react2.default.createElement(
-          'div',
-          { className: CLASS_ROOT + '__filters no-flex' },
-          _react2.default.createElement(_Filters2.default, { attributes: filterOrSortAttributes,
-            direction: this.props.filterDirection,
-            values: this.props.filter, sort: this.props.sort,
-            onChange: this.props.onFilter,
-            onSort: this.props.onSort }),
-          _react2.default.createElement(
-            'span',
-            { className: CLASS_ROOT + '__total' },
-            data.unfilteredTotal
-          ),
-          _react2.default.createElement(
-            'span',
-            { className: countClasses },
-            data.total
-          )
-        );
-      }
 
       var placeHolder = _Intl2.default.getMessage(this.context.intl, 'Search');
 
@@ -168,8 +133,8 @@ var IndexHeader = function (_Component) {
             placeHolder: placeHolder,
             value: this.state.value,
             onDOMChange: this._onChangeSearch }),
-          filters,
-          this.props.addControl
+          this.props.addControl,
+          filterOrSortAttributes.length > 0 && this.props.filterControl
         )
       );
     }

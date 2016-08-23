@@ -8,6 +8,10 @@ var _keys = require('babel-runtime/core-js/object/keys');
 
 var _keys2 = _interopRequireDefault(_keys);
 
+var _defineProperty2 = require('babel-runtime/helpers/defineProperty');
+
+var _defineProperty3 = _interopRequireDefault(_defineProperty2);
+
 var _extends2 = require('babel-runtime/helpers/extends');
 
 var _extends3 = _interopRequireDefault(_extends2);
@@ -36,6 +40,10 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+var _classnames2 = require('classnames');
+
+var _classnames3 = _interopRequireDefault(_classnames2);
+
 var _Menu = require('grommet/components/Menu');
 
 var _Menu2 = _interopRequireDefault(_Menu);
@@ -44,9 +52,21 @@ var _Box = require('grommet/components/Box');
 
 var _Box2 = _interopRequireDefault(_Box);
 
+var _Sidebar = require('grommet/components/Sidebar');
+
+var _Sidebar2 = _interopRequireDefault(_Sidebar);
+
 var _Filter = require('grommet/components/icons/base/Filter');
 
 var _Filter2 = _interopRequireDefault(_Filter);
+
+var _Header = require('grommet/components/Header');
+
+var _Header2 = _interopRequireDefault(_Header);
+
+var _Button = require('grommet/components/Button');
+
+var _Button2 = _interopRequireDefault(_Button);
 
 var _Filter3 = require('./Filter');
 
@@ -105,6 +125,29 @@ var Filters = function (_Component) {
         } });
     }
   }, {
+    key: '_renderCounts',
+    value: function _renderCounts() {
+      var data = this.props.data;
+
+
+      var countClasses = (0, _classnames3.default)(CLASS_ROOT + '__count', (0, _defineProperty3.default)({}, CLASS_ROOT + '__count--active', data.unfilteredTotal > data.total));
+
+      return _react2.default.createElement(
+        'div',
+        null,
+        _react2.default.createElement(
+          'span',
+          { className: CLASS_ROOT + '__total' },
+          data.unfilteredTotal
+        ),
+        _react2.default.createElement(
+          'span',
+          { className: countClasses },
+          data.total
+        )
+      );
+    }
+  }, {
     key: '_renderSort',
     value: function _renderSort() {
       var _props = this.props;
@@ -123,51 +166,31 @@ var Filters = function (_Component) {
       return result;
     }
   }, {
-    key: 'render',
-    value: function render() {
-      var _this3 = this;
+    key: '_renderIcon',
+    value: function _renderIcon() {
+      var values = this.props.values;
 
-      var _props2 = this.props;
-      var attributes = _props2.attributes;
-      var direction = _props2.direction;
-      var inline = _props2.inline;
-      var values = _props2.values;
+      var hasSelectedFilters = (0, _keys2.default)(values).reduce(function (acc, key) {
+        return values[key].length > 0;
+      }, false);
 
-      var classNames = [CLASS_ROOT];
-      if (inline) {
-        classNames.push(CLASS_ROOT + '--inline');
-      }
-      if (this.props.className) {
-        classNames.push(this.props.className);
-      }
+      return _react2.default.createElement(_Filter2.default, { colorIndex: hasSelectedFilters ? 'brand' : undefined });
+    }
+  }, {
+    key: '_renderMenu',
+    value: function _renderMenu(_ref) {
+      var filters = _ref.filters;
+      var sort = _ref.sort;
+      var classNames = _ref.classNames;
+      var direction = this.props.direction;
 
-      var filters = attributes.filter(function (attribute) {
-        return attribute.hasOwnProperty('filter');
-      }).map(function (attribute) {
-        return _this3._renderFilter(attribute);
-      });
+      var a11yTitle = _Intl2.default.getMessage(this.context.intl, 'Filter');
+      var icon = this._renderIcon();
 
-      var sort = void 0;
-      if (this.props.sort) {
-        sort = this._renderSort();
-      }
-
-      var selectedFilterCount = (0, _keys2.default)(values).length;
-      var icon = _react2.default.createElement(_Filter2.default, { colorIndex: selectedFilterCount ? 'brand' : undefined });
-
-      var result = void 0;
-      if (inline) {
-        result = _react2.default.createElement(
-          _Box2.default,
-          { direction: direction, pad: { between: 'medium' },
-            className: classNames.join(' ') },
-          filters,
-          sort
-        );
-      } else {
-        classNames.push(CLASS_ROOT + '__drop');
-        var a11yTitle = _Intl2.default.getMessage(this.context.intl, 'Filter');
-        result = _react2.default.createElement(
+      return _react2.default.createElement(
+        'div',
+        { className: CLASS_ROOT + '__filters no-flex' },
+        _react2.default.createElement(
           _Menu2.default,
           { className: CLASS_ROOT + "__menu", icon: icon,
             dropAlign: { right: 'right' }, a11yTitle: a11yTitle,
@@ -180,7 +203,84 @@ var Filters = function (_Component) {
             filters,
             sort
           )
-        );
+        ),
+        this._renderCounts()
+      );
+    }
+  }, {
+    key: '_renderSidebar',
+    value: function _renderSidebar(_ref2) {
+      var filters = _ref2.filters;
+      var sort = _ref2.sort;
+      var classNames = _ref2.classNames;
+      var direction = this.props.direction;
+
+      var icon = this._renderIcon();
+
+      return _react2.default.createElement(
+        _Sidebar2.default,
+        { colorIndex: 'light-2' },
+        _react2.default.createElement(
+          _Header2.default,
+          { size: 'large', pad: { horizontal: 'medium' }, justify: 'between' },
+          _Intl2.default.getMessage(this.context.intl, 'Filter by'),
+          _react2.default.createElement(
+            'div',
+            { className: CLASS_ROOT + '__filters no-flex' },
+            _react2.default.createElement(_Button2.default, { icon: icon, plain: true, onClick: this.props.onClose }),
+            this._renderCounts()
+          )
+        ),
+        _react2.default.createElement(
+          _Box2.default,
+          {
+            direction: direction,
+            pad: { horizontal: 'large', vertical: 'medium', between: 'medium' },
+            className: classNames.join(' ') },
+          filters,
+          sort
+        )
+      );
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var _this3 = this;
+
+      var _props2 = this.props;
+      var attributes = _props2.attributes;
+      var inline = _props2.inline;
+
+      var classNames = [CLASS_ROOT];
+      if (inline) {
+        classNames.push(CLASS_ROOT + '--inline');
+      }
+      if (this.props.className) {
+        classNames.push(this.props.className);
+      }
+
+      var filterOrSortAttributes = attributes.filter(function (a) {
+        return a.filter || a.sort;
+      });
+
+      var filters = attributes.filter(function (attribute) {
+        return attribute.hasOwnProperty('filter');
+      }).map(function (attribute) {
+        return _this3._renderFilter(attribute);
+      });
+
+      var sort = void 0;
+      if (this.props.sort) {
+        sort = this._renderSort();
+      }
+
+      var result = void 0;
+      if (filterOrSortAttributes.length > 0) {
+        if (inline) {
+          result = this._renderSidebar({ filters: filters, sort: sort, classNames: classNames });
+        } else {
+          result = this._renderMenu({ filters: filters, sort: sort, classNames: classNames });
+        }
       }
 
       return result;
