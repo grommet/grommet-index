@@ -1,13 +1,19 @@
 // (C) Copyright 2014-2015 Hewlett Packard Enterprise Development LP
 
 import React, { Component, PropTypes } from 'react';
+import classnames from 'classnames';
 import Box from 'grommet/components/Box';
+import Split from 'grommet/components/Split';
+import Button from 'grommet/components/Button';
+import FilterIcon from 'grommet/components/icons/base/Filter';
 import Responsive from 'grommet/utils/Responsive';
+
 import IndexPropTypes from '../utils/PropTypes';
 import IndexTable from './Table';
 import IndexTiles from './Tiles';
 import IndexList from './List';
 import IndexHeader from './Header';
+import Filters from './Filters';
 import Intl from 'grommet/utils/Intl';
 
 const CLASS_ROOT = 'index';
@@ -20,10 +26,14 @@ const VIEW_COMPONENT = {
 
 export default class Index extends Component {
 
-  constructor () {
-    super();
+  constructor (props, context) {
+    super(props, context);
     this._onResponsive = this._onResponsive.bind(this);
-    this.state = { responsiveSize: 'medium' };
+    this._toggleInlineFilter = this._toggleInlineFilter.bind(this);
+    this.state = {
+      responsiveSize: 'medium',
+      inlineFilterOpen: props.inlineFilterParams && props.inlineFilterParams.defaultOpen
+    };
   }
 
   componentDidMount () {
@@ -36,6 +46,16 @@ export default class Index extends Component {
 
   _onResponsive (small) {
     this.setState({ responsiveSize: (small ? 'small' : 'medium') });
+  }
+
+  _toggleInlineFilter() {
+    const { inlineFilterParams } = this.props;
+    const nextState = !this.state.inlineFilterOpen;
+
+    this.setState(
+      { inlineFilterOpen: nextState },
+      () => inlineFilterParams.onToggle && inlineFilterParams.onToggle(nextState)
+    );
   }
 
   render () {
@@ -98,38 +118,100 @@ export default class Index extends Component {
     }
     const ViewComponent = VIEW_COMPONENT[view];
 
+    let filterControl;
+    let { filtersInline } = this.props;
+    let { inlineFilterOpen } = this.state;
+
+    if (filtersInline) {
+      filtersInline = filtersInline && this.state.responsiveSize !== 'small';
+    }
+    // mobile view doesn't get inline filter
+
+    if (filtersInline && !inlineFilterOpen) {
+
+      // only show the filterControl if the sidebar is closed
+      const hasSelectedFilters = Object.keys(this.props.filter).reduce((acc, key) => {
+        return this.props.filter[key].length > 0;
+      }, false);
+      const countClasses = classnames(`${CLASS_ROOT}__count`, {
+        [`${CLASS_ROOT}__count--active`]: data.unfilteredTotal > data.total
+      });
+
+      filterControl = (
+        <div className={`${CLASS_ROOT}__filters no-flex`}>
+          <Button
+            icon={<FilterIcon colorIndex={hasSelectedFilters ? 'brand' : undefined}/>}
+            plain={true}
+            onClick={this._toggleInlineFilter} />
+            <span className={`${CLASS_ROOT}__total`}>
+              {data.unfilteredTotal}
+            </span>
+            <span className={countClasses}>
+              {data.total}
+            </span>
+        </div>
+      );
+    } else if (!filtersInline) {
+      filterControl = (
+        <Filters
+          attributes={this.props.attributes}
+          data={data}
+          values={this.props.filter}
+          sort={this.props.sort}
+          onChange={this.props.onFilter}
+          onSort={this.props.onSort} />
+      );
+    }
+
     return (
       <div className={classes.join(' ')}>
         <div className={`${CLASS_ROOT}__container`}>
-          <IndexHeader className={`${CLASS_ROOT}__header`}
-            label={this.props.label}
-            attributes={this.props.attributes}
-            filterDirection={this.props.filterDirection}
-            filter={this.props.filter} onFilter={this.props.onFilter}
-            query={this.props.query} onQuery={this.props.onQuery}
-            sort={this.props.sort} onSort={this.props.onSort}
-            data={data}
-            fixed={this.props.fixed}
-            addControl={this.props.addControl}
-            navControl={this.props.navControl} />
-          {error}
-          {notifications}
-          <div ref="items" className={`${CLASS_ROOT}__items`}>
-            <ViewComponent
-              actions={this.props.actions}
-              attributes={this.props.attributes}
-              fill={this.props.fill}
-              flush={this.props.flush}
-              itemComponent={itemComponent}
-              data={data}
-              sections={this.props.sections}
-              selection={this.props.selection}
-              size={this.props.size}
-              sort={this.props.sort}
-              onSelect={this.props.onSelect}
-              onMore={this.props.onMore} />
-            {empty}
-          </div>
+          <Split flex="left" priority="left" fixed={true}>
+            <div>
+              <IndexHeader className={`${CLASS_ROOT}__header`}
+                label={this.props.label}
+                attributes={this.props.attributes}
+                filterType={this.props.filterType}
+                filterDirection={this.props.filterDirection}
+                filter={this.props.filter} onFilter={this.props.onFilter}
+                query={this.props.query} onQuery={this.props.onQuery}
+                sort={this.props.sort} onSort={this.props.onSort}
+                data={data}
+                fixed={this.props.fixed}
+                addControl={this.props.addControl}
+                navControl={this.props.navControl}
+                filterControl={filterControl} />
+              {error}
+              {notifications}
+              <div ref="items" className={`${CLASS_ROOT}__items`}>
+                <ViewComponent
+                  actions={this.props.actions}
+                  attributes={this.props.attributes}
+                  fill={this.props.fill}
+                  flush={this.props.flush}
+                  itemComponent={itemComponent}
+                  data={data}
+                  sections={this.props.sections}
+                  selection={this.props.selection}
+                  size={this.props.size}
+                  sort={this.props.sort}
+                  onSelect={this.props.onSelect}
+                  onMore={this.props.onMore} />
+                {empty}
+              </div>
+            </div>
+            {filtersInline && inlineFilterOpen &&
+              <Filters
+                inline={true}
+                attributes={this.props.attributes}
+                data={data}
+                values={this.props.filter}
+                sort={this.props.sort}
+                onClose={this._toggleInlineFilter}
+                onChange={this.props.onFilter}
+                onSort={this.props.onSort}/>
+            }
+          </Split>
         </div>
       </div>
     );
@@ -146,9 +228,14 @@ Index.propTypes = {
   emptyAddControl: PropTypes.node,
   fill: PropTypes.bool, // for Tiles
   filter: PropTypes.object, // { name: [value, ...] }
+  filtersInline: PropTypes.bool,
   filterDirection: PropTypes.oneOf(['row', 'column']),
   fixed: PropTypes.bool,
   flush: PropTypes.bool, // for Tiles
+  inlineFilterParams: PropTypes.shape({
+    onToggle: PropTypes.func,
+    defaultOpen: PropTypes.bool
+  }),
   itemComponent: PropTypes.oneOfType([
     PropTypes.func,
     PropTypes.shape({

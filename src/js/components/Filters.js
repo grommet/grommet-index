@@ -1,9 +1,13 @@
 // (C) Copyright 2014-2015 Hewlett Packard Enterprise Development LP
 
 import React, { Component, PropTypes } from 'react';
+import classnames from 'classnames';
 import Menu from 'grommet/components/Menu';
 import Box from 'grommet/components/Box';
+import Sidebar from 'grommet/components/Sidebar';
 import FilterIcon from 'grommet/components/icons/base/Filter';
+import Header from 'grommet/components/Header';
+import Button from 'grommet/components/Button';
 import Filter from './Filter';
 import Sort from './Sort';
 import Intl from 'grommet/utils/Intl';
@@ -42,6 +46,25 @@ export default class Filters extends Component {
     );
   }
 
+  _renderCounts () {
+    const { data } = this.props;
+
+    const countClasses = classnames(`${CLASS_ROOT}__count`, {
+      [`${CLASS_ROOT}__count--active`]: data.unfilteredTotal > data.total
+    });
+
+    return (
+      <div>
+        <span className={`${CLASS_ROOT}__total`}>
+          {data.unfilteredTotal}
+        </span>
+        <span className={countClasses}>
+          {data.total}
+        </span>
+      </div>
+    );
+  }
+
   _renderSort () {
     const { attributes, sort } = this.props;
     // prune to just attributes that we should sort
@@ -56,43 +79,24 @@ export default class Filters extends Component {
     return result;
   }
 
-  render () {
-    const { attributes, direction, inline, values } = this.props;
-    let classNames = [CLASS_ROOT];
-    if (inline) {
-      classNames.push(`${CLASS_ROOT}--inline`);
-    }
-    if (this.props.className) {
-      classNames.push(this.props.className);
-    }
+  _renderIcon() {
+    const { values } = this.props;
+    const hasSelectedFilters = Object.keys(values).reduce((acc, key) => {
+      return values[key].length > 0;
+    }, false);
 
-    const filters = attributes
-      .filter(attribute => attribute.hasOwnProperty('filter'))
-      .map(attribute => this._renderFilter(attribute));
-
-    let sort;
-    if (this.props.sort) {
-      sort = this._renderSort();
-    }
-
-    const selectedFilterCount = Object.keys(values).length;
-    const icon = (
-      <FilterIcon colorIndex={selectedFilterCount ? 'brand' : undefined} />
+    return (
+      <FilterIcon colorIndex={hasSelectedFilters ? 'brand' : undefined} />
     );
+  }
 
-    let result;
-    if (inline) {
-      result = (
-        <Box direction={direction} pad={{between: 'medium'}}
-          className={classNames.join(' ')}>
-          {filters}
-          {sort}
-        </Box>
-      );
-    } else {
-      classNames.push(`${CLASS_ROOT}__drop`);
-      let a11yTitle = Intl.getMessage(this.context.intl, 'Filter');
-      result = (
+  _renderMenu ({ filters, sort, classNames }) {
+    const { direction } = this.props;
+    const a11yTitle = Intl.getMessage(this.context.intl, 'Filter');
+    const icon = this._renderIcon();
+
+    return (
+      <div className={`${CLASS_ROOT}__filters no-flex`}>
         <Menu className={CLASS_ROOT + "__menu"} icon={icon}
           dropAlign={{right: 'right'}} a11yTitle={a11yTitle}
           direction="column" closeOnClick={false}>
@@ -103,7 +107,63 @@ export default class Filters extends Component {
             {sort}
           </Box>
         </Menu>
-      );
+        {this._renderCounts()}
+      </div>
+    );
+  }
+
+  _renderSidebar ({ filters, sort, classNames }) {
+    const { direction } = this.props;
+    const icon = this._renderIcon();
+
+    return (
+      <Sidebar colorIndex="light-2">
+        <Header size="large" pad={{horizontal: 'medium'}} justify="between">
+          {Intl.getMessage(this.context.intl, 'Filter by')}
+          <div className={`${CLASS_ROOT}__filters no-flex`}>
+            <Button icon={icon} plain={true} onClick={this.props.onClose}/>
+            {this._renderCounts()}
+            </div>
+        </Header>
+        <Box
+          direction={direction}
+          pad={{horizontal: 'large', vertical: 'medium', between: 'medium'}}
+          className={classNames.join(' ')}>
+          {filters}
+          {sort}
+        </Box>
+      </Sidebar>
+    );
+  }
+
+  render () {
+    const { attributes, inline } = this.props;
+    let classNames = [CLASS_ROOT];
+    if (inline) {
+      classNames.push(`${CLASS_ROOT}--inline`);
+    }
+    if (this.props.className) {
+      classNames.push(this.props.className);
+    }
+
+    const filterOrSortAttributes = attributes.filter(a => a.filter || a.sort);
+
+    const filters = attributes
+      .filter(attribute => attribute.hasOwnProperty('filter'))
+      .map(attribute => this._renderFilter(attribute));
+
+    let sort;
+    if (this.props.sort) {
+      sort = this._renderSort();
+    }
+
+    let result;
+    if (filterOrSortAttributes.length > 0) {
+      if (inline) {
+        result = this._renderSidebar({filters, sort, classNames});
+      } else {
+        result = this._renderMenu({filters, sort, classNames});
+      }
     }
 
     return result;

@@ -3,5 +3,6 @@
 export default {
   'No matches': 'No matches',
   Sort: 'Sort',
-  FilterSummary: '{count, number} values'
+  FilterSummary: '{count, number} values',
+  'Filter by': 'Filter by'
 };

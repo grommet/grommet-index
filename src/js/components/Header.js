@@ -6,7 +6,6 @@ import classnames from 'classnames';
 import Header from 'grommet/components/Header';
 import Search from 'grommet/components/Search';
 import Box from 'grommet/components/Box';
-import Filters from './Filters';
 import IndexPropTypes from '../utils/PropTypes';
 import IndexQuery from '../utils/Query';
 import Intl from 'grommet/utils/Intl';
@@ -42,33 +41,10 @@ export default class IndexHeader extends Component {
 
   render () {
     const { attributes } = this.props;
-    const data = this.props.data || {};
 
     const classes = classnames(CLASS_ROOT, this.props.className);
-    const countClasses = classnames(`${CLASS_ROOT}__count`, {
-      [`${CLASS_ROOT}__count--active`]: data.unfilteredTotal > data.total
-    });
 
     const filterOrSortAttributes = attributes.filter(a => a.filter || a.sort);
-
-    let filters;
-    if (filterOrSortAttributes.length > 0) {
-      filters = (
-        <div className={`${CLASS_ROOT}__filters no-flex`}>
-          <Filters attributes={filterOrSortAttributes}
-            direction={this.props.filterDirection}
-            values={this.props.filter} sort={this.props.sort}
-            onChange={this.props.onFilter}
-            onSort={this.props.onSort} />
-          <span className={`${CLASS_ROOT}__total`}>
-            {data.unfilteredTotal}
-          </span>
-          <span className={countClasses}>
-            {data.total}
-          </span>
-        </div>
-      );
-    }
 
     const placeHolder = Intl.getMessage(this.context.intl, 'Search');
 
@@ -85,8 +61,8 @@ export default class IndexHeader extends Component {
             placeHolder={placeHolder}
             value={this.state.value}
             onDOMChange={this._onChangeSearch} />
-          {filters}
           {this.props.addControl}
+          {filterOrSortAttributes.length > 0 && this.props.filterControl}
         </Box>
       </Header>
     );
