@@ -47,6 +47,5 @@ export default {
       'grommet': 'grommet'
     }
   },
-  scsslint: true,
   distPreprocess: ['dist-css']
 };
