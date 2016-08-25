@@ -162,6 +162,10 @@ export default class Index extends Component {
           onSort={this.props.onSort} />
       );
     }
+    let preamble;
+    if (this.props.preamble && this.state.responsiveSize !== 'small') {
+      preamble = this.props.preamble;
+    }
 
     return (
       <div className={classes.join(' ')}>
@@ -181,6 +185,7 @@ export default class Index extends Component {
                 addControl={this.props.addControl}
                 navControl={this.props.navControl}
                 filterControl={filterControl} />
+              {preamble}
               {error}
               {notifications}
               <div ref="items" className={`${CLASS_ROOT}__items`}>
@@ -270,6 +275,7 @@ Index.propTypes = {
 Index.defaultProps = {
   attributes: [{name: 'name', label: 'Name', index: 0}],
   filterDirection: 'column',
+  preamble: PropTypes.node,
   fixed: true,
   flush: true,
   view: "tiles"
