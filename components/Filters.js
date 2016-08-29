@@ -204,7 +204,7 @@ var Filters = function (_Component) {
             sort
           )
         ),
-        this._renderCounts()
+        data && this._renderCounts()
       );
     }
   }, {
