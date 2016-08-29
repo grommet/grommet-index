@@ -107,7 +107,7 @@ export default class Filters extends Component {
             {sort}
           </Box>
         </Menu>
-        {this._renderCounts()}
+        {data && this._renderCounts()}
       </div>
     );
   }
