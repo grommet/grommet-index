@@ -182,7 +182,9 @@ var Filters = function (_Component) {
       var filters = _ref.filters;
       var sort = _ref.sort;
       var classNames = _ref.classNames;
-      var direction = this.props.direction;
+      var _props2 = this.props;
+      var data = _props2.data;
+      var direction = _props2.direction;
 
       var a11yTitle = _Intl2.default.getMessage(this.context.intl, 'Filter');
       var icon = this._renderIcon();
@@ -247,9 +249,9 @@ var Filters = function (_Component) {
     value: function render() {
       var _this3 = this;
 
-      var _props2 = this.props;
-      var attributes = _props2.attributes;
-      var inline = _props2.inline;
+      var _props3 = this.props;
+      var attributes = _props3.attributes;
+      var inline = _props3.inline;
 
       var classNames = [CLASS_ROOT];
       if (inline) {
