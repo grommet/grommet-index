@@ -91,7 +91,7 @@ export default class Filters extends Component {
   }
 
   _renderMenu ({ filters, sort, classNames }) {
-    const { direction } = this.props;
+    const { data, direction } = this.props;
     const a11yTitle = Intl.getMessage(this.context.intl, 'Filter');
     const icon = this._renderIcon();
 
