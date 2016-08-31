@@ -262,6 +262,10 @@ var Index = function (_Component) {
           onChange: this.props.onFilter,
           onSort: this.props.onSort });
       }
+      var preamble = void 0;
+      if (this.props.preamble && this.state.responsiveSize !== 'small') {
+        preamble = this.props.preamble;
+      }
 
       return _react2.default.createElement(
         'div',
@@ -288,6 +292,7 @@ var Index = function (_Component) {
                 addControl: this.props.addControl,
                 navControl: this.props.navControl,
                 filterControl: filterControl }),
+              preamble,
               error,
               notifications,
               _react2.default.createElement(
@@ -372,6 +377,7 @@ Index.propTypes = {
 Index.defaultProps = {
   attributes: [{ name: 'name', label: 'Name', index: 0 }],
   filterDirection: 'column',
+  preamble: _react.PropTypes.node,
   fixed: true,
   flush: true,
   view: "tiles"
