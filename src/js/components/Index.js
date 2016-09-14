@@ -38,6 +38,11 @@ export default class Index extends Component {
 
   componentDidMount () {
     this._responsive = Responsive.start(this._onResponsive);
+
+    if (this.props.onMore && this.props.footer) {
+      console.warn('Using \'onMore\' and \'footer\' props together may cause unexpected behavior.' +
+        'Consider removing \'onMore\' functionality when a footer is present.');
+    }
   }
 
   componentWillUnmount () {
@@ -188,22 +193,25 @@ export default class Index extends Component {
               {preamble}
               {error}
               {notifications}
-              <div ref="items" className={`${CLASS_ROOT}__items`}>
-                <ViewComponent
-                  actions={this.props.actions}
-                  attributes={this.props.attributes}
-                  fill={this.props.fill}
-                  flush={this.props.flush}
-                  itemComponent={itemComponent}
-                  data={data}
-                  sections={this.props.sections}
-                  selection={this.props.selection}
-                  size={this.props.size}
-                  sort={this.props.sort}
-                  onSelect={this.props.onSelect}
-                  onMore={this.props.onMore} />
-                {empty}
-              </div>
+              <Box pad={{between: 'medium'}}>
+                <div ref="items" className={`${CLASS_ROOT}__items`}>
+                  <ViewComponent
+                    actions={this.props.actions}
+                    attributes={this.props.attributes}
+                    fill={this.props.fill}
+                    flush={this.props.flush}
+                    itemComponent={itemComponent}
+                    data={data}
+                    sections={this.props.sections}
+                    selection={this.props.selection}
+                    size={this.props.size}
+                    sort={this.props.sort}
+                    onSelect={this.props.onSelect}
+                    onMore={this.props.onMore} />
+                  {empty}
+                </div>
+                {this.props.footer && <Box separator="top">{this.props.footer}</Box>}
+              </Box>
             </div>
             {filtersInline && inlineFilterOpen &&
               <Filters
@@ -237,6 +245,7 @@ Index.propTypes = {
   filterDirection: PropTypes.oneOf(['row', 'column']),
   fixed: PropTypes.bool,
   flush: PropTypes.bool, // for Tiles
+  footer: PropTypes.node,
   inlineFilterParams: PropTypes.shape({
     onToggle: PropTypes.func,
     defaultOpen: PropTypes.bool
