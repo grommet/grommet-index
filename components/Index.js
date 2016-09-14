@@ -125,6 +125,10 @@ var Index = function (_Component) {
     key: 'componentDidMount',
     value: function componentDidMount() {
       this._responsive = _Responsive2.default.start(this._onResponsive);
+
+      if (this.props.onMore && this.props.footer) {
+        console.warn('Using \'onMore\' and \'footer\' props together may cause unexpected behavior.' + 'Consider removing \'onMore\' functionality when a footer is present.');
+      }
     }
   }, {
     key: 'componentWillUnmount',
@@ -296,22 +300,31 @@ var Index = function (_Component) {
               error,
               notifications,
               _react2.default.createElement(
-                'div',
-                { ref: 'items', className: CLASS_ROOT + '__items' },
-                _react2.default.createElement(ViewComponent, {
-                  actions: this.props.actions,
-                  attributes: this.props.attributes,
-                  fill: this.props.fill,
-                  flush: this.props.flush,
-                  itemComponent: itemComponent,
-                  data: data,
-                  sections: this.props.sections,
-                  selection: this.props.selection,
-                  size: this.props.size,
-                  sort: this.props.sort,
-                  onSelect: this.props.onSelect,
-                  onMore: this.props.onMore }),
-                empty
+                _Box2.default,
+                { pad: { between: 'medium' } },
+                _react2.default.createElement(
+                  'div',
+                  { ref: 'items', className: CLASS_ROOT + '__items' },
+                  _react2.default.createElement(ViewComponent, {
+                    actions: this.props.actions,
+                    attributes: this.props.attributes,
+                    fill: this.props.fill,
+                    flush: this.props.flush,
+                    itemComponent: itemComponent,
+                    data: data,
+                    sections: this.props.sections,
+                    selection: this.props.selection,
+                    size: this.props.size,
+                    sort: this.props.sort,
+                    onSelect: this.props.onSelect,
+                    onMore: this.props.onMore }),
+                  empty
+                ),
+                this.props.footer && _react2.default.createElement(
+                  _Box2.default,
+                  { separator: 'top' },
+                  this.props.footer
+                )
               )
             ),
             filtersInline && inlineFilterOpen && _react2.default.createElement(_Filters2.default, {
@@ -347,6 +360,7 @@ Index.propTypes = {
   filterDirection: _react.PropTypes.oneOf(['row', 'column']),
   fixed: _react.PropTypes.bool,
   flush: _react.PropTypes.bool, // for Tiles
+  footer: _react.PropTypes.node,
   inlineFilterParams: _react.PropTypes.shape({
     onToggle: _react.PropTypes.func,
     defaultOpen: _react.PropTypes.bool
