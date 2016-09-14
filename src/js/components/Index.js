@@ -38,6 +38,11 @@ export default class Index extends Component {
 
   componentDidMount () {
     this._responsive = Responsive.start(this._onResponsive);
+
+    if (this.props.onMore && this.props.footer) {
+      console.warn('Using \'onMore\' and \'footer\' props together may cause unexpected behavior.' +
+        'Consider removing \'onMore\' functionality when a footer is present.');
+    }
   }
 
   componentWillUnmount () {
