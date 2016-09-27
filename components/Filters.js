@@ -90,7 +90,7 @@ var Filters = function (_Component) {
   function Filters(props) {
     (0, _classCallCheck3.default)(this, Filters);
 
-    var _this = (0, _possibleConstructorReturn3.default)(this, (0, _getPrototypeOf2.default)(Filters).call(this, props));
+    var _this = (0, _possibleConstructorReturn3.default)(this, (Filters.__proto__ || (0, _getPrototypeOf2.default)(Filters)).call(this, props));
 
     _this._onChange = _this._onChange.bind(_this);
     _this._onChangeSort = _this._onChangeSort.bind(_this);

@@ -59,7 +59,7 @@ var IndexTableRow = function (_Component) {
 
   function IndexTableRow() {
     (0, _classCallCheck3.default)(this, IndexTableRow);
-    return (0, _possibleConstructorReturn3.default)(this, (0, _getPrototypeOf2.default)(IndexTableRow).apply(this, arguments));
+    return (0, _possibleConstructorReturn3.default)(this, (IndexTableRow.__proto__ || (0, _getPrototypeOf2.default)(IndexTableRow)).apply(this, arguments));
   }
 
   (0, _createClass3.default)(IndexTableRow, [{
@@ -103,7 +103,7 @@ var IndexTable = function (_Component2) {
   function IndexTable(props) {
     (0, _classCallCheck3.default)(this, IndexTable);
 
-    var _this2 = (0, _possibleConstructorReturn3.default)(this, (0, _getPrototypeOf2.default)(IndexTable).call(this, props));
+    var _this2 = (0, _possibleConstructorReturn3.default)(this, (IndexTable.__proto__ || (0, _getPrototypeOf2.default)(IndexTable)).call(this, props));
 
     _this2._onClickRow = _this2._onClickRow.bind(_this2);
     _this2.state = { attributes: _this2._simplifyAttributes(props.attributes) };
@@ -180,7 +180,7 @@ var IndexTable = function (_Component2) {
           if ('status' === attribute.name) {
             classes.push(CLASS_ROOT + '__cell--icon');
             content = _react2.default.createElement(_Status2.default, { className: CLASS_ROOT + '__header-icon',
-              value: 'label', small: true });
+              value: 'label', size: 'small' });
           }
 
           return _react2.default.createElement(

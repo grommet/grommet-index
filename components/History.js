@@ -42,7 +42,7 @@ var IndexHistory = function (_Component) {
   function IndexHistory(props) {
     (0, _classCallCheck3.default)(this, IndexHistory);
 
-    var _this = (0, _possibleConstructorReturn3.default)(this, (0, _getPrototypeOf2.default)(IndexHistory).call(this, props));
+    var _this = (0, _possibleConstructorReturn3.default)(this, (IndexHistory.__proto__ || (0, _getPrototypeOf2.default)(IndexHistory)).call(this, props));
 
     _this.state = _this._stateFromProps(props);
     return _this;

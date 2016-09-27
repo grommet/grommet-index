@@ -70,7 +70,7 @@ var IndexHeader = function (_Component) {
   function IndexHeader() {
     (0, _classCallCheck3.default)(this, IndexHeader);
 
-    var _this = (0, _possibleConstructorReturn3.default)(this, (0, _getPrototypeOf2.default)(IndexHeader).call(this));
+    var _this = (0, _possibleConstructorReturn3.default)(this, (IndexHeader.__proto__ || (0, _getPrototypeOf2.default)(IndexHeader)).call(this));
 
     _this._onChangeSearch = _this._onChangeSearch.bind(_this);
     _this._onQuery = (0, _debounce2.default)(_this._onQuery.bind(_this), 300);

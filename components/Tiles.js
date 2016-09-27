@@ -68,7 +68,7 @@ var IndexTile = function (_Component) {
 
   function IndexTile() {
     (0, _classCallCheck3.default)(this, IndexTile);
-    return (0, _possibleConstructorReturn3.default)(this, (0, _getPrototypeOf2.default)(IndexTile).apply(this, arguments));
+    return (0, _possibleConstructorReturn3.default)(this, (IndexTile.__proto__ || (0, _getPrototypeOf2.default)(IndexTile)).apply(this, arguments));
   }
 
   (0, _createClass3.default)(IndexTile, [{
@@ -154,7 +154,7 @@ var IndexTiles = function (_Component2) {
   function IndexTiles() {
     (0, _classCallCheck3.default)(this, IndexTiles);
 
-    var _this2 = (0, _possibleConstructorReturn3.default)(this, (0, _getPrototypeOf2.default)(IndexTiles).call(this));
+    var _this2 = (0, _possibleConstructorReturn3.default)(this, (IndexTiles.__proto__ || (0, _getPrototypeOf2.default)(IndexTiles)).call(this));
 
     _this2._onClickTile = _this2._onClickTile.bind(_this2);
     return _this2;

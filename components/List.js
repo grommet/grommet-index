@@ -53,7 +53,7 @@ var IndexListItem = function (_Component) {
 
   function IndexListItem() {
     (0, _classCallCheck3.default)(this, IndexListItem);
-    return (0, _possibleConstructorReturn3.default)(this, (0, _getPrototypeOf2.default)(IndexListItem).apply(this, arguments));
+    return (0, _possibleConstructorReturn3.default)(this, (IndexListItem.__proto__ || (0, _getPrototypeOf2.default)(IndexListItem)).apply(this, arguments));
   }
 
   (0, _createClass3.default)(IndexListItem, [{
@@ -112,7 +112,7 @@ var IndexList = function (_Component2) {
   function IndexList() {
     (0, _classCallCheck3.default)(this, IndexList);
 
-    var _this2 = (0, _possibleConstructorReturn3.default)(this, (0, _getPrototypeOf2.default)(IndexList).call(this));
+    var _this2 = (0, _possibleConstructorReturn3.default)(this, (IndexList.__proto__ || (0, _getPrototypeOf2.default)(IndexList)).call(this));
 
     _this2._onClickItem = _this2._onClickItem.bind(_this2);
     return _this2;

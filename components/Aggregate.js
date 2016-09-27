@@ -57,7 +57,7 @@ var Aggregate = function (_Component) {
   function Aggregate(props) {
     (0, _classCallCheck3.default)(this, Aggregate);
 
-    var _this = (0, _possibleConstructorReturn3.default)(this, (0, _getPrototypeOf2.default)(Aggregate).call(this, props));
+    var _this = (0, _possibleConstructorReturn3.default)(this, (Aggregate.__proto__ || (0, _getPrototypeOf2.default)(Aggregate)).call(this, props));
 
     _this._onClick = _this._onClick.bind(_this);
     _this.state = _this._stateFromProps(props);

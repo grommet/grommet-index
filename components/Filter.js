@@ -86,7 +86,7 @@ var Filter = function (_Component) {
   function Filter(props) {
     (0, _classCallCheck3.default)(this, Filter);
 
-    var _this = (0, _possibleConstructorReturn3.default)(this, (0, _getPrototypeOf2.default)(Filter).call(this, props));
+    var _this = (0, _possibleConstructorReturn3.default)(this, (Filter.__proto__ || (0, _getPrototypeOf2.default)(Filter)).call(this, props));
 
     _this._onChange = _this._onChange.bind(_this);
     _this._onChangeAll = _this._onChangeAll.bind(_this);

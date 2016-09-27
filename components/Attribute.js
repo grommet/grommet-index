@@ -51,7 +51,7 @@ var Attribute = function (_Component) {
 
   function Attribute() {
     (0, _classCallCheck3.default)(this, Attribute);
-    return (0, _possibleConstructorReturn3.default)(this, (0, _getPrototypeOf2.default)(Attribute).apply(this, arguments));
+    return (0, _possibleConstructorReturn3.default)(this, (Attribute.__proto__ || (0, _getPrototypeOf2.default)(Attribute)).apply(this, arguments));
   }
 
   (0, _createClass3.default)(Attribute, [{
@@ -100,7 +100,7 @@ var Attribute = function (_Component) {
 
         if ('status' === attribute.name) {
           content = _react2.default.createElement(_Status2.default, { className: classes.join(' '),
-            value: value.toLowerCase(), small: true });
+            value: value.toLowerCase(), size: 'small' });
         } else if (attribute.timestamp) {
           classes.push(CLASS_ROOT + '__timestamp');
           content = _react2.default.createElement(_Timestamp2.default, { className: classes.join(' '), value: value });
