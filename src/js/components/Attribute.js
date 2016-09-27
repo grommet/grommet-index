@@ -45,7 +45,7 @@ export default class Attribute extends Component {
       if ('status' === attribute.name) {
         content = (
           <StatusIcon className={classes.join(' ')}
-            value={value.toLowerCase()} small={true} />
+            value={value.toLowerCase()} size="small" />
         );
       } else if (attribute.timestamp) {
         classes.push(`${CLASS_ROOT}__timestamp`);
