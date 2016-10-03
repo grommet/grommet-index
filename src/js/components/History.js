@@ -1,7 +1,16 @@
 // (C) Copyright 2014-2015 Hewlett Packard Enterprise Development LP
 
 import React, { Component, PropTypes } from 'react';
-import Chart from 'grommet/components/Chart';
+import Box from 'grommet/components/Box';
+import Chart, { Area, Axis, Bar, Base, Layers, Line } from
+  'grommet/components/chart/Chart';
+import Legend from 'grommet/components/Legend';
+
+const TYPES = {
+  'area': Area,
+  'bar': Bar,
+  'line': Line
+};
 
 export default class IndexHistory extends Component {
 
@@ -49,18 +58,20 @@ export default class IndexHistory extends Component {
   }
 
   render () {
+    const Visual = TYPES[this.props.type];
+    // TODO: Marker for this.props.threshold
     return (
-      <Chart series={this.state.series || []}
-        xAxis={this.state.xAxis || []}
-        legend={this.props.legend}
-        legendTotal={true}
-        size={this.props.size}
-        smooth={this.props.smooth}
-        points={this.props.points}
-        type={this.props.type}
-        threshold={this.props.threshold}
-        a11yTitleId={this.props.a11yTitleId}
-        a11yDescId={this.props.a11yTitleId} />
+      <Box>
+        <Chart>
+          <Base height={this.props.size} />
+          <Layers>
+            <Visual values={this.state.series}
+              smooth={this.props.smooth} points={this.props.points} />
+          </Layers>
+          <Axis count={this.state.xAxis.length} />
+        </Chart>
+        <Legend series={this.state.series} total={true} />
+      </Box>
     );
   }
 
