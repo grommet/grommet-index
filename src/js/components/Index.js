@@ -143,10 +143,9 @@ export default class Index extends Component {
       });
 
       filterControl = (
-        <div className={`${CLASS_ROOT}__filters no-flex`}>
+        <Box className={`${CLASS_ROOT}__filters`} flex={false}>
           <Button
             icon={<FilterIcon colorIndex={hasSelectedFilters ? 'brand' : undefined}/>}
-            plain={true}
             onClick={this._toggleInlineFilter} />
             <span className={`${CLASS_ROOT}__total`}>
               {data.unfilteredTotal}
@@ -154,7 +153,7 @@ export default class Index extends Component {
             <span className={countClasses}>
               {data.total}
             </span>
-        </div>
+        </Box>
       );
     } else if (!filtersInline) {
       filterControl = (

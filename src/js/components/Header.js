@@ -4,6 +4,7 @@ import React, { Component, PropTypes } from 'react';
 import debounce from 'debounce';
 import classnames from 'classnames';
 import Header from 'grommet/components/Header';
+import Title from 'grommet/components/Title';
 import Search from 'grommet/components/Search';
 import Box from 'grommet/components/Box';
 import IndexPropTypes from '../utils/PropTypes';
@@ -50,20 +51,19 @@ export default class IndexHeader extends Component {
 
     return (
       <Header className={classes}
-        pad={{horizontal: 'medium', between: 'small'}}
+        pad={{ horizontal: 'medium' }}
         fixed={this.props.fixed} size="large">
-        {this.props.navControl}
-        <span className={`${CLASS_ROOT}__label`}>{this.props.label}</span>
-        <Box className={`${CLASS_ROOT}__controls flex`} direction="row"
-          align="center" justify="end" responsive={false}>
-          <Search className={`${CLASS_ROOT}__search flex`}
-            inline={true}
-            placeHolder={placeHolder}
-            value={this.state.value}
-            onDOMChange={this._onChangeSearch} />
-          {this.props.addControl}
-          {filterOrSortAttributes.length > 0 && this.props.filterControl}
-        </Box>
+        <Title responsive={false}>
+          {this.props.navControl}
+          <span>{this.props.label}</span>
+        </Title>
+        <Search className={`${CLASS_ROOT}__search`}
+          inline={true} fill={true} size="medium"
+          placeHolder={placeHolder}
+          value={this.state.value}
+          onDOMChange={this._onChangeSearch} />
+        {this.props.addControl}
+        {filterOrSortAttributes.length > 0 && this.props.filterControl}
       </Header>
     );
   }

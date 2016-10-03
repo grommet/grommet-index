@@ -7,6 +7,11 @@ const CLASS_ROOT = 'timestamp';
 
 export default class Timestamp extends Component {
 
+  constructor () {
+    super();
+    console.warn("grommet-index Timestamp is deprecated in favor of grommet Timestamp");
+  }
+
   render () {
     var classes = [CLASS_ROOT];
     classes.push(CLASS_ROOT + '--' + this.props.align);

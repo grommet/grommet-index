@@ -17,7 +17,7 @@
       transform: translateX(-50%);
       color: $secondary-text-color;
       text-align: center;
-      @include inuit-font-size($label-font-size);
+      @include inuit-font-size($content-small-font-size);
     }
   }
 
@@ -65,4 +65,3 @@
 
   @include filter-counts();
 }
-

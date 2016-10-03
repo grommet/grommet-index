@@ -96,7 +96,7 @@ export default class Filters extends Component {
     const icon = this._renderIcon();
 
     return (
-      <div className={`${CLASS_ROOT}__filters no-flex`}>
+      <Box className={`${CLASS_ROOT}__filters`} flex={false}>
         <Menu className={CLASS_ROOT + "__menu"} icon={icon}
           dropAlign={{right: 'right'}} a11yTitle={a11yTitle}
           direction="column" closeOnClick={false}>
@@ -108,7 +108,7 @@ export default class Filters extends Component {
           </Box>
         </Menu>
         {data && this._renderCounts()}
-      </div>
+      </Box>
     );
   }
 
@@ -120,10 +120,10 @@ export default class Filters extends Component {
       <Sidebar colorIndex="light-2">
         <Header size="large" pad={{horizontal: 'medium'}} justify="between">
           {Intl.getMessage(this.context.intl, 'Filter by')}
-          <div className={`${CLASS_ROOT}__filters no-flex`}>
+          <Box className={`${CLASS_ROOT}__filters`} flex={false}>
             <Button icon={icon} plain={true} onClick={this.props.onClose}/>
             {this._renderCounts()}
-            </div>
+          </Box>
         </Header>
         <Box
           direction={direction}

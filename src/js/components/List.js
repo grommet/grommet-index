@@ -18,7 +18,7 @@ class IndexListItem extends Component {
       if ('status' === attribute.name) {
         status = <Attribute key={attribute.name} item={item} attribute={attribute} />;
       } else if (! primary) {
-        primary = <Attribute key={attribute.name} className="flex" item={item} attribute={attribute} />;;
+        primary = <Attribute key={attribute.name} item={item} attribute={attribute} />;;
       } else if (! secondary) {
         secondary = <Attribute key={attribute.name} item={item} attribute={attribute} />;;
       }
