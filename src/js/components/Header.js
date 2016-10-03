@@ -6,7 +6,6 @@ import classnames from 'classnames';
 import Header from 'grommet/components/Header';
 import Title from 'grommet/components/Title';
 import Search from 'grommet/components/Search';
-import Box from 'grommet/components/Box';
 import IndexPropTypes from '../utils/PropTypes';
 import IndexQuery from '../utils/Query';
 import Intl from 'grommet/utils/Intl';
@@ -26,7 +25,9 @@ export default class IndexHeader extends Component {
 
   componentWillReceiveProps (nextProps) {
     if (this.props.query !== nextProps.query) {
-      this.setState({ value: nextProps.query ? nextProps.query.toString() : '' });
+      this.setState({
+        value: nextProps.query ? nextProps.query.toString() : ''
+      });
     }
   }
 
