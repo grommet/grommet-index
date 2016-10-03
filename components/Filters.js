@@ -190,8 +190,8 @@ var Filters = function (_Component) {
       var icon = this._renderIcon();
 
       return _react2.default.createElement(
-        'div',
-        { className: CLASS_ROOT + '__filters no-flex' },
+        _Box2.default,
+        { className: CLASS_ROOT + '__filters', flex: false },
         _react2.default.createElement(
           _Menu2.default,
           { className: CLASS_ROOT + "__menu", icon: icon,
@@ -227,8 +227,8 @@ var Filters = function (_Component) {
           { size: 'large', pad: { horizontal: 'medium' }, justify: 'between' },
           _Intl2.default.getMessage(this.context.intl, 'Filter by'),
           _react2.default.createElement(
-            'div',
-            { className: CLASS_ROOT + '__filters no-flex' },
+            _Box2.default,
+            { className: CLASS_ROOT + '__filters', flex: false },
             _react2.default.createElement(_Button2.default, { icon: icon, plain: true, onClick: this.props.onClose }),
             this._renderCounts()
           )

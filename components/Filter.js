@@ -166,7 +166,8 @@ var Filter = function (_Component) {
       }
       return _react2.default.createElement(
         _Box2.default,
-        { direction: 'column', pad: { between: 'small' }, className: CLASS_ROOT + '__body' },
+        { direction: 'column', pad: { between: 'small' },
+          className: CLASS_ROOT + '__body' },
         checkBoxes
       );
     }

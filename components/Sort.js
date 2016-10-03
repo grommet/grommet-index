@@ -143,18 +143,19 @@ var Sort = function (_Component) {
           { direction: 'row', justify: 'between', align: 'center' },
           _react2.default.createElement(
             'select',
-            { ref: 'sort', value: this.state.name, className: 'flex',
-              onChange: this._onChange },
+            { ref: 'sort', value: this.state.name, onChange: this._onChange },
             options
           ),
           _react2.default.createElement(
             'span',
             null,
             _react2.default.createElement(_Button2.default, {
-              icon: _react2.default.createElement(_LinkDown2.default, { colorIndex: 'asc' === this.state.direction ? 'brand' : undefined }),
+              icon: _react2.default.createElement(_LinkDown2.default, {
+                colorIndex: 'asc' === this.state.direction ? 'brand' : undefined }),
               onClick: this._onChangeDirection.bind(this, 'asc') }),
             _react2.default.createElement(_Button2.default, {
-              icon: _react2.default.createElement(_LinkUp2.default, { colorIndex: 'desc' === this.state.direction ? 'brand' : undefined }),
+              icon: _react2.default.createElement(_LinkUp2.default, {
+                colorIndex: 'desc' === this.state.direction ? 'brand' : undefined }),
               onClick: this._onChangeDirection.bind(this, 'desc') })
           )
         )

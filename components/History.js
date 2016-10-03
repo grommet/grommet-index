@@ -28,13 +28,27 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _Chart = require('grommet/components/Chart');
+var _Box = require('grommet/components/Box');
+
+var _Box2 = _interopRequireDefault(_Box);
+
+var _Chart = require('grommet/components/chart/Chart');
 
 var _Chart2 = _interopRequireDefault(_Chart);
+
+var _Legend = require('grommet/components/Legend');
+
+var _Legend2 = _interopRequireDefault(_Legend);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 // (C) Copyright 2014-2015 Hewlett Packard Enterprise Development LP
+
+var TYPES = {
+  'area': _Chart.Area,
+  'bar': _Chart.Bar,
+  'line': _Chart.Line
+};
 
 var IndexHistory = function (_Component) {
   (0, _inherits3.default)(IndexHistory, _Component);
@@ -90,17 +104,25 @@ var IndexHistory = function (_Component) {
   }, {
     key: 'render',
     value: function render() {
-      return _react2.default.createElement(_Chart2.default, { series: this.state.series || [],
-        xAxis: this.state.xAxis || [],
-        legend: this.props.legend,
-        legendTotal: true,
-        size: this.props.size,
-        smooth: this.props.smooth,
-        points: this.props.points,
-        type: this.props.type,
-        threshold: this.props.threshold,
-        a11yTitleId: this.props.a11yTitleId,
-        a11yDescId: this.props.a11yTitleId });
+      var Visual = TYPES[this.props.type];
+      // TODO: Marker for this.props.threshold
+      return _react2.default.createElement(
+        _Box2.default,
+        null,
+        _react2.default.createElement(
+          _Chart2.default,
+          null,
+          _react2.default.createElement(_Chart.Base, { height: this.props.size }),
+          _react2.default.createElement(
+            _Chart.Layers,
+            null,
+            _react2.default.createElement(Visual, { values: this.state.series,
+              smooth: this.props.smooth, points: this.props.points })
+          ),
+          _react2.default.createElement(_Chart.Axis, { count: this.state.xAxis.length })
+        ),
+        _react2.default.createElement(_Legend2.default, { series: this.state.series, total: true })
+      );
     }
   }]);
   return IndexHistory;

@@ -19,7 +19,7 @@
   "dependencies": {
     "classnames": "^2.2.3",
     "debounce": "^1.0.0",
-    "grommet": "^0.6.11"
+    "grommet": "https://github.com/grommet/grommet/tarball/stable"
   },
   "devDependencies": {
     "babel-plugin-add-module-exports": "^0.1.2",

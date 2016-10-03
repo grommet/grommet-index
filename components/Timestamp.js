@@ -41,7 +41,11 @@ var Timestamp = function (_Component) {
 
   function Timestamp() {
     (0, _classCallCheck3.default)(this, Timestamp);
-    return (0, _possibleConstructorReturn3.default)(this, (Timestamp.__proto__ || (0, _getPrototypeOf2.default)(Timestamp)).apply(this, arguments));
+
+    var _this = (0, _possibleConstructorReturn3.default)(this, (Timestamp.__proto__ || (0, _getPrototypeOf2.default)(Timestamp)).call(this));
+
+    console.warn("grommet-index Timestamp is deprecated in favor of " + "grommet Timestamp");
+    return _this;
   }
 
   (0, _createClass3.default)(Timestamp, [{

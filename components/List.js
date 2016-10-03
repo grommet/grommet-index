@@ -71,12 +71,13 @@ var IndexListItem = function (_Component) {
           separator = void 0;
 
       attributes.forEach(function (attribute) {
+        var component = _react2.default.createElement(_Attribute2.default, { key: attribute.name, item: item, attribute: attribute });
         if ('status' === attribute.name) {
-          status = _react2.default.createElement(_Attribute2.default, { key: attribute.name, item: item, attribute: attribute });
+          status = component;
         } else if (!primary) {
-          primary = _react2.default.createElement(_Attribute2.default, { key: attribute.name, className: 'flex', item: item, attribute: attribute });;
+          primary = component;
         } else if (!secondary) {
-          secondary = _react2.default.createElement(_Attribute2.default, { key: attribute.name, item: item, attribute: attribute });;
+          secondary = component;
         }
       });
 
@@ -137,8 +138,8 @@ var IndexList = function (_Component2) {
         var _Component3 = itemComponent;
         listItem = _react2.default.createElement(_Component3, { key: item.uri, item: item, index: index, onClick: onClick });
       } else {
-        listItem = _react2.default.createElement(IndexListItem, { key: item.uri, item: item, index: index, onClick: onClick,
-          attributes: this.props.attributes });
+        listItem = _react2.default.createElement(IndexListItem, { key: item.uri, item: item, index: index,
+          onClick: onClick, attributes: this.props.attributes });
       }
       return listItem;
     }

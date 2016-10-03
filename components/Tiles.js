@@ -227,10 +227,11 @@ var IndexTiles = function (_Component2) {
               { key: label, className: CLASS_ROOT + '__section' },
               _react2.default.createElement(
                 _Header2.default,
-                { size: 'small', justify: 'between', responsive: false, separator: 'top', pad: { horizontal: 'small' } },
+                { size: 'small', justify: 'between', responsive: false,
+                  separator: 'top', pad: { horizontal: 'small' } },
                 _react2.default.createElement(
                   'label',
-                  null,
+                  { className: 'secondary' },
                   label
                 ),
                 actions
@@ -300,7 +301,7 @@ var IndexTiles = function (_Component2) {
                 // more than one section, add label
                 label = _react2.default.createElement(
                   'label',
-                  null,
+                  { className: 'secondary' },
                   section.label
                 );
                 justify = 'between';
@@ -309,7 +310,8 @@ var IndexTiles = function (_Component2) {
               if (label || actions) {
                 header = _react2.default.createElement(
                   _Header2.default,
-                  { size: 'small', justify: justify, responsive: false, separator: 'top', pad: { horizontal: 'small' } },
+                  { size: 'small', justify: justify, responsive: false,
+                    separator: 'top', pad: { horizontal: 'small' } },
                   label,
                   actions
                 );
@@ -354,7 +356,8 @@ var IndexTiles = function (_Component2) {
         if (actions) {
           header = _react2.default.createElement(
             _Header2.default,
-            { size: 'small', justify: 'end', responsive: false, pad: { horizontal: 'small' } },
+            { size: 'small', justify: 'end', responsive: false,
+              pad: { horizontal: 'small' } },
             actions
           );
         }

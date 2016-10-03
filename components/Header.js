@@ -40,13 +40,13 @@ var _Header = require('grommet/components/Header');
 
 var _Header2 = _interopRequireDefault(_Header);
 
+var _Title = require('grommet/components/Title');
+
+var _Title2 = _interopRequireDefault(_Title);
+
 var _Search = require('grommet/components/Search');
 
 var _Search2 = _interopRequireDefault(_Search);
-
-var _Box = require('grommet/components/Box');
-
-var _Box2 = _interopRequireDefault(_Box);
 
 var _PropTypes = require('../utils/PropTypes');
 
@@ -84,7 +84,9 @@ var IndexHeader = function (_Component) {
     key: 'componentWillReceiveProps',
     value: function componentWillReceiveProps(nextProps) {
       if (this.props.query !== nextProps.query) {
-        this.setState({ value: nextProps.query ? nextProps.query.toString() : '' });
+        this.setState({
+          value: nextProps.query ? nextProps.query.toString() : ''
+        });
       }
     }
   }, {
@@ -116,26 +118,25 @@ var IndexHeader = function (_Component) {
       return _react2.default.createElement(
         _Header2.default,
         { className: classes,
-          pad: { horizontal: 'medium', between: 'small' },
+          pad: { horizontal: 'medium' },
           fixed: this.props.fixed, size: 'large' },
-        this.props.navControl,
         _react2.default.createElement(
-          'span',
-          { className: CLASS_ROOT + '__label' },
-          this.props.label
+          _Title2.default,
+          { responsive: false },
+          this.props.navControl,
+          _react2.default.createElement(
+            'span',
+            null,
+            this.props.label
+          )
         ),
-        _react2.default.createElement(
-          _Box2.default,
-          { className: CLASS_ROOT + '__controls flex', direction: 'row',
-            align: 'center', justify: 'end', responsive: false },
-          _react2.default.createElement(_Search2.default, { className: CLASS_ROOT + '__search flex',
-            inline: true,
-            placeHolder: placeHolder,
-            value: this.state.value,
-            onDOMChange: this._onChangeSearch }),
-          this.props.addControl,
-          filterOrSortAttributes.length > 0 && this.props.filterControl
-        )
+        _react2.default.createElement(_Search2.default, { className: CLASS_ROOT + '__search',
+          inline: true, fill: true, size: 'medium',
+          placeHolder: placeHolder,
+          value: this.state.value,
+          onDOMChange: this._onChangeSearch }),
+        this.props.addControl,
+        filterOrSortAttributes.length > 0 && this.props.filterControl
       );
     }
   }]);

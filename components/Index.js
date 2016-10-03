@@ -127,7 +127,7 @@ var Index = function (_Component) {
       this._responsive = _Responsive2.default.start(this._onResponsive);
 
       if (this.props.onMore && this.props.footer) {
-        console.warn('Using \'onMore\' and \'footer\' props together may cause unexpected behavior.' + 'Consider removing \'onMore\' functionality when a footer is present.');
+        console.warn('Using \'onMore\' and \'footer\' props together may ' + 'cause unexpected behavior.' + 'Consider removing \'onMore\' functionality when a footer is present.');
       }
     }
   }, {
@@ -240,11 +240,11 @@ var Index = function (_Component) {
         var countClasses = (0, _classnames3.default)(CLASS_ROOT + '__count', (0, _defineProperty3.default)({}, CLASS_ROOT + '__count--active', data.unfilteredTotal > data.total));
 
         filterControl = _react2.default.createElement(
-          'div',
-          { className: CLASS_ROOT + '__filters no-flex' },
+          _Box2.default,
+          { className: CLASS_ROOT + '__filters', flex: false },
           _react2.default.createElement(_Button2.default, {
-            icon: _react2.default.createElement(_Filter2.default, { colorIndex: hasSelectedFilters ? 'brand' : undefined }),
-            plain: true,
+            icon: _react2.default.createElement(_Filter2.default, {
+              colorIndex: hasSelectedFilters ? 'brand' : undefined }),
             onClick: this._toggleInlineFilter }),
           _react2.default.createElement(
             'span',
