@@ -9,8 +9,10 @@ const TRACE_PARSING = false;
 // pattern three times, once for single quoted value, once for double quoted
 // value, and lastly with no quotes.
 // We don't build this programmatically for better performance.
-const ATTRIBUTE_PATTERN =
-  /^[^\d:'"\s]{1}[^:'"\s]*:'[^']+'|^[^\d:'"\s]{1}[^:'"\s]*:"[^"]+"|^[^\d:'"\s]{1}[^:'"\s]*:[^'"\s]+/;
+const ATTRIBUTE_PATTERN = new RegExp([
+  `^[^\d:'"\s]{1}[^:'"\s]*:'[^']+'`,
+  `^[^\d:'"\s]{1}[^:'"\s]*:"[^"]+"`,
+  `^[^\d:'"\s]{1}[^:'"\s]*:[^'"\s]+`].join('|'));
 // allow for text to contain quotes
 const TEXT_PATTERN = /^[^'"\s]+|^'[^']+'|^"[^"]+"/;
 
@@ -176,7 +178,8 @@ function parse (text) {
       }
     }
     if (remaining.length === priorLength) {
-      throw `Syntax error at character ${text.length - priorLength}: ${remaining[0]}`;
+      throw `Syntax error at character ` +
+        `${text.length - priorLength}: ${remaining[0]}`;
     }
   }
 

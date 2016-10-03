@@ -15,12 +15,14 @@ class IndexListItem extends Component {
     let status, primary, secondary, separator;
 
     attributes.forEach(attribute => {
+      const component =
+        <Attribute key={attribute.name} item={item} attribute={attribute} />;
       if ('status' === attribute.name) {
-        status = <Attribute key={attribute.name} item={item} attribute={attribute} />;
+        status = component;
       } else if (! primary) {
-        primary = <Attribute key={attribute.name} item={item} attribute={attribute} />;;
+        primary = component;
       } else if (! secondary) {
-        secondary = <Attribute key={attribute.name} item={item} attribute={attribute} />;;
+        secondary = component;
       }
     });
 
@@ -73,8 +75,8 @@ export default class IndexList extends Component {
       );
     } else {
       listItem = (
-        <IndexListItem key={item.uri} item={item} index={index} onClick={onClick}
-          attributes={this.props.attributes} />
+        <IndexListItem key={item.uri} item={item} index={index}
+          onClick={onClick} attributes={this.props.attributes} />
       );
     }
     return listItem;

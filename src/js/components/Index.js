@@ -32,7 +32,8 @@ export default class Index extends Component {
     this._toggleInlineFilter = this._toggleInlineFilter.bind(this);
     this.state = {
       responsiveSize: 'medium',
-      inlineFilterOpen: props.inlineFilterParams && props.inlineFilterParams.defaultOpen
+      inlineFilterOpen:
+        (props.inlineFilterParams && props.inlineFilterParams.defaultOpen)
     };
   }
 
@@ -40,7 +41,8 @@ export default class Index extends Component {
     this._responsive = Responsive.start(this._onResponsive);
 
     if (this.props.onMore && this.props.footer) {
-      console.warn('Using \'onMore\' and \'footer\' props together may cause unexpected behavior.' +
+      console.warn('Using \'onMore\' and \'footer\' props together may ' +
+        'cause unexpected behavior.' +
         'Consider removing \'onMore\' functionality when a footer is present.');
     }
   }
@@ -59,7 +61,8 @@ export default class Index extends Component {
 
     this.setState(
       { inlineFilterOpen: nextState },
-      () => inlineFilterParams.onToggle && inlineFilterParams.onToggle(nextState)
+      () => (inlineFilterParams.onToggle &&
+        inlineFilterParams.onToggle(nextState))
     );
   }
 
@@ -135,7 +138,8 @@ export default class Index extends Component {
     if (filtersInline && !inlineFilterOpen) {
 
       // only show the filterControl if the sidebar is closed
-      const hasSelectedFilters = Object.keys(this.props.filter).reduce((acc, key) => {
+      const hasSelectedFilters = Object.keys(this.props.filter)
+      .reduce((acc, key) => {
         return this.props.filter[key].length > 0;
       }, false);
       const countClasses = classnames(`${CLASS_ROOT}__count`, {
@@ -145,7 +149,8 @@ export default class Index extends Component {
       filterControl = (
         <Box className={`${CLASS_ROOT}__filters`} flex={false}>
           <Button
-            icon={<FilterIcon colorIndex={hasSelectedFilters ? 'brand' : undefined}/>}
+            icon={<FilterIcon
+              colorIndex={hasSelectedFilters ? 'brand' : undefined}/>}
             onClick={this._toggleInlineFilter} />
             <span className={`${CLASS_ROOT}__total`}>
               {data.unfilteredTotal}
@@ -209,7 +214,8 @@ export default class Index extends Component {
                     onMore={this.props.onMore} />
                   {empty}
                 </div>
-                {this.props.footer && <Box separator="top">{this.props.footer}</Box>}
+                {this.props.footer &&
+                  <Box separator="top">{this.props.footer}</Box>}
               </Box>
             </div>
             {filtersInline && inlineFilterOpen &&

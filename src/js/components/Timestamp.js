@@ -9,7 +9,8 @@ export default class Timestamp extends Component {
 
   constructor () {
     super();
-    console.warn("grommet-index Timestamp is deprecated in favor of grommet Timestamp");
+    console.warn("grommet-index Timestamp is deprecated in favor of " +
+      "grommet Timestamp");
   }
 
   render () {
