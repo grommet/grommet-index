@@ -3,15 +3,16 @@
 import StringConvert from 'grommet/utils/StringConvert';
 
 const TRACE_PARSING = false;
-// This pattern matches the name: ^[^\d='"\s]{2}[^='"\s]+
+// don't convert timestamps, MAC addresses, or WWNs to attribute:value
+// This pattern matches the name: ^[^\d:'"\s]{2}[^:'"\s]+
 // We allow for the value to be optionally be quoted. So, we repeat the name
 // pattern three times, once for single quoted value, once for double quoted
 // value, and lastly with no quotes.
 // We don't build this programmatically for better performance.
 const ATTRIBUTE_PATTERN = new RegExp([
-  `^[^\d='"\s]{1}[^='"\s]*='[^']+'`,
-  `^[^\d='"\s]{1}[^='"\s]*="[^"]+"`,
-  `^[^\d='"\s]{1}[^='"\s]*=[^'"\s]+`].join('|'));
+  `^[^\d:'"\s]{1}[^:'"\s]*:'[^']+'`,
+  `^[^\d:'"\s]{1}[^:'"\s]*:"[^"]+"`,
+  `^[^\d:'"\s]{1}[^:'"\s]*:[^'"\s]+`].join('|'));
 // allow for text to contain quotes
 const TEXT_PATTERN = /^[^'"\s]+|^'[^']+'|^"[^"]+"/;
 
@@ -129,9 +130,9 @@ function parseAttribute (text, expression) {
   const matches = text.match(ATTRIBUTE_PATTERN);
   if (matches) {
     traceParsing('--attribute--');
-    // attribute=value
+    // attribute:value
     result = matches[0].length;
-    const parts = matches[0].split('=');
+    const parts = matches[0].split(':');
     const term = {
       text: matches[0],
       name: parts[0],
