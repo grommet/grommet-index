@@ -87,7 +87,7 @@ function parseParens (text, expression) {
 
 function parseAnd (text, expression) {
   var result = 0;
-  if ('AND' === text.slice(0, 3)) {
+  if ('AND' === text.slice(0, 3).toUpperCase()) {
     traceParsing('--and--');
     result = 3;
     setOp(expression, 'AND');
@@ -97,7 +97,7 @@ function parseAnd (text, expression) {
 
 function parseOr (text, expression) {
   var result = 0;
-  if ('OR' === text.slice(0, 2)) {
+  if ('OR' === text.slice(0, 2).toUpperCase()) {
     traceParsing('--or--');
     result = 2;
     setOp(expression, 'OR');
@@ -105,9 +105,19 @@ function parseOr (text, expression) {
   return result;
 }
 
+function parseBetween(text, expression) {
+  var result = 0;
+  if ('BETWEEN' === text.slice(0, 7).toUpperCase()) {
+    traceParsing('--between--');
+    result = 7;
+    setOp(expression, 'BETWEEN');
+  }
+  return result;
+}
+
 function parseNot (text, expression) {
   var result = 0;
-  if ('NOT' === text.slice(0, 3)) {
+  if ('NOT' === text.slice(0, 3).toUpperCase()) {
     traceParsing('--not--');
     result = 3;
     expression.notNext = true;
@@ -158,6 +168,7 @@ function parse (text) {
     parseParens,
     parseAnd,
     parseOr,
+    parseBetween,
     parseNot,
     parseAttribute,
     parseText
