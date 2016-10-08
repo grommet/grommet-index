@@ -6,6 +6,7 @@ import classnames from 'classnames';
 import Header from 'grommet/components/Header';
 import Title from 'grommet/components/Title';
 import Search from 'grommet/components/Search';
+import Box from 'grommet/components/Box';
 import IndexPropTypes from '../utils/PropTypes';
 import IndexQuery from '../utils/Query';
 import Intl from 'grommet/utils/Intl';
@@ -58,13 +59,16 @@ export default class IndexHeader extends Component {
           {this.props.navControl}
           <span>{this.props.label}</span>
         </Title>
-        <Search className={`${CLASS_ROOT}__search`}
-          inline={true} fill={true} size="medium"
-          placeHolder={placeHolder}
-          value={this.state.value}
-          onDOMChange={this._onChangeSearch} />
-        {this.props.addControl}
-        {filterOrSortAttributes.length > 0 && this.props.filterControl}
+        <Box direction="row" flex="grow" justify="end" align="center"
+          responsive={false}>
+          <Search className={`${CLASS_ROOT}__search`}
+            inline={true} fill={true} size="medium"
+            placeHolder={placeHolder}
+            value={this.state.value}
+            onDOMChange={this._onChangeSearch} />
+          {this.props.addControl}
+          {filterOrSortAttributes.length > 0 && this.props.filterControl}
+        </Box>
       </Header>
     );
   }
