@@ -2,8 +2,8 @@
 
 import React, { Component, PropTypes } from 'react';
 import StatusIcon from 'grommet/components/icons/Status';
+import Timestamp from 'grommet/components/Timestamp';
 import IndexPropTypes from '../utils/PropTypes';
-import Timestamp from './Timestamp';
 
 const CLASS_ROOT = "index-attribute";
 
