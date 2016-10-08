@@ -48,6 +48,10 @@ var _Search = require('grommet/components/Search');
 
 var _Search2 = _interopRequireDefault(_Search);
 
+var _Box = require('grommet/components/Box');
+
+var _Box2 = _interopRequireDefault(_Box);
+
 var _PropTypes = require('../utils/PropTypes');
 
 var _PropTypes2 = _interopRequireDefault(_PropTypes);
@@ -62,7 +66,9 @@ var _Intl2 = _interopRequireDefault(_Intl);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var CLASS_ROOT = 'index-header'; // (C) Copyright 2014-2015 Hewlett Packard Enterprise Development LP
+// (C) Copyright 2014-2015 Hewlett Packard Enterprise Development LP
+
+var CLASS_ROOT = 'index-header';
 
 var IndexHeader = function (_Component) {
   (0, _inherits3.default)(IndexHeader, _Component);
@@ -130,13 +136,18 @@ var IndexHeader = function (_Component) {
             this.props.label
           )
         ),
-        _react2.default.createElement(_Search2.default, { className: CLASS_ROOT + '__search',
-          inline: true, fill: true, size: 'medium',
-          placeHolder: placeHolder,
-          value: this.state.value,
-          onDOMChange: this._onChangeSearch }),
-        this.props.addControl,
-        filterOrSortAttributes.length > 0 && this.props.filterControl
+        _react2.default.createElement(
+          _Box2.default,
+          { direction: 'row', flex: 'grow', justify: 'end', align: 'center',
+            responsive: false },
+          _react2.default.createElement(_Search2.default, { className: CLASS_ROOT + '__search',
+            inline: true, fill: true, size: 'medium',
+            placeHolder: placeHolder,
+            value: this.state.value,
+            onDOMChange: this._onChangeSearch }),
+          this.props.addControl,
+          filterOrSortAttributes.length > 0 && this.props.filterControl
+        )
       );
     }
   }]);
