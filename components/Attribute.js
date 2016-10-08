@@ -32,13 +32,13 @@ var _Status = require('grommet/components/icons/Status');
 
 var _Status2 = _interopRequireDefault(_Status);
 
+var _Timestamp = require('grommet/components/Timestamp');
+
+var _Timestamp2 = _interopRequireDefault(_Timestamp);
+
 var _PropTypes = require('../utils/PropTypes');
 
 var _PropTypes2 = _interopRequireDefault(_PropTypes);
-
-var _Timestamp = require('./Timestamp');
-
-var _Timestamp2 = _interopRequireDefault(_Timestamp);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 

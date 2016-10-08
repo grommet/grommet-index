@@ -44,10 +44,6 @@ var _Tiles = require('./components/Tiles');
 
 var _Tiles2 = _interopRequireDefault(_Tiles);
 
-var _Timestamp = require('./components/Timestamp');
-
-var _Timestamp2 = _interopRequireDefault(_Timestamp);
-
 var _PropTypes = require('./utils/PropTypes');
 
 var _PropTypes2 = _interopRequireDefault(_PropTypes);
@@ -57,6 +53,8 @@ var _Query = require('./utils/Query');
 var _Query2 = _interopRequireDefault(_Query);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+// (C) Copyright 2014-2015 Hewlett Packard Enterprise Development LP
 
 exports.default = {
   Aggregate: _Aggregate2.default,
@@ -69,9 +67,7 @@ exports.default = {
   List: _List2.default,
   Table: _Table2.default,
   Tiles: _Tiles2.default,
-  Timestamp: _Timestamp2.default,
   PropTypes: _PropTypes2.default,
   Query: _Query2.default
-}; // (C) Copyright 2014-2015 Hewlett Packard Enterprise Development LP
-
+};
 module.exports = exports['default'];
