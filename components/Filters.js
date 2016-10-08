@@ -130,22 +130,26 @@ var Filters = function (_Component) {
       var data = this.props.data;
 
 
-      var countClasses = (0, _classnames3.default)(CLASS_ROOT + '__count', (0, _defineProperty3.default)({}, CLASS_ROOT + '__count--active', data.unfilteredTotal > data.total));
+      var result = void 0;
+      if (data) {
+        var countClasses = (0, _classnames3.default)(CLASS_ROOT + '__count', (0, _defineProperty3.default)({}, CLASS_ROOT + '__count--active', data.unfilteredTotal > data.total));
 
-      return _react2.default.createElement(
-        'div',
-        null,
-        _react2.default.createElement(
-          'span',
-          { className: CLASS_ROOT + '__total' },
-          data.unfilteredTotal
-        ),
-        _react2.default.createElement(
-          'span',
-          { className: countClasses },
-          data.total
-        )
-      );
+        result = _react2.default.createElement(
+          'div',
+          null,
+          _react2.default.createElement(
+            'span',
+            { className: CLASS_ROOT + '__total' },
+            data.unfilteredTotal
+          ),
+          _react2.default.createElement(
+            'span',
+            { className: countClasses },
+            data.total
+          )
+        );
+      }
+      return result;
     }
   }, {
     key: '_renderSort',
@@ -182,9 +186,7 @@ var Filters = function (_Component) {
       var filters = _ref.filters;
       var sort = _ref.sort;
       var classNames = _ref.classNames;
-      var _props2 = this.props;
-      var data = _props2.data;
-      var direction = _props2.direction;
+      var direction = this.props.direction;
 
       var a11yTitle = _Intl2.default.getMessage(this.context.intl, 'Filter');
       var icon = this._renderIcon();
@@ -206,7 +208,7 @@ var Filters = function (_Component) {
             sort
           )
         ),
-        data && this._renderCounts()
+        this._renderCounts()
       );
     }
   }, {
@@ -249,9 +251,9 @@ var Filters = function (_Component) {
     value: function render() {
       var _this3 = this;
 
-      var _props3 = this.props;
-      var attributes = _props3.attributes;
-      var inline = _props3.inline;
+      var _props2 = this.props;
+      var attributes = _props2.attributes;
+      var inline = _props2.inline;
 
       var classNames = [CLASS_ROOT];
       if (inline) {

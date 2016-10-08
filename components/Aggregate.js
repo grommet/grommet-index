@@ -32,9 +32,17 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+var _Box = require('grommet/components/Box');
+
+var _Box2 = _interopRequireDefault(_Box);
+
 var _Meter = require('grommet/components/Meter');
 
 var _Meter2 = _interopRequireDefault(_Meter);
+
+var _Legend = require('grommet/components/Legend');
+
+var _Legend2 = _interopRequireDefault(_Legend);
 
 var _Distribution = require('grommet/components/Distribution');
 
@@ -117,14 +125,18 @@ var Aggregate = function (_Component) {
           legendTotal: true,
           size: this.props.size });
       } else {
-        result = _react2.default.createElement(_Meter2.default, { series: this.state.series,
-          legend: this.props.legend,
-          size: this.props.size,
-          stacked: this.props.stacked,
-          type: this.props.type,
-          threshold: this.props.threshold,
-          a11yTitleId: this.props.a11yTitleId,
-          a11yDescId: this.props.a11yTitleId });
+        result = _react2.default.createElement(
+          _Box2.default,
+          { direction: 'row', align: 'center', pad: { between: 'medium' } },
+          _react2.default.createElement(_Meter2.default, { series: this.state.series,
+            legend: this.props.legend,
+            size: this.props.size,
+            stacked: this.props.stacked,
+            type: this.props.type,
+            threshold: this.props.threshold,
+            a11yTitle: this.props.a11yTitle }),
+          _react2.default.createElement(_Legend2.default, { series: this.state.series })
+        );
       }
 
       return result;
@@ -137,8 +149,7 @@ exports.default = Aggregate;
 
 
 Aggregate.propTypes = {
-  a11yTitleId: _react.PropTypes.string,
-  a11yDescId: _react.PropTypes.string,
+  a11yTitle: _react.PropTypes.string,
   filters: _react.PropTypes.object, // { name: [value, ...] }
   legend: _react.PropTypes.oneOfType([_react.PropTypes.bool, _react.PropTypes.shape({
     total: _react.PropTypes.bool,

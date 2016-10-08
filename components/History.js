@@ -71,10 +71,12 @@ var IndexHistory = function (_Component) {
     key: '_stateFromProps',
     value: function _stateFromProps(props) {
       var series = [];
+      var values = [];
       var xAxis = [];
+      var max = void 0;
       if (props.series) {
         series = props.series.map(function (item, index) {
-          var values = item.intervals.map(function (interval) {
+          values = item.intervals.map(function (interval) {
             var date = interval.start;
             if (typeof interval.start === 'string') {
               date = new Date(Date.parse(interval.start));
@@ -85,7 +87,8 @@ var IndexHistory = function (_Component) {
                 value: date
               });
             }
-            return [date, interval.count];
+            max = Math.max(max, interval.count);
+            return interval.count;
           });
 
           var colorIndex = 'graph-' + (index + 1);
@@ -94,12 +97,12 @@ var IndexHistory = function (_Component) {
           }
           return {
             label: item.label || item.value,
-            values: values,
+            values: values[values.length - 1],
             colorIndex: colorIndex
           };
         });
       }
-      return { series: series, xAxis: xAxis };
+      return { max: max, series: series, values: values, xAxis: xAxis };
     }
   }, {
     key: 'render',
@@ -116,7 +119,7 @@ var IndexHistory = function (_Component) {
           _react2.default.createElement(
             _Chart.Layers,
             null,
-            _react2.default.createElement(Visual, { values: this.state.series,
+            _react2.default.createElement(Visual, { values: this.state.values, max: this.state.max,
               smooth: this.props.smooth, points: this.props.points })
           ),
           _react2.default.createElement(_Chart.Axis, { count: this.state.xAxis.length })
