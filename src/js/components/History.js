@@ -26,10 +26,12 @@ export default class IndexHistory extends Component {
 
   _stateFromProps (props) {
     let series = [];
+    let values = [];
     let xAxis = [];
+    let max;
     if (props.series) {
       series = props.series.map((item, index) => {
-        const values = item.intervals.map(interval => {
+        values = item.intervals.map(interval => {
           let date = interval.start;
           if (typeof interval.start === 'string') {
             date = new Date(Date.parse(interval.start));
@@ -40,7 +42,8 @@ export default class IndexHistory extends Component {
               value: date
             });
           }
-          return [date, interval.count];
+          max = Math.max(max, interval.count);
+          return interval.count;
         });
 
         let colorIndex = `graph-${index + 1}`;
@@ -49,12 +52,12 @@ export default class IndexHistory extends Component {
         }
         return {
           label: (item.label || item.value),
-          values: values,
+          values: values[values.length - 1],
           colorIndex: colorIndex
         };
       });
     }
-    return { series: series, xAxis: xAxis };
+    return { max, series, values, xAxis };
   }
 
   render () {
@@ -65,7 +68,7 @@ export default class IndexHistory extends Component {
         <Chart>
           <Base height={this.props.size} />
           <Layers>
-            <Visual values={this.state.series}
+            <Visual values={this.state.values} max={this.state.max}
               smooth={this.props.smooth} points={this.props.points} />
           </Layers>
           <Axis count={this.state.xAxis.length} />

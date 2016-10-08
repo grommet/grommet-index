@@ -49,20 +49,24 @@ export default class Filters extends Component {
   _renderCounts () {
     const { data } = this.props;
 
-    const countClasses = classnames(`${CLASS_ROOT}__count`, {
-      [`${CLASS_ROOT}__count--active`]: data.unfilteredTotal > data.total
-    });
+    let result;
+    if (data) {
+      const countClasses = classnames(`${CLASS_ROOT}__count`, {
+        [`${CLASS_ROOT}__count--active`]: data.unfilteredTotal > data.total
+      });
 
-    return (
-      <div>
-        <span className={`${CLASS_ROOT}__total`}>
-          {data.unfilteredTotal}
-        </span>
-        <span className={countClasses}>
-          {data.total}
-        </span>
-      </div>
-    );
+      result = (
+        <div>
+          <span className={`${CLASS_ROOT}__total`}>
+            {data.unfilteredTotal}
+          </span>
+          <span className={countClasses}>
+            {data.total}
+          </span>
+        </div>
+      );
+    }
+    return result;
   }
 
   _renderSort () {
@@ -91,7 +95,7 @@ export default class Filters extends Component {
   }
 
   _renderMenu ({ filters, sort, classNames }) {
-    const { data, direction } = this.props;
+    const { direction } = this.props;
     const a11yTitle = Intl.getMessage(this.context.intl, 'Filter');
     const icon = this._renderIcon();
 
@@ -107,7 +111,7 @@ export default class Filters extends Component {
             {sort}
           </Box>
         </Menu>
-        {data && this._renderCounts()}
+        {this._renderCounts()}
       </Box>
     );
   }
