@@ -65,7 +65,8 @@ export default class IndexHeader extends Component {
             inline={true} fill={true} size="medium"
             placeHolder={placeHolder}
             value={this.state.value}
-            onDOMChange={this._onChangeSearch} />
+            onDOMChange={this._onChangeSearch}
+            suggestions={this.props.suggestions} />
           {this.props.addControl}
           {filterOrSortAttributes.length > 0 && this.props.filterControl}
         </Box>
@@ -89,6 +90,15 @@ IndexHeader.propTypes = {
   query: PropTypes.instanceOf(IndexQuery), // instance of Query
   data: IndexPropTypes.data,
   sort: PropTypes.string
+  suggestions: PropTypes.arrayOf(
+    PropTypes.oneOfType([
+      PropTypes.shape({
+        label: PropTypes.node,
+        value: PropTypes.any
+      }),
+      PropTypes.string
+    ])
+  ),
 };
 
 IndexHeader.contextTypes = {
