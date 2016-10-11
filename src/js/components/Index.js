@@ -295,7 +295,7 @@ Index.propTypes = {
       }),
       PropTypes.string
     ])
-  ),
+  )
 };
 
 Index.defaultProps = {
