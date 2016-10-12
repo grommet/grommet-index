@@ -193,7 +193,9 @@ export default class Index extends Component {
                 fixed={this.props.fixed}
                 addControl={this.props.addControl}
                 navControl={this.props.navControl}
-                filterControl={filterControl} />
+                filterControl={filterControl}
+                suggestions={this.props.suggestions}
+                onSelect={this.props.onSuggestionSelect} />
               {preamble}
               {error}
               {notifications}
@@ -269,6 +271,7 @@ Index.propTypes = {
   onMore: PropTypes.func,
   onQuery: PropTypes.func, // (query)
   onSelect: PropTypes.func,
+  onSuggestionSelect: PropTypes.func,
   onSort: PropTypes.func, // (sort)
   query: PropTypes.object, // Query
   selection: PropTypes.oneOfType([
@@ -283,7 +286,16 @@ Index.propTypes = {
       medium: PropTypes.oneOf(["table", "tiles", "list"]),
       small: PropTypes.oneOf(["table", "tiles", "list"])
     })
-  ])
+  ]),
+  suggestions: PropTypes.arrayOf(
+    PropTypes.oneOfType([
+      PropTypes.shape({
+        label: PropTypes.node,
+        value: PropTypes.any
+      }),
+      PropTypes.string
+    ])
+  )
 };
 
 Index.defaultProps = {
