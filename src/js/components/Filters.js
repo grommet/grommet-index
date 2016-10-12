@@ -49,20 +49,24 @@ export default class Filters extends Component {
   _renderCounts () {
     const { data } = this.props;
 
-    const countClasses = classnames(`${CLASS_ROOT}__count`, {
-      [`${CLASS_ROOT}__count--active`]: data.unfilteredTotal > data.total
-    });
+    let result;
+    if (data) {
+      const countClasses = classnames(`${CLASS_ROOT}__count`, {
+        [`${CLASS_ROOT}__count--active`]: data.unfilteredTotal > data.total
+      });
 
-    return (
-      <div>
-        <span className={`${CLASS_ROOT}__total`}>
-          {data.unfilteredTotal}
-        </span>
-        <span className={countClasses}>
-          {data.total}
-        </span>
-      </div>
-    );
+      result = (
+        <div>
+          <span className={`${CLASS_ROOT}__total`}>
+            {data.unfilteredTotal}
+          </span>
+          <span className={countClasses}>
+            {data.total}
+          </span>
+        </div>
+      );
+    }
+    return result;
   }
 
   _renderSort () {
@@ -91,12 +95,12 @@ export default class Filters extends Component {
   }
 
   _renderMenu ({ filters, sort, classNames }) {
-    const { data, direction } = this.props;
+    const { direction } = this.props;
     const a11yTitle = Intl.getMessage(this.context.intl, 'Filter');
     const icon = this._renderIcon();
 
     return (
-      <div className={`${CLASS_ROOT}__filters no-flex`}>
+      <Box className={`${CLASS_ROOT}__filters`} flex={false}>
         <Menu className={CLASS_ROOT + "__menu"} icon={icon}
           dropAlign={{right: 'right'}} a11yTitle={a11yTitle}
           direction="column" closeOnClick={false}>
@@ -107,8 +111,8 @@ export default class Filters extends Component {
             {sort}
           </Box>
         </Menu>
-        {data && this._renderCounts()}
-      </div>
+        {this._renderCounts()}
+      </Box>
     );
   }
 
@@ -120,10 +124,10 @@ export default class Filters extends Component {
       <Sidebar colorIndex="light-2">
         <Header size="large" pad={{horizontal: 'medium'}} justify="between">
           {Intl.getMessage(this.context.intl, 'Filter by')}
-          <div className={`${CLASS_ROOT}__filters no-flex`}>
+          <Box className={`${CLASS_ROOT}__filters`} flex={false}>
             <Button icon={icon} plain={true} onClick={this.props.onClose}/>
             {this._renderCounts()}
-            </div>
+          </Box>
         </Header>
         <Box
           direction={direction}

@@ -10,7 +10,6 @@ import Index from './components/Index';
 import List from './components/List';
 import Table from './components/Table';
 import Tiles from './components/Tiles';
-import Timestamp from './components/Timestamp';
 import PropTypes from './utils/PropTypes';
 import Query from './utils/Query';
 
@@ -25,7 +24,6 @@ export default {
   List,
   Table,
   Tiles,
-  Timestamp,
   PropTypes,
   Query
 };

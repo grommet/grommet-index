@@ -64,16 +64,19 @@ export default class Sort extends Component {
       <Box {...boxProps} className={classNames.join(' ')}>
         <Header size="small">{title}</Header>
         <Box direction="row" justify="between" align="center">
-          <select ref="sort" value={this.state.name} className="flex"
-            onChange={this._onChange}>
+          <select ref="sort" value={this.state.name} onChange={this._onChange}>
             {options}
           </select>
           <span>
             <Button
-              icon={<AscIcon colorIndex={'asc' === this.state.direction ? 'brand' : undefined} />}
+              icon={<AscIcon
+                colorIndex={'asc' === this.state.direction ?
+                  'brand' : undefined} />}
               onClick={this._onChangeDirection.bind(this, 'asc')} />
             <Button
-              icon={<DescIcon colorIndex={'desc' === this.state.direction ? 'brand' : undefined} />}
+              icon={<DescIcon
+                colorIndex={'desc' === this.state.direction ?
+                  'brand' : undefined} />}
               onClick={this._onChangeDirection.bind(this, 'desc')} />
           </span>
         </Box>

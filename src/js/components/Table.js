@@ -107,7 +107,7 @@ export default class IndexTable extends Component {
           classes.push(`${CLASS_ROOT}__cell--icon`);
           content = (
             <StatusIcon className={`${CLASS_ROOT}__header-icon`}
-              value={'label'} small={true} />
+              value={'label'} size="small" />
           );
         }
 

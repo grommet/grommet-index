@@ -1,7 +1,9 @@
 // (C) Copyright 2014-2015 Hewlett Packard Enterprise Development LP
 
 import React, { Component, PropTypes } from 'react';
+import Box from 'grommet/components/Box';
 import Meter from 'grommet/components/Meter';
+import Legend from 'grommet/components/Legend';
 import Distribution from 'grommet/components/Distribution';
 
 const STATUS_IMPORTANCE = {
@@ -71,14 +73,16 @@ export default class Aggregate extends Component {
       );
     } else {
       result = (
-        <Meter series={this.state.series}
-          legend={this.props.legend}
-          size={this.props.size}
-          stacked={this.props.stacked}
-          type={this.props.type}
-          threshold={this.props.threshold}
-          a11yTitleId={this.props.a11yTitleId}
-          a11yDescId={this.props.a11yTitleId} />
+        <Box direction="row" align="center" pad={{ between: 'medium' }}>
+          <Meter series={this.state.series}
+            legend={this.props.legend}
+            size={this.props.size}
+            stacked={this.props.stacked}
+            type={this.props.type}
+            threshold={this.props.threshold}
+            a11yTitle={this.props.a11yTitle} />
+          <Legend series={this.state.series} />
+        </Box>
       );
     }
 
@@ -88,8 +92,7 @@ export default class Aggregate extends Component {
 }
 
 Aggregate.propTypes = {
-  a11yTitleId: PropTypes.string,
-  a11yDescId: PropTypes.string,
+  a11yTitle: PropTypes.string,
   filters: PropTypes.object, // { name: [value, ...] }
   legend: PropTypes.oneOfType([
     PropTypes.bool,

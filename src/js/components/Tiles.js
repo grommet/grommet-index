@@ -136,8 +136,9 @@ export default class IndexTiles extends Component {
 
           sections.push(
             <div key={label} className={`${CLASS_ROOT}__section`}>
-              <Header size="small" justify="between" responsive={false} separator="top" pad={{horizontal: 'small'}}>
-                <label>{label}</label>
+              <Header size="small" justify="between" responsive={false}
+                separator="top" pad={{horizontal: 'small'}}>
+                <label className="secondary">{label}</label>
                 {actions}
               </Header>
               {content}
@@ -208,13 +209,14 @@ export default class IndexTiles extends Component {
 
           if (sections.length !== 0 || items.length !== 0) {
             // more than one section, add label
-            label = <label>{section.label}</label>;
+            label = <label className="secondary">{section.label}</label>;
             justify = 'between';
           }
 
           if (label || actions) {
             header = (
-              <Header size="small" justify={justify} responsive={false} separator="top" pad={{horizontal: 'small'}}>
+              <Header size="small" justify={justify} responsive={false}
+                separator="top" pad={{horizontal: 'small'}}>
                {label}
                {actions}
               </Header>
@@ -258,7 +260,8 @@ export default class IndexTiles extends Component {
 
       if (actions) {
         header = (
-          <Header size="small" justify="end" responsive={false} pad={{horizontal: 'small'}}>
+          <Header size="small" justify="end" responsive={false}
+            pad={{horizontal: 'small'}}>
             {actions}
           </Header>
         );

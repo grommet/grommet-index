@@ -2,8 +2,8 @@
 
 import React, { Component, PropTypes } from 'react';
 import StatusIcon from 'grommet/components/icons/Status';
+import Timestamp from 'grommet/components/Timestamp';
 import IndexPropTypes from '../utils/PropTypes';
-import Timestamp from './Timestamp';
 
 const CLASS_ROOT = "index-attribute";
 
@@ -45,7 +45,7 @@ export default class Attribute extends Component {
       if ('status' === attribute.name) {
         content = (
           <StatusIcon className={classes.join(' ')}
-            value={value.toLowerCase()} small={true} />
+            value={value.toLowerCase()} size="small" />
         );
       } else if (attribute.timestamp) {
         classes.push(`${CLASS_ROOT}__timestamp`);

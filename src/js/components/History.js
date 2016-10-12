@@ -1,7 +1,16 @@
 // (C) Copyright 2014-2015 Hewlett Packard Enterprise Development LP
 
 import React, { Component, PropTypes } from 'react';
-import Chart from 'grommet/components/Chart';
+import Box from 'grommet/components/Box';
+import Chart, { Area, Axis, Bar, Base, Layers, Line } from
+  'grommet/components/chart/Chart';
+import Legend from 'grommet/components/Legend';
+
+const TYPES = {
+  'area': Area,
+  'bar': Bar,
+  'line': Line
+};
 
 export default class IndexHistory extends Component {
 
@@ -17,10 +26,12 @@ export default class IndexHistory extends Component {
 
   _stateFromProps (props) {
     let series = [];
+    let values = [];
     let xAxis = [];
+    let max;
     if (props.series) {
       series = props.series.map((item, index) => {
-        const values = item.intervals.map(interval => {
+        values = item.intervals.map(interval => {
           let date = interval.start;
           if (typeof interval.start === 'string') {
             date = new Date(Date.parse(interval.start));
@@ -31,7 +42,8 @@ export default class IndexHistory extends Component {
               value: date
             });
           }
-          return [date, interval.count];
+          max = Math.max(max, interval.count);
+          return interval.count;
         });
 
         let colorIndex = `graph-${index + 1}`;
@@ -40,27 +52,29 @@ export default class IndexHistory extends Component {
         }
         return {
           label: (item.label || item.value),
-          values: values,
+          values: values[values.length - 1],
           colorIndex: colorIndex
         };
       });
     }
-    return { series: series, xAxis: xAxis };
+    return { max, series, values, xAxis };
   }
 
   render () {
+    const Visual = TYPES[this.props.type];
+    // TODO: Marker for this.props.threshold
     return (
-      <Chart series={this.state.series || []}
-        xAxis={this.state.xAxis || []}
-        legend={this.props.legend}
-        legendTotal={true}
-        size={this.props.size}
-        smooth={this.props.smooth}
-        points={this.props.points}
-        type={this.props.type}
-        threshold={this.props.threshold}
-        a11yTitleId={this.props.a11yTitleId}
-        a11yDescId={this.props.a11yTitleId} />
+      <Box>
+        <Chart>
+          <Base height={this.props.size} />
+          <Layers>
+            <Visual values={this.state.values} max={this.state.max}
+              smooth={this.props.smooth} points={this.props.points} />
+          </Layers>
+          <Axis count={this.state.xAxis.length} />
+        </Chart>
+        <Legend series={this.state.series} total={true} />
+      </Box>
     );
   }
 
