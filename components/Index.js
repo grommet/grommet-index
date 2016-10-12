@@ -295,7 +295,9 @@ var Index = function (_Component) {
                 fixed: this.props.fixed,
                 addControl: this.props.addControl,
                 navControl: this.props.navControl,
-                filterControl: filterControl }),
+                filterControl: filterControl,
+                suggestions: this.props.suggestions,
+                onSelect: this.props.onSuggestionSelect }),
               preamble,
               error,
               notifications,
@@ -376,6 +378,7 @@ Index.propTypes = {
   onMore: _react.PropTypes.func,
   onQuery: _react.PropTypes.func, // (query)
   onSelect: _react.PropTypes.func,
+  onSuggestionSelect: _react.PropTypes.func,
   onSort: _react.PropTypes.func, // (sort)
   query: _react.PropTypes.object, // Query
   selection: _react.PropTypes.oneOfType([_react.PropTypes.string, // uri
@@ -385,7 +388,11 @@ Index.propTypes = {
   view: _react.PropTypes.oneOfType([_react.PropTypes.oneOf(["table", "tiles", "list"]), _react.PropTypes.shape({
     medium: _react.PropTypes.oneOf(["table", "tiles", "list"]),
     small: _react.PropTypes.oneOf(["table", "tiles", "list"])
-  })])
+  })]),
+  suggestions: _react.PropTypes.arrayOf(_react.PropTypes.oneOfType([_react.PropTypes.shape({
+    label: _react.PropTypes.node,
+    value: _react.PropTypes.any
+  }), _react.PropTypes.string]))
 };
 
 Index.defaultProps = {

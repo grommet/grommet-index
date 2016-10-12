@@ -144,7 +144,9 @@ var IndexHeader = function (_Component) {
             inline: true, fill: true, size: 'medium',
             placeHolder: placeHolder,
             value: this.state.value,
-            onDOMChange: this._onChangeSearch }),
+            onDOMChange: this._onChangeSearch,
+            suggestions: this.props.suggestions,
+            onSelect: this.props.onSelect }),
           this.props.addControl,
           filterOrSortAttributes.length > 0 && this.props.filterControl
         )
@@ -170,7 +172,12 @@ IndexHeader.propTypes = {
   onSort: _react.PropTypes.func, // (sort)
   query: _react.PropTypes.instanceOf(_Query2.default), // instance of Query
   data: _PropTypes2.default.data,
-  sort: _react.PropTypes.string
+  sort: _react.PropTypes.string,
+  suggestions: _react.PropTypes.arrayOf(_react.PropTypes.oneOfType([_react.PropTypes.shape({
+    label: _react.PropTypes.node,
+    value: _react.PropTypes.any
+  }), _react.PropTypes.string])),
+  onSelect: _react.PropTypes.func
 };
 
 IndexHeader.contextTypes = {
