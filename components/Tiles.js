@@ -214,7 +214,7 @@ var IndexTiles = function (_Component2) {
             // only use onMore for last section
             var content = _react2.default.createElement(
               _Tiles2.default,
-              { key: label,
+              { key: i,
                 onMore: i === data.sections.length - 1 ? onMore : undefined,
                 flush: _this3.props.flush, fill: _this3.props.fill,
                 selectable: _this3.props.onSelect ? true : false,
@@ -224,7 +224,7 @@ var IndexTiles = function (_Component2) {
 
             sections.push(_react2.default.createElement(
               'div',
-              { key: label, className: CLASS_ROOT + '__section' },
+              { key: i, className: CLASS_ROOT + '__section' },
               _react2.default.createElement(
                 _Header2.default,
                 { size: 'small', justify: 'between', responsive: false,
