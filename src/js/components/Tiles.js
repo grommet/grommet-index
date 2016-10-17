@@ -125,7 +125,7 @@ export default class IndexTiles extends Component {
         if (tiles.length > 0) {
           // only use onMore for last section
           let content = (
-            <Tiles key={label}
+            <Tiles key={i}
               onMore={i === data.sections.length - 1 ? onMore : undefined}
               flush={this.props.flush} fill={this.props.fill}
               selectable={this.props.onSelect ? true : false}
@@ -135,7 +135,7 @@ export default class IndexTiles extends Component {
           );
 
           sections.push(
-            <div key={label} className={`${CLASS_ROOT}__section`}>
+            <div key={i} className={`${CLASS_ROOT}__section`}>
               <Header size="small" justify="between" responsive={false}
                 separator="top" pad={{horizontal: 'small'}}>
                 <label className="secondary">{label}</label>
