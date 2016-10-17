@@ -243,8 +243,8 @@ export default class IndexTiles extends Component {
   _renderTiles (classes, onMore) {
     const { data, selection, actions } = this.props;
     let tiles;
-    let multiSelected = Array.isArray(selection);
-    let selectionIndex = multiSelected ? [] : null;
+    const multiSelected = Array.isArray(selection);
+    let selectionIndex = multiSelected ? [] : undefined;
     let header;
     if (data && data.items.length) {
       tiles = data.items.map(function (item, index) {

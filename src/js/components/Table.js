@@ -122,8 +122,8 @@ export default class IndexTable extends Component {
     }
 
     let rows;
-    let multiSelected = Array.isArray(selection);
-    let selectionIndex = multiSelected ? [] : null;
+    const multiSelected = Array.isArray(selection);
+    let selectionIndex = multiSelected ? [] : undefined;
     if (data && data.items) {
       rows = data.items.map((item, index) => {
         if (selection) {
