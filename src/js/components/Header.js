@@ -66,6 +66,7 @@ export default class IndexHeader extends Component {
             placeHolder={placeHolder}
             value={this.state.value}
             onDOMChange={this._onChangeSearch}
+            defaultValue={this.props.defaultValue}
             suggestions={this.props.suggestions}
             onSelect={this.props.onSelect} />
           {this.props.addControl}
@@ -80,6 +81,7 @@ export default class IndexHeader extends Component {
 IndexHeader.propTypes = {
   addControl: PropTypes.node,
   attributes: IndexPropTypes.attributes.isRequired,
+  defaultValue: PropTypes.string,
   filter: PropTypes.object, // { name: [value, ...] }
   filterDirection: PropTypes.oneOf(['row', 'column']),
   fixed: PropTypes.bool,

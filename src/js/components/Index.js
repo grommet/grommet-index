@@ -195,7 +195,8 @@ export default class Index extends Component {
                 navControl={this.props.navControl}
                 filterControl={filterControl}
                 suggestions={this.props.suggestions}
-                onSelect={this.props.onSuggestionSelect} />
+                onSelect={this.props.onSuggestionSelect}
+                defaultValue={this.props.defaultValue} />
               {preamble}
               {error}
               {notifications}
@@ -244,6 +245,7 @@ Index.propTypes = {
   addControl: PropTypes.node,
   attributes: IndexPropTypes.attributes,
   data: IndexPropTypes.data,
+  defaultValue: PropTypes.string,
   emptyMessage: PropTypes.node,
   emptyAddControl: PropTypes.node,
   fill: PropTypes.bool, // for Tiles
