@@ -122,11 +122,16 @@ export default class IndexTable extends Component {
     }
 
     let rows;
-    let selectionIndex;
+    const multiSelected = Array.isArray(selection);
+    let selectionIndex = multiSelected ? [] : undefined;
     if (data && data.items) {
       rows = data.items.map((item, index) => {
-        if (selection && item.uri === selection) {
-          selectionIndex = index;
+        if (selection) {
+          if (!multiSelected && item.uri === selection) {
+            selectionIndex = index;
+          } else if (multiSelected && selection.includes(item.uri)) {
+            selectionIndex.push(index);
+          }
         }
         return this._renderRow(item);
       });
@@ -137,9 +142,14 @@ export default class IndexTable extends Component {
       onMore = this.props.onMore;
     }
 
+    let selectable = false;
+    if (this.props.onSelect) {
+      selectable = multiSelected ? 'multiple' : true;
+    }
+
     return (
       <Table className={classes.join(' ')}
-        selectable={this.props.onSelect ? true : false}
+        selectable={selectable}
         scrollable={this.props.scrollable}
         selected={selectionIndex}
         onMore={onMore}>

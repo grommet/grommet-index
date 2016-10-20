@@ -90,11 +90,16 @@ export default class IndexList extends Component {
     }
 
     let listItems;
-    let selectionIndex;
+    const multiSelected = Array.isArray(selection);
+    let selectionIndex = multiSelected ? [] : undefined;
     if (data && data.items) {
       listItems = data.items.map((item, index) => {
-        if (selection && item.uri === selection) {
-          selectionIndex = index;
+        if (selection) {
+          if (!multiSelected && item.uri === selection) {
+            selectionIndex = index;
+          } else if (multiSelected && selection.includes(item.uri)) {
+            selectionIndex.push(index);
+          }
         }
         return this._renderListItem(item, index);
       });
@@ -105,9 +110,14 @@ export default class IndexList extends Component {
       onMore = this.props.onMore;
     }
 
+    let selectable = false;
+    if (this.props.onSelect) {
+      selectable = multiSelected ? 'multiple' : true;
+    }
+
     return (
       <List className={classes.join(' ')}
-        selectable={this.props.onSelect ? true : false}
+        selectable={selectable}
         selected={selectionIndex}
         onMore={onMore} >
         {listItems}
