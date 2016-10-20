@@ -343,12 +343,17 @@ var IndexTiles = function (_Component2) {
       var actions = _props3.actions;
 
       var tiles = void 0;
-      var selectionIndex = void 0;
+      var multiSelected = Array.isArray(selection);
+      var selectionIndex = multiSelected ? [] : undefined;
       var header = void 0;
       if (data && data.items.length) {
         tiles = data.items.map(function (item, index) {
-          if (selection && item.uri === selection) {
-            selectionIndex = index;
+          if (selection) {
+            if (!multiSelected && item.uri === selection) {
+              selectionIndex = index;
+            } else if (multiSelected && selection.includes(item.uri)) {
+              selectionIndex.push(index);
+            }
           }
           return this._renderTile(item);
         }, this);
@@ -363,6 +368,11 @@ var IndexTiles = function (_Component2) {
         }
       }
 
+      var selectable = false;
+      if (this.props.onSelect) {
+        selectable = multiSelected ? 'multiple' : true;
+      }
+
       return _react2.default.createElement(
         'div',
         null,
@@ -371,7 +381,7 @@ var IndexTiles = function (_Component2) {
           _Tiles2.default,
           { className: classes.join(' '), onMore: onMore,
             flush: this.props.flush, fill: this.props.fill,
-            selectable: this.props.onSelect ? true : false,
+            selectable: selectable,
             selected: selectionIndex,
             size: this.props.size },
           tiles

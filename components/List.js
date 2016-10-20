@@ -158,11 +158,16 @@ var IndexList = function (_Component2) {
       }
 
       var listItems = void 0;
-      var selectionIndex = void 0;
+      var multiSelected = Array.isArray(selection);
+      var selectionIndex = multiSelected ? [] : undefined;
       if (data && data.items) {
         listItems = data.items.map(function (item, index) {
-          if (selection && item.uri === selection) {
-            selectionIndex = index;
+          if (selection) {
+            if (!multiSelected && item.uri === selection) {
+              selectionIndex = index;
+            } else if (multiSelected && selection.includes(item.uri)) {
+              selectionIndex.push(index);
+            }
           }
           return _this3._renderListItem(item, index);
         });
@@ -173,10 +178,15 @@ var IndexList = function (_Component2) {
         onMore = this.props.onMore;
       }
 
+      var selectable = false;
+      if (this.props.onSelect) {
+        selectable = multiSelected ? 'multiple' : true;
+      }
+
       return _react2.default.createElement(
         _List2.default,
         { className: classes.join(' '),
-          selectable: this.props.onSelect ? true : false,
+          selectable: selectable,
           selected: selectionIndex,
           onMore: onMore },
         listItems

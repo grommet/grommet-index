@@ -202,11 +202,16 @@ var IndexTable = function (_Component2) {
       }
 
       var rows = void 0;
-      var selectionIndex = void 0;
+      var multiSelected = Array.isArray(selection);
+      var selectionIndex = multiSelected ? [] : undefined;
       if (data && data.items) {
         rows = data.items.map(function (item, index) {
-          if (selection && item.uri === selection) {
-            selectionIndex = index;
+          if (selection) {
+            if (!multiSelected && item.uri === selection) {
+              selectionIndex = index;
+            } else if (multiSelected && selection.includes(item.uri)) {
+              selectionIndex.push(index);
+            }
           }
           return _this3._renderRow(item);
         });
@@ -217,10 +222,15 @@ var IndexTable = function (_Component2) {
         onMore = this.props.onMore;
       }
 
+      var selectable = false;
+      if (this.props.onSelect) {
+        selectable = multiSelected ? 'multiple' : true;
+      }
+
       return _react2.default.createElement(
         _Table2.default,
         { className: classes.join(' '),
-          selectable: this.props.onSelect ? true : false,
+          selectable: selectable,
           scrollable: this.props.scrollable,
           selected: selectionIndex,
           onMore: onMore },
