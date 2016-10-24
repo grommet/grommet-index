@@ -33,7 +33,7 @@ export default class Index extends Component {
     this.state = {
       responsiveSize: 'medium',
       inlineFilterOpen:
-        (props.inlineFilterParams && props.inlineFilterParams.defaultOpen)
+        (props.inlineFilterParams && props.inlineFilterParams.isOpen)
     };
   }
 
@@ -44,6 +44,19 @@ export default class Index extends Component {
       console.warn('Using \'onMore\' and \'footer\' props together may ' +
         'cause unexpected behavior.' +
         'Consider removing \'onMore\' functionality when a footer is present.');
+    }
+    const { inlineFilterParams } = this.props;
+    if (inlineFilterParams && inlineFilterParams.defaultOpen) {
+      console.warn('prop inlineFilterParams.defaultOpen has been renamed to ' +
+        'inlineFilterParams.isOpen');
+    }
+  }
+
+  componentWillReceiveProps (nextProps) {
+    const { inlineFilterParams = {} } = this.props;
+    const { inlineFilterParams: nextInlineFilterParams = {} }  = nextProps;
+    if (nextInlineFilterParams.isOpen !== inlineFilterParams.isOpen) {
+      this.setState({ inlineFilterOpen: nextInlineFilterParams.isOpen});
     }
   }
 
@@ -255,7 +268,7 @@ Index.propTypes = {
   footer: PropTypes.node,
   inlineFilterParams: PropTypes.shape({
     onToggle: PropTypes.func,
-    defaultOpen: PropTypes.bool
+    isOpen: PropTypes.bool
   }),
   itemComponent: PropTypes.oneOfType([
     PropTypes.func,
