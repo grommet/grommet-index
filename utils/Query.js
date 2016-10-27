@@ -27,7 +27,7 @@ var TRACE_PARSING = false;
 // We don't build this programmatically for better performance.
 // (C) Copyright 2014-2015 Hewlett Packard Enterprise Development LP
 
-var ATTRIBUTE_PATTERN = new RegExp(['^[^d:\'"s]{1}[^:\'"s]*:\'[^\']+\'', '^[^d:\'"s]{1}[^:\'"s]*:"[^"]+"', '^[^d:\'"s]{1}[^:\'"s]*:[^\'"s]+'].join('|'));
+var ATTRIBUTE_PATTERN = new RegExp(['^[^\\d:\'"\\s]{1}[^:\'"\\s]*:\'[^\']+\'', '^[^\\d:\'"\\s]{1}[^:\'"\\s]*:"[^"]+"', '^[^\\d:\'"\\s]{1}[^:\'"\\s]*:[^\'"\\s]+'].join('|'));
 // allow for text to contain quotes
 var TEXT_PATTERN = /^[^'"\s]+|^'[^']+'|^"[^"]+"/;
 
