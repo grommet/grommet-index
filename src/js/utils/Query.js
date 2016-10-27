@@ -10,9 +10,9 @@ const TRACE_PARSING = false;
 // value, and lastly with no quotes.
 // We don't build this programmatically for better performance.
 const ATTRIBUTE_PATTERN = new RegExp([
-  `^[^\d:'"\s]{1}[^:'"\s]*:'[^']+'`,
-  `^[^\d:'"\s]{1}[^:'"\s]*:"[^"]+"`,
-  `^[^\d:'"\s]{1}[^:'"\s]*:[^'"\s]+`].join('|'));
+  `^[^\\d:'"\\s]{1}[^:'"\\s]*:'[^']+'`,
+  `^[^\\d:'"\\s]{1}[^:'"\\s]*:"[^"]+"`,
+  `^[^\\d:'"\\s]{1}[^:'"\\s]*:[^'"\\s]+`].join('|'));
 // allow for text to contain quotes
 const TEXT_PATTERN = /^[^'"\s]+|^'[^']+'|^"[^"]+"/;
 
