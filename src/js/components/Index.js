@@ -30,10 +30,13 @@ export default class Index extends Component {
     super(props, context);
     this._onResponsive = this._onResponsive.bind(this);
     this._toggleInlineFilter = this._toggleInlineFilter.bind(this);
+
+    const {inlineFilterParams = {}} = props;
+    const {isOpen, defaultOpen} = inlineFilterParams;
+
     this.state = {
       responsiveSize: 'medium',
-      inlineFilterOpen:
-        (props.inlineFilterParams && props.inlineFilterParams.isOpen)
+      inlineFilterOpen: isOpen || defaultOpen
     };
   }
 
@@ -268,7 +271,8 @@ Index.propTypes = {
   footer: PropTypes.node,
   inlineFilterParams: PropTypes.shape({
     onToggle: PropTypes.func,
-    isOpen: PropTypes.bool
+    isOpen: PropTypes.bool,
+    defaultOpen: PropTypes.bool // DEPRECATED
   }),
   itemComponent: PropTypes.oneOfType([
     PropTypes.func,
