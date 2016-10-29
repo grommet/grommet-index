@@ -114,9 +114,16 @@ var Index = function (_Component) {
 
     _this._onResponsive = _this._onResponsive.bind(_this);
     _this._toggleInlineFilter = _this._toggleInlineFilter.bind(_this);
+
+    var _props$inlineFilterPa = props.inlineFilterParams;
+    var inlineFilterParams = _props$inlineFilterPa === undefined ? {} : _props$inlineFilterPa;
+    var isOpen = inlineFilterParams.isOpen;
+    var defaultOpen = inlineFilterParams.defaultOpen;
+
+
     _this.state = {
       responsiveSize: 'medium',
-      inlineFilterOpen: props.inlineFilterParams && props.inlineFilterParams.defaultOpen
+      inlineFilterOpen: isOpen || defaultOpen
     };
     return _this;
   }
@@ -128,6 +135,23 @@ var Index = function (_Component) {
 
       if (this.props.onMore && this.props.footer) {
         console.warn('Using \'onMore\' and \'footer\' props together may ' + 'cause unexpected behavior.' + 'Consider removing \'onMore\' functionality when a footer is present.');
+      }
+      var inlineFilterParams = this.props.inlineFilterParams;
+
+      if (inlineFilterParams && inlineFilterParams.defaultOpen) {
+        console.warn('prop inlineFilterParams.defaultOpen has been renamed to ' + 'inlineFilterParams.isOpen');
+      }
+    }
+  }, {
+    key: 'componentWillReceiveProps',
+    value: function componentWillReceiveProps(nextProps) {
+      var _props$inlineFilterPa2 = this.props.inlineFilterParams;
+      var inlineFilterParams = _props$inlineFilterPa2 === undefined ? {} : _props$inlineFilterPa2;
+      var _nextProps$inlineFilt = nextProps.inlineFilterParams;
+      var nextInlineFilterParams = _nextProps$inlineFilt === undefined ? {} : _nextProps$inlineFilt;
+
+      if (nextInlineFilterParams.isOpen !== inlineFilterParams.isOpen) {
+        this.setState({ inlineFilterOpen: nextInlineFilterParams.isOpen });
       }
     }
   }, {
@@ -365,7 +389,8 @@ Index.propTypes = {
   footer: _react.PropTypes.node,
   inlineFilterParams: _react.PropTypes.shape({
     onToggle: _react.PropTypes.func,
-    defaultOpen: _react.PropTypes.bool
+    isOpen: _react.PropTypes.bool,
+    defaultOpen: _react.PropTypes.bool // DEPRECATED
   }),
   itemComponent: _react.PropTypes.oneOfType([_react.PropTypes.func, _react.PropTypes.shape({
     medium: _react.PropTypes.func,
