@@ -67,7 +67,7 @@ export default class Sort extends Component {
           <select ref="sort" value={this.state.name} onChange={this._onChange}>
             {options}
           </select>
-          <span>
+          <Box direction="row">
             <Button
               icon={<AscIcon
                 colorIndex={'asc' === this.state.direction ?
@@ -78,7 +78,7 @@ export default class Sort extends Component {
                 colorIndex={'desc' === this.state.direction ?
                   'brand' : undefined} />}
               onClick={this._onChangeDirection.bind(this, 'desc')} />
-          </span>
+          </Box>
         </Box>
       </Box>
     );
