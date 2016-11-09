@@ -57,9 +57,9 @@ var Attribute = function (_Component) {
   (0, _createClass3.default)(Attribute, [{
     key: 'render',
     value: function render() {
-      var _props = this.props;
-      var attribute = _props.attribute;
-      var item = _props.item;
+      var _props = this.props,
+          attribute = _props.attribute,
+          item = _props.item;
 
 
       var classes = [CLASS_ROOT];

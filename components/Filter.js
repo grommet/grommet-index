@@ -131,13 +131,13 @@ var Filter = function (_Component) {
     value: function _renderChoices() {
       var _this2 = this;
 
-      var _props = this.props;
-      var name = _props.name;
-      var values = _props.values;
-      var choices = _props.choices;
-      var all = _props.all;
-      var exclusive = _props.exclusive;
-      var status = _props.status;
+      var _props = this.props,
+          name = _props.name,
+          values = _props.values,
+          choices = _props.choices,
+          all = _props.all,
+          exclusive = _props.exclusive,
+          status = _props.status;
 
       var Type = exclusive ? _RadioButton2.default : _CheckBox2.default;
       var checkBoxes = choices.map(function (choice) {
@@ -174,10 +174,10 @@ var Filter = function (_Component) {
   }, {
     key: '_renderSummary',
     value: function _renderSummary() {
-      var _props2 = this.props;
-      var values = _props2.values;
-      var choices = _props2.choices;
-      var all = _props2.all;
+      var _props2 = this.props,
+          values = _props2.values,
+          choices = _props2.choices,
+          all = _props2.all;
 
       var summary = void 0;
       if (values.length === 0) {
@@ -209,9 +209,9 @@ var Filter = function (_Component) {
   }, {
     key: 'render',
     value: function render() {
-      var _props3 = this.props;
-      var label = _props3.label;
-      var inline = _props3.inline;
+      var _props3 = this.props,
+          label = _props3.label,
+          inline = _props3.inline;
       var active = this.state.active;
 
       var boxProps = _Props2.default.pick(this.props, (0, _keys2.default)(_Box2.default.propTypes));

@@ -115,10 +115,10 @@ var Index = function (_Component) {
     _this._onResponsive = _this._onResponsive.bind(_this);
     _this._toggleInlineFilter = _this._toggleInlineFilter.bind(_this);
 
-    var _props$inlineFilterPa = props.inlineFilterParams;
-    var inlineFilterParams = _props$inlineFilterPa === undefined ? {} : _props$inlineFilterPa;
-    var isOpen = inlineFilterParams.isOpen;
-    var defaultOpen = inlineFilterParams.defaultOpen;
+    var _props$inlineFilterPa = props.inlineFilterParams,
+        inlineFilterParams = _props$inlineFilterPa === undefined ? {} : _props$inlineFilterPa;
+    var isOpen = inlineFilterParams.isOpen,
+        defaultOpen = inlineFilterParams.defaultOpen;
 
 
     _this.state = {
@@ -145,10 +145,10 @@ var Index = function (_Component) {
   }, {
     key: 'componentWillReceiveProps',
     value: function componentWillReceiveProps(nextProps) {
-      var _props$inlineFilterPa2 = this.props.inlineFilterParams;
-      var inlineFilterParams = _props$inlineFilterPa2 === undefined ? {} : _props$inlineFilterPa2;
-      var _nextProps$inlineFilt = nextProps.inlineFilterParams;
-      var nextInlineFilterParams = _nextProps$inlineFilt === undefined ? {} : _nextProps$inlineFilt;
+      var _props$inlineFilterPa2 = this.props.inlineFilterParams,
+          inlineFilterParams = _props$inlineFilterPa2 === undefined ? {} : _props$inlineFilterPa2;
+      var _nextProps$inlineFilt = nextProps.inlineFilterParams,
+          nextInlineFilterParams = _nextProps$inlineFilt === undefined ? {} : _nextProps$inlineFilt;
 
       if (nextInlineFilterParams.isOpen !== inlineFilterParams.isOpen) {
         this.setState({ inlineFilterOpen: nextInlineFilterParams.isOpen });
@@ -180,9 +180,9 @@ var Index = function (_Component) {
     value: function render() {
       var _this2 = this;
 
-      var _props = this.props;
-      var result = _props.result;
-      var notifications = _props.notifications;
+      var _props = this.props,
+          result = _props.result,
+          notifications = _props.notifications;
       var data = this.props.data;
 
 

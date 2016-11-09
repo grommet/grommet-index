@@ -74,10 +74,10 @@ var IndexTile = function (_Component) {
   (0, _createClass3.default)(IndexTile, [{
     key: 'render',
     value: function render() {
-      var _props = this.props;
-      var item = _props.item;
-      var onClick = _props.onClick;
-      var attributes = _props.attributes;
+      var _props = this.props,
+          item = _props.item,
+          onClick = _props.onClick,
+          attributes = _props.attributes;
 
       var statusValue = void 0;
       var headerValues = [];
@@ -189,10 +189,10 @@ var IndexTiles = function (_Component2) {
     value: function _renderSections(classes, onMore) {
       var _this3 = this;
 
-      var _props2 = this.props;
-      var data = _props2.data;
-      var selection = _props2.selection;
-      var sort = _props2.sort;
+      var _props2 = this.props,
+          data = _props2.data,
+          selection = _props2.selection,
+          sort = _props2.sort;
 
       var parts = sort.split(':');
       var attributeName = parts[0];
@@ -202,9 +202,9 @@ var IndexTiles = function (_Component2) {
 
       if (data.sections) {
         data.sections.forEach(function (section, i) {
-          var actions = section.actions;
-          var items = section.items;
-          var label = section.label;
+          var actions = section.actions,
+              items = section.items,
+              label = section.label;
 
           var tiles = items.map(function (item) {
             return _this3._renderTile(item);
@@ -337,10 +337,10 @@ var IndexTiles = function (_Component2) {
   }, {
     key: '_renderTiles',
     value: function _renderTiles(classes, onMore) {
-      var _props3 = this.props;
-      var data = _props3.data;
-      var selection = _props3.selection;
-      var actions = _props3.actions;
+      var _props3 = this.props,
+          data = _props3.data,
+          selection = _props3.selection,
+          actions = _props3.actions;
 
       var tiles = void 0;
       var multiSelected = Array.isArray(selection);
@@ -391,9 +391,9 @@ var IndexTiles = function (_Component2) {
   }, {
     key: 'render',
     value: function render() {
-      var _props4 = this.props;
-      var data = _props4.data;
-      var sort = _props4.sort;
+      var _props4 = this.props,
+          data = _props4.data,
+          sort = _props4.sort;
 
       var classes = [CLASS_ROOT];
 

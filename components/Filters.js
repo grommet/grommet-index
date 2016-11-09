@@ -154,9 +154,9 @@ var Filters = function (_Component) {
   }, {
     key: '_renderSort',
     value: function _renderSort() {
-      var _props = this.props;
-      var attributes = _props.attributes;
-      var sort = _props.sort;
+      var _props = this.props,
+          attributes = _props.attributes,
+          sort = _props.sort;
       // prune to just attributes that we should sort
 
       var sortAttributes = attributes.filter(function (attribute) {
@@ -183,9 +183,9 @@ var Filters = function (_Component) {
   }, {
     key: '_renderMenu',
     value: function _renderMenu(_ref) {
-      var filters = _ref.filters;
-      var sort = _ref.sort;
-      var classNames = _ref.classNames;
+      var filters = _ref.filters,
+          sort = _ref.sort,
+          classNames = _ref.classNames;
       var direction = this.props.direction;
 
       var a11yTitle = _Intl2.default.getMessage(this.context.intl, 'Filter');
@@ -214,9 +214,9 @@ var Filters = function (_Component) {
   }, {
     key: '_renderSidebar',
     value: function _renderSidebar(_ref2) {
-      var filters = _ref2.filters;
-      var sort = _ref2.sort;
-      var classNames = _ref2.classNames;
+      var filters = _ref2.filters,
+          sort = _ref2.sort,
+          classNames = _ref2.classNames;
       var direction = this.props.direction;
 
       var icon = this._renderIcon();
@@ -251,9 +251,9 @@ var Filters = function (_Component) {
     value: function render() {
       var _this3 = this;
 
-      var _props2 = this.props;
-      var attributes = _props2.attributes;
-      var inline = _props2.inline;
+      var _props2 = this.props,
+          attributes = _props2.attributes,
+          inline = _props2.inline;
 
       var classNames = [CLASS_ROOT];
       if (inline) {

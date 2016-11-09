@@ -65,10 +65,10 @@ var IndexTableRow = function (_Component) {
   (0, _createClass3.default)(IndexTableRow, [{
     key: 'render',
     value: function render() {
-      var _props = this.props;
-      var item = _props.item;
-      var onClick = _props.onClick;
-      var attributes = _props.attributes;
+      var _props = this.props,
+          item = _props.item,
+          onClick = _props.onClick,
+          attributes = _props.attributes;
 
 
       var cells = attributes.map(function (attribute, index) {
@@ -155,9 +155,9 @@ var IndexTable = function (_Component2) {
     value: function render() {
       var _this3 = this;
 
-      var _props2 = this.props;
-      var data = _props2.data;
-      var selection = _props2.selection;
+      var _props2 = this.props,
+          data = _props2.data,
+          selection = _props2.selection;
       var attributes = this.state.attributes;
 
       var classes = [CLASS_ROOT];

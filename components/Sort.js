@@ -147,8 +147,8 @@ var Sort = function (_Component) {
             options
           ),
           _react2.default.createElement(
-            'span',
-            null,
+            _Box2.default,
+            { direction: 'row' },
             _react2.default.createElement(_Button2.default, {
               icon: _react2.default.createElement(_LinkDown2.default, {
                 colorIndex: 'asc' === this.state.direction ? 'brand' : undefined }),

@@ -59,11 +59,11 @@ var IndexListItem = function (_Component) {
   (0, _createClass3.default)(IndexListItem, [{
     key: 'render',
     value: function render() {
-      var _props = this.props;
-      var item = _props.item;
-      var index = _props.index;
-      var onClick = _props.onClick;
-      var attributes = _props.attributes;
+      var _props = this.props,
+          item = _props.item,
+          index = _props.index,
+          onClick = _props.onClick,
+          attributes = _props.attributes;
 
       var status = void 0,
           primary = void 0,
@@ -148,9 +148,9 @@ var IndexList = function (_Component2) {
     value: function render() {
       var _this3 = this;
 
-      var _props2 = this.props;
-      var data = _props2.data;
-      var selection = _props2.selection;
+      var _props2 = this.props,
+          data = _props2.data,
+          selection = _props2.selection;
 
       var classes = [CLASS_ROOT];
       if (this.props.className) {
