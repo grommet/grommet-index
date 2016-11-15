@@ -30,13 +30,15 @@ export default class Index extends Component {
     super(props, context);
     this._onResponsive = this._onResponsive.bind(this);
     this._toggleInlineFilter = this._toggleInlineFilter.bind(this);
+    this._onResponsiveFilters = this._onResponsiveFilters.bind(this);
 
     const {inlineFilterParams = {}} = props;
     const {isOpen, defaultOpen} = inlineFilterParams;
 
     this.state = {
       responsiveSize: 'medium',
-      inlineFilterOpen: isOpen || defaultOpen
+      inlineFilterOpen: isOpen || defaultOpen,
+      filtersInline: this.props.filtersInline
     };
   }
 
@@ -69,6 +71,12 @@ export default class Index extends Component {
 
   _onResponsive (small) {
     this.setState({ responsiveSize: (small ? 'small' : 'medium') });
+  }
+
+  _onResponsiveFilters (columns) {
+    if (this.props.filtersInline) {
+      this.setState({filtersInline: columns === 'multiple'});
+    }
   }
 
   _toggleInlineFilter() {
@@ -143,8 +151,7 @@ export default class Index extends Component {
     const ViewComponent = VIEW_COMPONENT[view];
 
     let filterControl;
-    let { filtersInline } = this.props;
-    let { inlineFilterOpen } = this.state;
+    let { inlineFilterOpen, filtersInline } = this.state;
 
     if (filtersInline) {
       filtersInline = filtersInline && this.state.responsiveSize !== 'small';
@@ -195,7 +202,11 @@ export default class Index extends Component {
     return (
       <div className={classes.join(' ')}>
         <div className={`${CLASS_ROOT}__container`}>
-          <Split flex="left" priority="left" fixed={true}>
+          <Split
+            flex="left"
+            priority="left"
+            fixed={true}
+            onResponsive={this._onResponsiveFilters}>
             <div>
               <IndexHeader className={`${CLASS_ROOT}__header`}
                 label={this.props.label}
