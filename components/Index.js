@@ -114,6 +114,7 @@ var Index = function (_Component) {
 
     _this._onResponsive = _this._onResponsive.bind(_this);
     _this._toggleInlineFilter = _this._toggleInlineFilter.bind(_this);
+    _this._onResponsiveFilters = _this._onResponsiveFilters.bind(_this);
 
     var _props$inlineFilterPa = props.inlineFilterParams,
         inlineFilterParams = _props$inlineFilterPa === undefined ? {} : _props$inlineFilterPa;
@@ -123,7 +124,8 @@ var Index = function (_Component) {
 
     _this.state = {
       responsiveSize: 'medium',
-      inlineFilterOpen: isOpen || defaultOpen
+      inlineFilterOpen: isOpen || defaultOpen,
+      filtersInline: _this.props.filtersInline
     };
     return _this;
   }
@@ -163,6 +165,13 @@ var Index = function (_Component) {
     key: '_onResponsive',
     value: function _onResponsive(small) {
       this.setState({ responsiveSize: small ? 'small' : 'medium' });
+    }
+  }, {
+    key: '_onResponsiveFilters',
+    value: function _onResponsiveFilters(columns) {
+      if (this.props.filtersInline) {
+        this.setState({ filtersInline: columns === 'multiple' });
+      }
     }
   }, {
     key: '_toggleInlineFilter',
@@ -246,8 +255,9 @@ var Index = function (_Component) {
       var ViewComponent = VIEW_COMPONENT[view];
 
       var filterControl = void 0;
-      var filtersInline = this.props.filtersInline;
-      var inlineFilterOpen = this.state.inlineFilterOpen;
+      var _state = this.state,
+          inlineFilterOpen = _state.inlineFilterOpen,
+          filtersInline = _state.filtersInline;
 
 
       if (filtersInline) {
@@ -303,7 +313,11 @@ var Index = function (_Component) {
           { className: CLASS_ROOT + '__container' },
           _react2.default.createElement(
             _Split2.default,
-            { flex: 'left', priority: 'left', fixed: true },
+            {
+              flex: 'left',
+              priority: 'left',
+              fixed: true,
+              onResponsive: this._onResponsiveFilters },
             _react2.default.createElement(
               'div',
               null,
