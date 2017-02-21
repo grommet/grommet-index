@@ -2,6 +2,7 @@
 
 import React, { Component, PropTypes } from 'react';
 import Header from 'grommet/components/Header';
+import Heading from 'grommet/components/Heading';
 import Button from 'grommet/components/Button';
 import Box from 'grommet/components/Box';
 import AscIcon from 'grommet/components/icons/base/LinkDown';
@@ -61,8 +62,10 @@ export default class Sort extends Component {
     let title = Intl.getMessage(this.context.intl, 'Sort');
 
     return (
-      <Box {...boxProps} className={classNames.join(' ')}>
-        <Header size="small">{title}</Header>
+      <Box {...boxProps} flex={false} className={classNames.join(' ')}>
+        <Header size="small">
+          <Heading tag="h4">{title}</Heading>
+        </Header>
         <Box direction="row" justify="between" align="center">
           <select ref="sort" value={this.state.name} onChange={this._onChange}>
             {options}

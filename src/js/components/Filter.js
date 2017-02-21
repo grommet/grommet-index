@@ -116,7 +116,7 @@ export default class Filter extends Component {
     const { active } = this.state;
     let boxProps = Props.pick(this.props, Object.keys(Box.propTypes));
 
-    let header = <Heading tag="h3">{label}</Heading>;
+    let header = <Heading tag="h4">{label}</Heading>;
     if (! inline) {
       let summary = this._renderSummary();
       let icon;
@@ -146,7 +146,10 @@ export default class Filter extends Component {
     }
 
     return (
-      <Box {...boxProps} pad={{...boxProps.pad, ...{between: 'small'}}}>
+      <Box
+        {...boxProps}
+        flex={false}
+        pad={{...boxProps.pad, between: 'small'}}>
         {header}
         {choices}
       </Box>
