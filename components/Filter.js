@@ -218,7 +218,7 @@ var Filter = function (_Component) {
 
       var header = _react2.default.createElement(
         _Heading2.default,
-        { tag: 'h3' },
+        { tag: 'h4' },
         label
       );
       if (!inline) {
@@ -253,7 +253,9 @@ var Filter = function (_Component) {
 
       return _react2.default.createElement(
         _Box2.default,
-        (0, _extends3.default)({}, boxProps, { pad: (0, _extends3.default)({}, boxProps.pad, { between: 'small' }) }),
+        (0, _extends3.default)({}, boxProps, {
+          flex: false,
+          pad: (0, _extends3.default)({}, boxProps.pad, { between: 'small' }) }),
         header,
         choices
       );

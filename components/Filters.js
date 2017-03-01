@@ -60,9 +60,17 @@ var _Filter = require('grommet/components/icons/base/Filter');
 
 var _Filter2 = _interopRequireDefault(_Filter);
 
+var _Heading = require('grommet/components/Heading');
+
+var _Heading2 = _interopRequireDefault(_Heading);
+
 var _Header = require('grommet/components/Header');
 
 var _Header2 = _interopRequireDefault(_Header);
+
+var _Footer = require('grommet/components/Footer');
+
+var _Footer2 = _interopRequireDefault(_Footer);
 
 var _Button = require('grommet/components/Button');
 
@@ -227,7 +235,15 @@ var Filters = function (_Component) {
         _react2.default.createElement(
           _Header2.default,
           { size: 'large', pad: { horizontal: 'medium' }, justify: 'between' },
-          _Intl2.default.getMessage(this.context.intl, 'Filter by'),
+          _react2.default.createElement(
+            _Box2.default,
+            { pad: { horizontal: 'medium' } },
+            _react2.default.createElement(
+              _Heading2.default,
+              { tag: 'h3', margin: 'none' },
+              _Intl2.default.getMessage(this.context.intl, 'Filter by')
+            )
+          ),
           _react2.default.createElement(
             _Box2.default,
             { className: CLASS_ROOT + '__filters', flex: false },
@@ -239,11 +255,12 @@ var Filters = function (_Component) {
           _Box2.default,
           {
             direction: direction,
-            pad: { horizontal: 'large', vertical: 'medium', between: 'medium' },
+            pad: { horizontal: 'large', between: 'medium' },
             className: classNames.join(' ') },
           filters,
           sort
-        )
+        ),
+        _react2.default.createElement(_Footer2.default, null)
       );
     }
   }, {

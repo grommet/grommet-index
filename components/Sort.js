@@ -40,6 +40,10 @@ var _Header = require('grommet/components/Header');
 
 var _Header2 = _interopRequireDefault(_Header);
 
+var _Heading = require('grommet/components/Heading');
+
+var _Heading2 = _interopRequireDefault(_Heading);
+
 var _Button = require('grommet/components/Button');
 
 var _Button2 = _interopRequireDefault(_Button);
@@ -66,9 +70,7 @@ var _Props2 = _interopRequireDefault(_Props);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-// (C) Copyright 2014-2015 Hewlett Packard Enterprise Development LP
-
-var CLASS_ROOT = "index-sort";
+var CLASS_ROOT = "index-sort"; // (C) Copyright 2014-2015 Hewlett Packard Enterprise Development LP
 
 var Sort = function (_Component) {
   (0, _inherits3.default)(Sort, _Component);
@@ -132,11 +134,15 @@ var Sort = function (_Component) {
 
       return _react2.default.createElement(
         _Box2.default,
-        (0, _extends3.default)({}, boxProps, { className: classNames.join(' ') }),
+        (0, _extends3.default)({}, boxProps, { flex: false, className: classNames.join(' ') }),
         _react2.default.createElement(
           _Header2.default,
           { size: 'small' },
-          title
+          _react2.default.createElement(
+            _Heading2.default,
+            { tag: 'h4' },
+            title
+          )
         ),
         _react2.default.createElement(
           _Box2.default,

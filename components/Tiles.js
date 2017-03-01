@@ -241,91 +241,89 @@ var IndexTiles = function (_Component2) {
           }
         });
       } else if (this.props.sections) {
-        (function () {
 
-          if (!warnedAboutPropsSections) {
-            console.warn('Putting sections in attributes has been deprecated ' + 'and will be removed in a future release. Sections should be ' + 'part of the data object');
-            warnedAboutPropsSections = true;
+        if (!warnedAboutPropsSections) {
+          console.warn('Putting sections in attributes has been deprecated ' + 'and will be removed in a future release. Sections should be ' + 'part of the data object');
+          warnedAboutPropsSections = true;
+        }
+
+        var items = data.items.slice(0);
+
+        this.props.sections.forEach(function (section) {
+
+          var selectionIndex = undefined;
+          var sectionValue = section.value;
+          if (sectionValue instanceof Date) {
+            sectionValue = sectionValue.getTime();
+          }
+          var tiles = [];
+          var actions = section.actions;
+
+          while (items.length > 0) {
+            var item = items[0];
+            var itemValue = item.hasOwnProperty(attributeName) ? item[attributeName] : item.attributes[attributeName];
+            if (itemValue instanceof Date) {
+              itemValue = itemValue.getTime();
+            }
+
+            if (undefined === sectionValue || 'asc' === direction && itemValue <= sectionValue || 'desc' === direction && itemValue >= sectionValue) {
+              // add it
+              items.shift();
+              if (selection && item.uri === selection) {
+                selectionIndex = tiles.length;
+              }
+              tiles.push(_this3._renderTile(item));
+            } else {
+              // done
+              break;
+            }
           }
 
-          var items = data.items.slice(0);
+          if (tiles.length > 0) {
+            // only use onMore for last section
+            var content = _react2.default.createElement(
+              _Tiles2.default,
+              { key: section.label,
+                onMore: items.length === 0 ? onMore : undefined,
+                flush: _this3.props.flush, fill: _this3.props.fill,
+                selectable: _this3.props.onSelect ? true : false,
+                selected: selectionIndex,
+                size: _this3.props.size },
+              tiles
+            );
 
-          _this3.props.sections.forEach(function (section) {
+            var label = void 0;
+            var justify = 'end';
+            var header = void 0;
 
-            var selectionIndex = undefined;
-            var sectionValue = section.value;
-            if (sectionValue instanceof Date) {
-              sectionValue = sectionValue.getTime();
-            }
-            var tiles = [];
-            var actions = section.actions;
-
-            while (items.length > 0) {
-              var item = items[0];
-              var itemValue = item.hasOwnProperty(attributeName) ? item[attributeName] : item.attributes[attributeName];
-              if (itemValue instanceof Date) {
-                itemValue = itemValue.getTime();
-              }
-
-              if (undefined === sectionValue || 'asc' === direction && itemValue <= sectionValue || 'desc' === direction && itemValue >= sectionValue) {
-                // add it
-                items.shift();
-                if (selection && item.uri === selection) {
-                  selectionIndex = tiles.length;
-                }
-                tiles.push(_this3._renderTile(item));
-              } else {
-                // done
-                break;
-              }
-            }
-
-            if (tiles.length > 0) {
-              // only use onMore for last section
-              var content = _react2.default.createElement(
-                _Tiles2.default,
-                { key: section.label,
-                  onMore: items.length === 0 ? onMore : undefined,
-                  flush: _this3.props.flush, fill: _this3.props.fill,
-                  selectable: _this3.props.onSelect ? true : false,
-                  selected: selectionIndex,
-                  size: _this3.props.size },
-                tiles
+            if (sections.length !== 0 || items.length !== 0) {
+              // more than one section, add label
+              label = _react2.default.createElement(
+                'label',
+                { className: 'secondary' },
+                section.label
               );
-
-              var label = void 0;
-              var justify = 'end';
-              var header = void 0;
-
-              if (sections.length !== 0 || items.length !== 0) {
-                // more than one section, add label
-                label = _react2.default.createElement(
-                  'label',
-                  { className: 'secondary' },
-                  section.label
-                );
-                justify = 'between';
-              }
-
-              if (label || actions) {
-                header = _react2.default.createElement(
-                  _Header2.default,
-                  { size: 'small', justify: justify, responsive: false,
-                    separator: 'top', pad: { horizontal: 'small' } },
-                  label,
-                  actions
-                );
-              }
-
-              sections.push(_react2.default.createElement(
-                'div',
-                { key: section.label, className: CLASS_ROOT + '__section' },
-                header,
-                content
-              ));
+              justify = 'between';
             }
-          });
-        })();
+
+            if (label || actions) {
+              header = _react2.default.createElement(
+                _Header2.default,
+                { size: 'small', justify: justify, responsive: false,
+                  separator: 'top', pad: { horizontal: 'small' } },
+                label,
+                actions
+              );
+            }
+
+            sections.push(_react2.default.createElement(
+              'div',
+              { key: section.label, className: CLASS_ROOT + '__section' },
+              header,
+              content
+            ));
+          }
+        });
       }
 
       return _react2.default.createElement(
