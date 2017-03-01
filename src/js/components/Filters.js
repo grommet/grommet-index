@@ -6,7 +6,9 @@ import Menu from 'grommet/components/Menu';
 import Box from 'grommet/components/Box';
 import Sidebar from 'grommet/components/Sidebar';
 import FilterIcon from 'grommet/components/icons/base/Filter';
+import Heading from 'grommet/components/Heading';
 import Header from 'grommet/components/Header';
+import Footer from 'grommet/components/Footer';
 import Button from 'grommet/components/Button';
 import Filter from './Filter';
 import Sort from './Sort';
@@ -123,7 +125,11 @@ export default class Filters extends Component {
     return (
       <Sidebar colorIndex="light-2">
         <Header size="large" pad={{horizontal: 'medium'}} justify="between">
-          {Intl.getMessage(this.context.intl, 'Filter by')}
+          <Box pad={{horizontal: 'medium'}}>
+            <Heading tag="h3" margin="none">
+              {Intl.getMessage(this.context.intl, 'Filter by')}
+            </Heading>
+          </Box>
           <Box className={`${CLASS_ROOT}__filters`} flex={false}>
             <Button icon={icon} plain={true} onClick={this.props.onClose}/>
             {this._renderCounts()}
@@ -131,11 +137,12 @@ export default class Filters extends Component {
         </Header>
         <Box
           direction={direction}
-          pad={{horizontal: 'large', vertical: 'medium', between: 'medium'}}
+          pad={{horizontal: 'large', between: 'medium'}}
           className={classNames.join(' ')}>
           {filters}
           {sort}
         </Box>
+        <Footer />
       </Sidebar>
     );
   }

@@ -19,7 +19,7 @@
   "dependencies": {
     "classnames": "^2.2.3",
     "debounce": "^1.0.0",
-    "grommet": "^1.0.0"
+    "grommet": "^1.2.1"
   },
   "devDependencies": {
     "babel-plugin-add-module-exports": "^0.1.2",
