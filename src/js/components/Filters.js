@@ -121,14 +121,21 @@ export default class Filters extends Component {
   _renderSidebar ({ filters, sort, classNames }) {
     const { direction } = this.props;
     const icon = this._renderIcon();
+    let heading;
+
+    if (filters.length) {
+      heading = (
+        <Heading tag="h3" margin="none">
+          {Intl.getMessage(this.context.intl, 'Filter by')}
+        </Heading>
+      );
+    }
 
     return (
       <Sidebar colorIndex="light-2">
         <Header size="large" pad={{horizontal: 'medium'}} justify="between">
           <Box pad={{horizontal: 'medium'}}>
-            <Heading tag="h3" margin="none">
-              {Intl.getMessage(this.context.intl, 'Filter by')}
-            </Heading>
+            {heading}
           </Box>
           <Box className={`${CLASS_ROOT}__filters`} flex={false}>
             <Button icon={icon} plain={true} onClick={this.props.onClose}/>
