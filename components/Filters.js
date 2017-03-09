@@ -228,6 +228,15 @@ var Filters = function (_Component) {
       var direction = this.props.direction;
 
       var icon = this._renderIcon();
+      var heading = void 0;
+
+      if (filters.length) {
+        heading = _react2.default.createElement(
+          _Heading2.default,
+          { tag: 'h3', margin: 'none' },
+          _Intl2.default.getMessage(this.context.intl, 'Filter by')
+        );
+      }
 
       return _react2.default.createElement(
         _Sidebar2.default,
@@ -238,11 +247,7 @@ var Filters = function (_Component) {
           _react2.default.createElement(
             _Box2.default,
             { pad: { horizontal: 'medium' } },
-            _react2.default.createElement(
-              _Heading2.default,
-              { tag: 'h3', margin: 'none' },
-              _Intl2.default.getMessage(this.context.intl, 'Filter by')
-            )
+            heading
           ),
           _react2.default.createElement(
             _Box2.default,
