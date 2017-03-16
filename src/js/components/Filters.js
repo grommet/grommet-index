@@ -133,23 +133,26 @@ export default class Filters extends Component {
 
     return (
       <Sidebar colorIndex="light-2">
-        <Header size="large" pad={{horizontal: 'medium'}} justify="between">
-          <Box pad={{horizontal: 'medium'}}>
-            {heading}
+        <Box full>
+          <Header size="large" pad={{horizontal: 'medium'}} justify="between">
+            <Box pad={{horizontal: 'medium'}}>
+              {heading}
+            </Box>
+            <Box className={`${CLASS_ROOT}__filters`} flex={false}>
+              <Button icon={icon} plain={true} onClick={this.props.onClose}/>
+              {this._renderCounts()}
+            </Box>
+          </Header>
+          <Box
+            flex={false}
+            direction={direction}
+            pad={{horizontal: 'large', between: 'medium'}}
+            className={classNames.join(' ')}>
+            {filters}
+            {sort}
           </Box>
-          <Box className={`${CLASS_ROOT}__filters`} flex={false}>
-            <Button icon={icon} plain={true} onClick={this.props.onClose}/>
-            {this._renderCounts()}
-          </Box>
-        </Header>
-        <Box
-          direction={direction}
-          pad={{horizontal: 'large', between: 'medium'}}
-          className={classNames.join(' ')}>
-          {filters}
-          {sort}
+          <Footer />
         </Box>
-        <Footer />
       </Sidebar>
     );
   }
