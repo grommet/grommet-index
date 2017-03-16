@@ -242,30 +242,35 @@ var Filters = function (_Component) {
         _Sidebar2.default,
         { colorIndex: 'light-2' },
         _react2.default.createElement(
-          _Header2.default,
-          { size: 'large', pad: { horizontal: 'medium' }, justify: 'between' },
+          _Box2.default,
+          { full: true },
           _react2.default.createElement(
-            _Box2.default,
-            { pad: { horizontal: 'medium' } },
-            heading
+            _Header2.default,
+            { size: 'large', pad: { horizontal: 'medium' }, justify: 'between' },
+            _react2.default.createElement(
+              _Box2.default,
+              { pad: { horizontal: 'medium' } },
+              heading
+            ),
+            _react2.default.createElement(
+              _Box2.default,
+              { className: CLASS_ROOT + '__filters', flex: false },
+              _react2.default.createElement(_Button2.default, { icon: icon, plain: true, onClick: this.props.onClose }),
+              this._renderCounts()
+            )
           ),
           _react2.default.createElement(
             _Box2.default,
-            { className: CLASS_ROOT + '__filters', flex: false },
-            _react2.default.createElement(_Button2.default, { icon: icon, plain: true, onClick: this.props.onClose }),
-            this._renderCounts()
-          )
-        ),
-        _react2.default.createElement(
-          _Box2.default,
-          {
-            direction: direction,
-            pad: { horizontal: 'large', between: 'medium' },
-            className: classNames.join(' ') },
-          filters,
-          sort
-        ),
-        _react2.default.createElement(_Footer2.default, null)
+            {
+              flex: false,
+              direction: direction,
+              pad: { horizontal: 'large', between: 'medium' },
+              className: classNames.join(' ') },
+            filters,
+            sort
+          ),
+          _react2.default.createElement(_Footer2.default, null)
+        )
       );
     }
   }, {
