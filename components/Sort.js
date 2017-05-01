@@ -149,7 +149,7 @@ var Sort = function (_Component) {
           { direction: 'row', justify: 'between', align: 'center' },
           _react2.default.createElement(
             'select',
-            { ref: 'sort', value: this.state.name, onChange: this._onChange },
+            { value: this.state.name, onChange: this._onChange },
             options
           ),
           _react2.default.createElement(

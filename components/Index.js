@@ -344,7 +344,7 @@ var Index = function (_Component) {
                 { pad: { between: 'medium' } },
                 _react2.default.createElement(
                   'div',
-                  { ref: 'items', className: CLASS_ROOT + '__items' },
+                  { className: CLASS_ROOT + '__items' },
                   _react2.default.createElement(ViewComponent, {
                     actions: this.props.actions,
                     attributes: this.props.attributes,
