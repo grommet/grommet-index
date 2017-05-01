@@ -227,7 +227,7 @@ export default class Index extends Component {
               {error}
               {notifications}
               <Box pad={{between: 'medium'}}>
-                <div ref="items" className={`${CLASS_ROOT}__items`}>
+                <div className={`${CLASS_ROOT}__items`}>
                   <ViewComponent
                     actions={this.props.actions}
                     attributes={this.props.attributes}

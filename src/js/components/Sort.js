@@ -67,7 +67,7 @@ export default class Sort extends Component {
           <Heading tag="h4">{title}</Heading>
         </Header>
         <Box direction="row" justify="between" align="center">
-          <select ref="sort" value={this.state.name} onChange={this._onChange}>
+          <select value={this.state.name} onChange={this._onChange}>
             {options}
           </select>
           <Box direction="row">
