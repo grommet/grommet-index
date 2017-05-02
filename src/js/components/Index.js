@@ -109,7 +109,7 @@ export default class Index extends Component {
     if (data && data.error) {
       error = (
         <div className={`${CLASS_ROOT}__error`}>
-          {result.error}
+          {data.error}
         </div>
       );
     }
