@@ -60,7 +60,7 @@ export default class Filter extends Component {
       const checked = (-1 !== values.indexOf(choice.value));
       let label = choice.label || choice.value || '';
       if (status) {
-        value = choice.value.toLowerCase();
+        const value = choice.value.toLowerCase();
         label = (
           <span>
             <StatusIcon value={value} size="small"/> {label}
