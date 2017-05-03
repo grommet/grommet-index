@@ -210,7 +210,7 @@ var Index = function (_Component) {
         error = _react2.default.createElement(
           'div',
           { className: CLASS_ROOT + '__error' },
-          result.error
+          data.error
         );
       }
 
