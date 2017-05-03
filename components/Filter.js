@@ -145,7 +145,7 @@ var Filter = function (_Component) {
         var checked = -1 !== values.indexOf(choice.value);
         var label = choice.label || choice.value || '';
         if (status) {
-          value = choice.value.toLowerCase();
+          var value = choice.value.toLowerCase();
           label = _react2.default.createElement(
             'span',
             null,
