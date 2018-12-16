@@ -1,6 +1,6 @@
 // (C) Copyright 2014-2015 Hewlett Packard Enterprise Development LP
 
-import { PropTypes } from 'react';
+import PropTypes from 'prop-types';
 
 let attribute = PropTypes.shape({
   filter: PropTypes.shape({

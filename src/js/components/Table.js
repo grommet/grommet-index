@@ -1,6 +1,7 @@
 // (C) Copyright 2014-2015 Hewlett Packard Enterprise Development LP
 
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import Table from 'grommet/components/Table';
 import TableRow from 'grommet/components/TableRow';
 import StatusIcon from 'grommet/components/icons/Status';
