@@ -1,6 +1,7 @@
 // (C) Copyright 2014-2015 Hewlett Packard Enterprise Development LP
 
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import StatusIcon from 'grommet/components/icons/Status';
 import Timestamp from 'grommet/components/Timestamp';
 import IndexPropTypes from '../utils/PropTypes';

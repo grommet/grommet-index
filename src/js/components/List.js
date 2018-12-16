@@ -1,6 +1,7 @@
 // (C) Copyright 2014-2015 Hewlett Packard Enterprise Development LP
 
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import List from 'grommet/components/List';
 import ListItem from 'grommet/components/ListItem';
 import Attribute from './Attribute';
